@@ -7,5 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class LampVoltage extends Model
 {
-    use HasFactory;
+  use HasFactory;
+  protected $fillable = [
+    "lamp_id",
+    "now",
+    "min",
+    "max",
+    "avg",
+  ];
 }

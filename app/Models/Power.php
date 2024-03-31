@@ -7,5 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Power extends Model
 {
-    use HasFactory;
+  use HasFactory;
+  protected $fillable = [
+    "energy_id",
+    "energy_intensity",
+    "energy",
+    "co2"
+  ];
 }

@@ -7,5 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class EnergyConnectionType extends Model
 {
-    use HasFactory;
+  use HasFactory;
+  protected $fillable = [
+    "energy_id",
+    "power",
+    "acmv",
+    "elec_esc",
+    "lightning",
+    "mixed_load"
+  ];
 }

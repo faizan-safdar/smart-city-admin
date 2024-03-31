@@ -7,5 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class TrafficSignalFour extends Model
 {
-    use HasFactory;
+  use HasFactory;
+  protected $fillable = [
+    "l1_current_vehicles",
+    "l1_max_vehicles",
+    "l1_traffic_text",
+    "l2_current_vehicles",
+    "l2_max_vehicles",
+    "l2_traffic_text",
+  ];
 }

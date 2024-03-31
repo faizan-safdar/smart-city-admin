@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Lightning extends Model
 {
     use HasFactory;
+  protected $fillable = [
+    "energy_id",
+    "energy_intensity",
+    "energy",
+    "co2"
+  ];
 }
