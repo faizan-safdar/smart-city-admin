@@ -20,6 +20,28 @@ class WaterController extends Controller
   {
     $waterFloors = WaterManagement::with('waterEnergyUtilizations', 'waterElectricityConsumption', 'waterEnergyBreakdown', 'waterWasteDischarge', 'waterAverageConsumption', 'waterUsageBreakdown')->get();
     $formattedWater = [];
+    $months = [
+      'january', 'february', 'march', 'april', 'may', 'june',
+      'july', 'august', 'september', 'october', 'november', 'december'
+    ];
+
+    $dataWater = [];
+    $dataElectricity = [];
+    foreach ($months as $month) {
+      $dataWater[$month] = [];
+
+      for ($i = 0; $i < 10; $i++) {
+        $dataWater[$month][] = rand(1, 100); // Generate random value between 1 and 100
+      }
+    }
+    foreach ($months as $month) {
+      $dataElectricity[$month] = [];
+
+      for ($i = 0; $i < 5; $i++) {
+        $dataElectricity[$month][] = rand(1, 100); // Generate random value between 1 and 100
+      }
+    }
+
     foreach ($waterFloors as $bin) {
       $formattedBin = [
         'id' => $bin->id,
@@ -30,12 +52,14 @@ class WaterController extends Controller
         'time' => $bin->time,
         'alarm_status' => $bin->alarm_status,
         'water_energy_utilizations' => array_merge(...array_map('array_values', $bin->waterEnergyUtilizations->toArray())),
-        'water_electricity_consumption' => array_merge(...array_map('array_values', $bin->waterElectricityConsumption->toArray())),
+        // 'water_electricity_consumption' => array_merge(...array_map('array_values', $bin->waterElectricityConsumption->toArray())),
+        'water_electricity_consumption' => $dataElectricity,
         'water_energy_breakdown' => array_merge(...array_map('array_values', $bin->waterEnergyBreakdown->toArray())),
         'water_waste_discharge' => array_merge(...array_map('array_values', $bin->waterWasteDischarge->toArray())),
-        'water_average_consumption' => array_merge(...array_map('array_values', $bin->waterAverageConsumption->toArray())),
+        // 'water_average_consumption' => array_merge(...array_map('array_values', $bin->waterAverageConsumption->toArray())),
+        'water_average_consumption' => $dataWater,
         'water_usage_breakdown' => array_merge(...array_map('array_values', $bin->waterUsageBreakdown->toArray())),
-    
+
       ];
       $formattedWater[] = $formattedBin;
     }
