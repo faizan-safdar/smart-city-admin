@@ -38,7 +38,7 @@ class WaterController extends Controller
       $dataElectricity[$month] = [];
 
       for ($i = 0; $i < 5; $i++) {
-        $dataElectricity[$month][] = rand(1, 100); // Generate random value between 1 and 100
+        $dataElectricity[$month][] = rand(0, 6); // Generate random value between 1 and 100
       }
     }
 
