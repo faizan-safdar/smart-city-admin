@@ -19,8 +19,46 @@ class WaterController extends Controller
   public function getWaterUsage(Request $request)
   {
     $waterFloors = WaterManagement::with('waterEnergyUtilizations', 'waterElectricityConsumption', 'waterEnergyBreakdown', 'waterWasteDischarge', 'waterAverageConsumption', 'waterUsageBreakdown')->get();
-    return response()->json(['message' => 'Water Floors Data!', 'data' => $waterFloors]);
+    $formattedWater = [];
+    foreach ($waterFloors as $bin) {
+      $formattedBin = [
+        'id' => $bin->id,
+        'level_name' => $bin->level_name,
+        'current_capacity' => $bin->current_capacity,
+        'max_capacity' => $bin->max_capacity,
+        'level_status' => $bin->level_status,
+        'time' => $bin->time,
+        'alarm_status' => $bin->alarm_status,
+        'water_energy_utilizations' => array_merge(...array_map('array_values', $bin->waterEnergyUtilizations->toArray())),
+        'water_electricity_consumption' => array_merge(...array_map('array_values', $bin->waterElectricityConsumption->toArray())),
+        'water_energy_breakdown' => array_merge(...array_map('array_values', $bin->waterEnergyBreakdown->toArray())),
+        'water_waste_discharge' => array_merge(...array_map('array_values', $bin->waterWasteDischarge->toArray())),
+        'water_average_consumption' => array_merge(...array_map('array_values', $bin->waterAverageConsumption->toArray())),
+        'water_usage_breakdown' => array_merge(...array_map('array_values', $bin->waterUsageBreakdown->toArray())),
+    
+      ];
+      $formattedWater[] = $formattedBin;
+    }
+    return response()->json(['message' => 'Water Floors Data!', 'data' => $formattedWater]);
   }
+
+  // private function filterDateTimeStrings($array)
+  // {
+  //   return array_filter($array, function ($value, $key) {
+  //     $filteredKeys = ["id", "water_id"];
+  //     return !in_array($key, $filteredKeys) && !is_string($value) && !strtotime($value);
+  //   }, ARRAY_FILTER_USE_BOTH);
+  // }
+
+  private function filterDateTimeStrings($array)
+  {
+    return array_filter($array, function ($value, $key) {
+      $filteredKeys = ["id", "water_id"];
+      return !in_array($key, $filteredKeys) && !is_array($value) && !is_string($value) && !strtotime($value);
+    }, ARRAY_FILTER_USE_BOTH);
+  }
+
+
 
   public function waterFloorData(Request $request)
   {

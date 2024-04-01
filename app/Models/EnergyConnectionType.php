@@ -16,4 +16,6 @@ class EnergyConnectionType extends Model
     "lightning",
     "mixed_load"
   ];
+  protected $hidden = ['created_at', 'updated_at', 'id', 'energy_id'];
+
 }
