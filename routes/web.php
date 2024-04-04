@@ -112,3 +112,34 @@ Route::get('/auth/login-basic', [LoginBasic::class, 'index'])->name('auth-login-
 Route::post('/auth/login-basic', [LoginBasic::class, 'indexPost'])->name('post.auth-login-basic');
 Route::get('/auth/register-basic', [RegisterBasic::class, 'index'])->name('auth-register-basic');
 Route::get('/auth/forgot-password-basic', [ForgotPasswordBasic::class, 'index'])->name('auth-reset-password-basic');
+
+// dustbin routes
+Route::get('/dustbin', function () {
+  return view('content.dustbin.dustbin');
+});
+
+//cctvs routes
+Route::get('/cctvs',function (){
+     return view ('content.cctvs.cctvs');
+});
+
+//streetlights  routes
+Route::get('/streetlights',function(){
+  return view('content.streetlights.streetlights');
+});
+
+// building routes
+Route::get('/buildings',function(){
+   return view('content.buildings.buildings');
+});
+
+// trafficsignals routes
+Route::get('trafficsignals',function(){
+   return view('content.trafficsignals.trafficsignals');
+});
+
+//energy routes
+
+Route::get('energy',function(){
+return view('content.energy.energy');
+});

@@ -20,27 +20,6 @@ class WaterController extends Controller
   {
     $waterFloors = WaterManagement::with('waterEnergyUtilizations', 'waterElectricityConsumption', 'waterEnergyBreakdown', 'waterWasteDischarge', 'waterAverageConsumption', 'waterUsageBreakdown')->get();
     $formattedWater = [];
-    $months = [
-      'january', 'february', 'march', 'april', 'may', 'june',
-      'july', 'august', 'september', 'october', 'november', 'december'
-    ];
-
-    $dataWater = [];
-    $dataElectricity = [];
-    foreach ($months as $month) {
-      $dataWater[$month] = [];
-
-      for ($i = 0; $i < 10; $i++) {
-        $dataWater[$month][] = rand(1, 100); // Generate random value between 1 and 100
-      }
-    }
-    foreach ($months as $month) {
-      $dataElectricity[$month] = [];
-
-      for ($i = 0; $i < 5; $i++) {
-        $dataElectricity[$month][] = rand(0, 6); // Generate random value between 1 and 100
-      }
-    }
 
     foreach ($waterFloors as $bin) {
       $formattedBin = [
@@ -52,18 +31,47 @@ class WaterController extends Controller
         'time' => $bin->time,
         'alarm_status' => $bin->alarm_status,
         'water_energy_utilizations' => array_merge(...array_map('array_values', $bin->waterEnergyUtilizations->toArray())),
-        // 'water_electricity_consumption' => array_merge(...array_map('array_values', $bin->waterElectricityConsumption->toArray())),
-        'water_electricity_consumption' => $dataElectricity,
+        'water_electricity_consumption' => $this->filterMyArray($bin->waterElectricityConsumption->toArray(),'water_electricity_consumption'),
+        // 'water_electricity_consumption' => $dataElectricity,
         'water_energy_breakdown' => array_merge(...array_map('array_values', $bin->waterEnergyBreakdown->toArray())),
         'water_waste_discharge' => array_merge(...array_map('array_values', $bin->waterWasteDischarge->toArray())),
-        // 'water_average_consumption' => array_merge(...array_map('array_values', $bin->waterAverageConsumption->toArray())),
-        'water_average_consumption' => $dataWater,
+        'water_average_consumption' => $this->filterMyArray($bin->waterAverageConsumption->toArray(),'water_average_consumption'),
+        // 'water_average_consumption' => $dataWater,
         'water_usage_breakdown' => array_merge(...array_map('array_values', $bin->waterUsageBreakdown->toArray())),
 
       ];
       $formattedWater[] = $formattedBin;
     }
     return response()->json(['message' => 'Water Floors Data!', 'data' => $formattedWater]);
+  }
+
+
+
+  private function filterMyArray($array, $flag)
+  {
+    $result = [];
+
+    // Iterate through the input array
+    for ($i = 0; $i < count($array); $i++) {
+      $month = $array[$i]['month'];
+      $value = 0;
+      if ($flag === 'water_electricity_consumption') {
+        $value = $array[$i]['energy_usage'];
+      }
+      elseif ($flag === 'water_average_consumption') {
+        $value = intval($array[$i]['value']);
+      }
+
+      // If the month is not already in the result array, initialize it
+      if (!isset($result[$month])) {
+        $result[$month] = [];
+      }
+
+      // Add the consumption value to the array for the corresponding month
+      $result[$month][] = $value;
+    }
+
+    return $result;
   }
 
   // private function filterDateTimeStrings($array)
