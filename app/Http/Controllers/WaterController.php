@@ -20,7 +20,7 @@ class WaterController extends Controller
   {
     $waterFloors = WaterManagement::with('waterEnergyUtilizations', 'waterElectricityConsumption', 'waterEnergyBreakdown', 'waterWasteDischarge', 'waterAverageConsumption', 'waterUsageBreakdown')->get();
     $formattedWater = [];
-    
+
     foreach ($waterFloors as $bin) {
       $formattedBin = [
         'id' => $bin->id,
@@ -45,21 +45,7 @@ class WaterController extends Controller
     return response()->json(['message' => 'Water Floors Data!', 'data' => $formattedWater]);
   }
 
-  // private function filterDateTimeStrings($array)
-  // {
-  //   return array_filter($array, function ($value, $key) {
-  //     $filteredKeys = ["id", "water_id"];
-  //     return !in_array($key, $filteredKeys) && !is_string($value) && !strtotime($value);
-  //   }, ARRAY_FILTER_USE_BOTH);
-  // }
 
-  private function filterDateTimeStrings($array)
-  {
-    return array_filter($array, function ($value, $key) {
-      $filteredKeys = ["id", "water_id"];
-      return !in_array($key, $filteredKeys) && !is_array($value) && !is_string($value) && !strtotime($value);
-    }, ARRAY_FILTER_USE_BOTH);
-  }
 
   private function filterMyArray($array, $flag)
   {
@@ -87,6 +73,24 @@ class WaterController extends Controller
 
     return $result;
   }
+
+  // private function filterDateTimeStrings($array)
+  // {
+  //   return array_filter($array, function ($value, $key) {
+  //     $filteredKeys = ["id", "water_id"];
+  //     return !in_array($key, $filteredKeys) && !is_string($value) && !strtotime($value);
+  //   }, ARRAY_FILTER_USE_BOTH);
+  // }
+
+  private function filterDateTimeStrings($array)
+  {
+    return array_filter($array, function ($value, $key) {
+      $filteredKeys = ["id", "water_id"];
+      return !in_array($key, $filteredKeys) && !is_array($value) && !is_string($value) && !strtotime($value);
+    }, ARRAY_FILTER_USE_BOTH);
+  }
+
+
 
   public function waterFloorData(Request $request)
   {

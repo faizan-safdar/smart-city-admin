@@ -14,4 +14,6 @@ class WaterAverageConsumption extends Model
     'type',
     'value',
   ];
+  protected $hidden = ['created_at', 'updated_at', 'id', 'water_id'];
+
 }

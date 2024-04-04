@@ -18,7 +18,34 @@ class EnergyController extends Controller
   public function getEnergyData()
   {
     $energy = Energy::with('power', 'acmv', 'elecv', 'lighting', 'mixedloads', 'connectionTypes', 'usageHours')->get();
-    return response()->json(['message' => 'Energy data found successfully', 'data' => $energy]);
+    $formattedEnergy = [];
+    foreach ($energy as $bin) {
+      $formattedBin = [
+        'id' => $bin->id,
+        'energy' => $bin->energy,
+        'name' => $bin->name,
+        'owner_name' => $bin->owner_name,
+        'built_date' => $bin->built_date,
+        'built_area' => $bin->built_area,
+        'occupents' => $bin->occupents,
+        'active_power' => $bin->active_power,
+        'used_active_power' => $bin->used_active_power,
+        'total_current_hour' => $bin->total_current_hour,
+        'cost' => $bin->cost,
+        'co2' => $bin->co2,
+        'KWH_person' => $bin->KWH_person,
+        'KWHM2' => $bin->KWHM2,
+        'power' => $bin->power,
+        'acmv' => $bin->acmv,
+        'elecv' => $bin->elecv,
+        'lighting' => $bin->lighting,
+        'mixedloads' => $bin->mixedloads,
+        'connectionTypes' => array_merge(...array_map('array_values', $bin->connectionTypes->toArray())),
+        'usageHours' => array_merge(...array_map('array_values', $bin->usageHours->toArray())),
+      ];
+      $formattedEnergy[] = $formattedBin;
+    }
+    return response()->json(['message' => 'Energy data found successfully', 'data' => $formattedEnergy]);
 
   }
 
