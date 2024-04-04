@@ -33,7 +33,6 @@
     @php
     $activeClass = null;
     $currentRouteName = Route::currentRouteName();
-
     if ($currentRouteName === $menu->slug) {
     $activeClass = 'active';
     }
@@ -65,13 +64,19 @@
           <div class="badge bg-{{ $menu->badge[0] }} rounded-pill ms-auto">{{ $menu->badge[1] }}</div>
         @endisset
       </a>
+      
+
 
       {{-- submenu --}}
       @isset($menu->submenu)
+    
       @include('layouts.sections.menu.submenu',['menu' => $menu->submenu])
       @endisset
     </li>
+   
+
     @endif
+    
     @endforeach
   </ul>
 
