@@ -15,44 +15,34 @@
 @endsection
 
 @section('content')
-<head>
-
-    <link rel="stylesheet" href="//cdn.datatables.net/2.0.3/css/dataTables.dataTables.min.css">
-</head>
-<body>
-    <table class="table">
-        <th>
+<div class="card">
+    <h5 class="card-header text-bolder">Dustbins Data</h5>
+    <div class="table-responsive text-nowrap">
+      <table id="dustbintable" class="table table-hover">
+        <thead class="table-border-bottom-1 table-primary">
             <tr>
-                <td>id</td>
-                <td>name</td>
-                <td>text</td>
-                <td>fill_percentage</td>
-                <td>image</td>
+                <th style="text-size: 20px;">Image</th>
+                <th>Name</th>
+                <th>Text</th>
+                <th>Fill Percentage</th>
+                <th>Last Update</th>
+                <th>Details</th>
             </tr>
-        </th>
-        <tbody>
+        </thead>
+        <tbody class="table-border-bottom-0">
+        
+            @foreach ($formattedBins as $bin)
             <tr>
-                <td>1</td>
-                <td>bin1</td>
-                <td>fillit</td>
-                <td>50%</td>
-                <td>image</td>
+                <td><img src="{{ $bin['image'] }}" alt="Dustbin" width="30" height="30" class="rounded-circle"></td>
+                <td><span class="fw-medium">{{ $bin['name'] }}</span></td>
+                <td>{{ $bin['text'] }}</td>
+                <td>{{ $bin['fill_percentage'] }}</td>
+                <td>{{ $bin['last_update'] }}</td>
+                <td><a class="btn btn-primary btn-sm text-white" href="{{ route('dustbin-details', $bin['id']) }}">View</a></span></td>
             </tr>
-            <tr>
-                <td>2</td>
-                <td>bin1</td>
-                <td>fillit</td>
-                <td>70%</td>
-                <td>image</td>
-            </tr>
+            @endforeach
         </tbody>
-    </table>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="//cdn.datatables.net/2.0.3/js/dataTables.min.js"></script>
-    <script>
-        $(document).ready(function (){
-            $('.table').Datatable();
-        });
-    </script>
-</body>
+      </table>
+    </div>
+  </div>
 @endsection

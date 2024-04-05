@@ -43,6 +43,7 @@ use App\Http\Controllers\form_elements\InputGroups;
 use App\Http\Controllers\form_layouts\VerticalForm;
 use App\Http\Controllers\form_layouts\HorizontalForm;
 use App\Http\Controllers\tables\Basic as TablesBasic;
+use App\Http\Controllers\DustbinController;
 
 // Main Page Route
 Route::middleware('auth')->group(function () {
@@ -114,9 +115,9 @@ Route::get('/auth/register-basic', [RegisterBasic::class, 'index'])->name('auth-
 Route::get('/auth/forgot-password-basic', [ForgotPasswordBasic::class, 'index'])->name('auth-reset-password-basic');
 
 // dustbin routes
-Route::get('/dustbin', function () {
-  return view('content.dustbin.dustbin');
-});
+Route::get('/dustbin', [DustbinController::class, 'getAllBins'])->name('dustbin');
+Route::get('/dustbin/{bin_id}', [DustbinController::class, 'getAllBins'])->name('dustbin-details');
+
 
 //cctvs routes
 Route::get('/cctvs',function (){

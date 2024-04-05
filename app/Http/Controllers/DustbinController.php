@@ -41,8 +41,8 @@ class DustbinController extends Controller
       ];
       $formattedBins[] = $formattedBin;
     }
-
-    return response()->json(['status' => 'success', 'data' => $formattedBins]);
+    // dd($formattedBins);
+    return view('content.dustbin.dustbin', compact('formattedBins'));
   }
 
   // private function filterDateTimeStrings($array)
