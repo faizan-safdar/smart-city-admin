@@ -116,7 +116,7 @@ Route::get('/auth/forgot-password-basic', [ForgotPasswordBasic::class, 'index'])
 
 // dustbin routes
 Route::get('/dustbin', [DustbinController::class, 'getAllBins'])->name('dustbin');
-Route::get('/dustbin/{bin_id}', [DustbinController::class, 'getAllBins'])->name('dustbin-details');
+Route::get('/dustbin/{bin_id}', [DustbinController::class, 'getBinDetails'])->name('dustbin-details');
 
 
 //cctvs routes

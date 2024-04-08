@@ -45,6 +45,43 @@ class DustbinController extends Controller
     return view('content.dustbin.dustbin', compact('formattedBins'));
   }
 
+  public function getBinDetails($dustbinId)
+  {
+    $bins = Dustbin::with('binUsage', 'binWasteRemoval', 'binRepairCost', 'binMaintenanceCost', 'binResponseTime', 'binSatisfiedPublic', 'binWasteBreakdown')->get();
+
+    $dustbin = Dustbin::findOrFail($dustbinId);
+    $binUsages = BinUsage::where('dustbin_id', $dustbinId)->get();
+    $binWasteRemovals = BinWasteRemoval::where('dustbin_id', $dustbinId)->get();
+    $BinResponseTime = BinResponseTime::where('dustbin_id', $dustbinId)->get();
+    $BinSatisfiedPublic = BinSatisfiedPublic::where('dustbin_id', $dustbinId)->get();
+    $BinWasteBreakdown = BinWasteBreakdown::where('dustbin_id', $dustbinId)->get();
+    $BinMaintenanceCost = BinMaintenanceCost::where('dustbin_id', $dustbinId)->get();
+    $BinRepairCost = BinRepairCost::where('dustbin_id', $dustbinId)->get();
+
+
+    $formattedBins = [];
+    foreach ($bins as $bin) {
+      $formattedBin = [
+        'id' => $bin->id,
+        'name' => $bin->name,
+        'text' => $bin->text,
+        'last_update' => $bin->last_update,
+        'fill_percentage' => $bin->fill_percentage,
+        'image' => $bin->image,
+        'bin_usage' => array_values($this->filterDateTimeStrings(($bin->binUsage->toArray()))),
+        'bin_waste_removal' => array_values($this->filterDateTimeStrings(($bin->binWasteRemoval->toArray()))),
+        'bin_repair_cost' => array_values($this->filterDateTimeStrings(($bin->binRepairCost->toArray()))),
+        'bin_maintenance_cost' => array_values($this->filterDateTimeStrings(($bin->binMaintenanceCost->toArray()))),
+        'bin_response_time' => array_values($this->filterDateTimeStrings(($bin->binResponseTime->toArray()))),
+        'bin_satisfied_public' => array_values($this->filterDateTimeStrings(($bin->binSatisfiedPublic->toArray()))),
+        'bin_waste_breakdown' => array_values($this->filterDateTimeStrings(($bin->binWasteBreakdown->toArray())))
+      ];
+      $formattedBins[] = $formattedBin;
+    }
+    // dd($formattedBins);
+    return view('content.dustbin.dustbin', compact('formattedBins'));
+  }
+
   // private function filterDateTimeStrings($array)
   // {
   //   return array_filter($array, function ($value) {
