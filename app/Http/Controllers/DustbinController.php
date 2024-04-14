@@ -20,6 +20,7 @@ class DustbinController extends Controller
   // Get All bins
   public function getAllBins()
   {
+    $dustbinId = 0;
     $bins = Dustbin::with('binUsage', 'binWasteRemoval', 'binRepairCost', 'binMaintenanceCost', 'binResponseTime', 'binSatisfiedPublic', 'binWasteBreakdown')->get();
 
     $formattedBins = [];
@@ -42,44 +43,46 @@ class DustbinController extends Controller
       $formattedBins[] = $formattedBin;
     }
     // dd($formattedBins);
-    return view('content.dustbin.dustbin', compact('formattedBins'));
+    return view('content.dustbin.dustbin', compact('formattedBins', 'dustbinId'));
   }
 
   public function getBinDetails($dustbinId)
   {
-    $bins = Dustbin::with('binUsage', 'binWasteRemoval', 'binRepairCost', 'binMaintenanceCost', 'binResponseTime', 'binSatisfiedPublic', 'binWasteBreakdown')->get();
+    // dd($dustbinId);
+    $bin_usages = BinUsage::where('dustbin_id', $dustbinId)->get();
+    $bin_waste_removals = BinWasteRemoval::where('dustbin_id', $dustbinId)->get();
+    $bin_waste_removals = BinWasteRemoval::where('dustbin_id', $dustbinId)->get();
+    $bin_repair_costs = BinRepairCost::where('dustbin_id', $dustbinId)->get();
+    $bin_maintenance_costs = BinMaintenanceCost::where('dustbin_id', $dustbinId)->get();
+    $bin_response_times = BinResponseTime::where('dustbin_id', $dustbinId)->get();
+    $bin_satisfied_publics = BinSatisfiedPublic::where('dustbin_id', $dustbinId)->get();
+    $bin_waste_breakdowns = BinWasteBreakdown::where('dustbin_id', $dustbinId)->get();
 
-    $dustbin = Dustbin::findOrFail($dustbinId);
-    $binUsages = BinUsage::where('dustbin_id', $dustbinId)->get();
-    $binWasteRemovals = BinWasteRemoval::where('dustbin_id', $dustbinId)->get();
-    $BinResponseTime = BinResponseTime::where('dustbin_id', $dustbinId)->get();
-    $BinSatisfiedPublic = BinSatisfiedPublic::where('dustbin_id', $dustbinId)->get();
-    $BinWasteBreakdown = BinWasteBreakdown::where('dustbin_id', $dustbinId)->get();
-    $BinMaintenanceCost = BinMaintenanceCost::where('dustbin_id', $dustbinId)->get();
-    $BinRepairCost = BinRepairCost::where('dustbin_id', $dustbinId)->get();
+    $bins = Dustbin::with('binUsage', 'binWasteRemoval', 'binRepairCost', 'binMaintenanceCost', 'binResponseTime', 'binSatisfiedPublic', 'binWasteBreakdown')
+    ->where('id', $dustbinId)
+    ->get();
 
-
-    $formattedBins = [];
-    foreach ($bins as $bin) {
-      $formattedBin = [
-        'id' => $bin->id,
-        'name' => $bin->name,
-        'text' => $bin->text,
-        'last_update' => $bin->last_update,
-        'fill_percentage' => $bin->fill_percentage,
-        'image' => $bin->image,
-        'bin_usage' => array_values($this->filterDateTimeStrings(($bin->binUsage->toArray()))),
-        'bin_waste_removal' => array_values($this->filterDateTimeStrings(($bin->binWasteRemoval->toArray()))),
-        'bin_repair_cost' => array_values($this->filterDateTimeStrings(($bin->binRepairCost->toArray()))),
-        'bin_maintenance_cost' => array_values($this->filterDateTimeStrings(($bin->binMaintenanceCost->toArray()))),
-        'bin_response_time' => array_values($this->filterDateTimeStrings(($bin->binResponseTime->toArray()))),
-        'bin_satisfied_public' => array_values($this->filterDateTimeStrings(($bin->binSatisfiedPublic->toArray()))),
-        'bin_waste_breakdown' => array_values($this->filterDateTimeStrings(($bin->binWasteBreakdown->toArray())))
-      ];
-      $formattedBins[] = $formattedBin;
-    }
+    // $formattedBins = [];
+    // foreach ($bins as $bin) {
+    //   $formattedBin = [
+    //     'id' => $bin->id,
+    //     'name' => $bin->name,
+    //     'text' => $bin->text,
+    //     'last_update' => $bin->last_update,
+    //     'fill_percentage' => $bin->fill_percentage,
+    //     'image' => $bin->image,
+    //     'bin_usage' => $this->filterDateTimeStrings(($bin->binUsage->toArray())),
+    //     'bin_waste_removal' => $this->filterDateTimeStrings(($bin->binWasteRemoval->toArray())),
+    //     'bin_repair_cost' => $this->filterDateTimeStrings(($bin->binRepairCost->toArray())),
+    //     'bin_maintenance_cost' => $this->filterDateTimeStrings(($bin->binMaintenanceCost->toArray())),
+    //     'bin_response_time' => $this->filterDateTimeStrings(($bin->binResponseTime->toArray())),
+    //     'bin_satisfied_public' => $this->filterDateTimeStrings(($bin->binSatisfiedPublic->toArray())),
+    //     'bin_waste_breakdown' => $this->filterDateTimeStrings(($bin->binWasteBreakdown->toArray()))
+    //   ];
+    //   $formattedBins[] = $formattedBin;
+    // }
     // dd($formattedBins);
-    return view('content.dustbin.dustbin', compact('formattedBins'));
+    return view('content.dustbin.dustbin', compact('bin_usages', 'bin_waste_removals', 'bin_repair_costs', 'bin_maintenance_costs', 'bin_response_times', 'bin_satisfied_publics', 'bin_waste_breakdowns', 'dustbinId'));
   }
 
   // private function filterDateTimeStrings($array)
