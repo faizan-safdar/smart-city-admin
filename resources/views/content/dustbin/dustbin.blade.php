@@ -15,6 +15,28 @@
 @section('page-script')
 <script src="{{asset('assets/js/dashboards-analytics.js')}}"></script>
 <script>
+  $(document).ready(function() {
+    $('.dropify').dropify();
+  });
+  function openEditDustbin(recordId) {
+    $.ajax({
+    url: '/fetchDustbin/' + recordId,
+    type: 'GET',
+    success: function(data) {
+      $('#name').val(data.name);
+      $('#text').val(data.text);
+      $('#fill_percentage').val(data.fill_percentage);
+      $('#imageicon').attr('src', data.image);
+      // $('#imageicon').attr('data-default-file', data.image);
+
+    // Initialize Dropify
+      // $('.dropify').dropify();
+      $('#dustbinupdateid').val(recordId);
+
+      $('#editDustbinModal').modal('show');
+    }
+    });
+  }
 
   function openEditBinUsage(recordId) {
     $.ajax({
@@ -27,10 +49,10 @@
       $('#eighth4').val(data.eighth_4);
       $('#eighth5').val(data.eighth_5);
       $('#eighth6').val(data.eighth_6);
-      
+
       $('#BinUsageid').val(recordId);
-    
-      $('#editDustbinusage').modal('show');
+
+      $('#editDustbinupdate').modal('show');
     }
     });
   }
@@ -70,10 +92,10 @@
       $('#day_28').val(data.day_28);
       $('#day_29').val(data.day_29);
       $('#day_30').val(data.day_30);
-      
+
       $('#WasteRemovalid').val(recordId);
       // $('#dustbin_id').val(data.dustbin_id);
-    
+
       $('#editWasteRemoval').modal('show');
     }
     });
@@ -96,10 +118,95 @@
       $('#oct').val(data.oct);
       $('#nov').val(data.nov);
       $('#dec').val(data.dec);
-      
+
       $('#RepairCostid').val(recordId);
-    
+
       $('#editRepairCost').modal('show');
+    }
+    });
+  }
+
+  function openEditMaintenanceCost(recordId) {
+    $.ajax({
+    url: '/fetchMaintenanceCost/' + recordId,
+    type: 'GET',
+    success: function(data) {
+      $('#jan1').val(data.jan);
+      $('#feb1').val(data.feb);
+      $('#mar1').val(data.mar);
+      $('#apr1').val(data.apr);
+      $('#may1').val(data.may);
+      $('#jun1').val(data.jun);
+      $('#jul1').val(data.jul);
+      $('#aug1').val(data.aug);
+      $('#sep1').val(data.sep);
+      $('#oct1').val(data.oct);
+      $('#nov1').val(data.nov);
+      $('#dec1').val(data.dec);
+
+      $('#MaintenanceCostid').val(recordId);
+
+      $('#editMaintenanceCost').modal('show');
+    }
+    });
+  }
+
+  function openEditResponseTime(recordId) {
+    $.ajax({
+    url: '/fetchResponseTime/' + recordId,
+    type: 'GET',
+    success: function(data) {
+      $('#1_hr').val(data['1_hr']);
+      $('#2_hr').val(data['2_hr']);
+      $('#4_hr').val(data['4_hr']);
+      $('#4_plus_hr').val(data['4_plus_hr']);
+
+      $('#ResponseTimeid').val(recordId);
+
+      $('#editResponseTime').modal('show');
+    }
+    });
+  }
+
+  function openEditSatisfiedPublic(recordId) {
+    $.ajax({
+    url: '/fetchPublicSatisfaction/' + recordId,
+    type: 'GET',
+    success: function(data) {
+      $('#jan2').val(data.jan);
+      $('#feb2').val(data.feb);
+      $('#mar2').val(data.mar);
+      $('#apr2').val(data.apr);
+      $('#may2').val(data.may);
+      $('#jun2').val(data.jun);
+      $('#jul2').val(data.jul);
+      $('#aug2').val(data.aug);
+      $('#sep2').val(data.sep);
+      $('#oct2').val(data.oct);
+      $('#nov2').val(data.nov);
+      $('#dec2').val(data.dec);
+
+      $('#PublicSatisfactionid').val(recordId);
+
+      $('#editSatisfiedPublic').modal('show');
+    }
+    });
+  }
+
+  function openEditWasteBreakdown(recordId) {
+    $.ajax({
+    url: '/fetchWasteBreakdown/' + recordId,
+    type: 'GET',
+    success: function(data) {
+      $('#organic_waste').val(data['organic_waste']);
+      $('#bottles_cans').val(data['bottles_cans']);
+      $('#paper_packaging').val(data['paper_packaging']);
+      $('#cardboard').val(data['cardboard']);
+      $('#other_waste').val(data['other_waste']);
+
+      $('#WasteBreakdownid').val(recordId);
+
+      $('#editWasteBreakdown').modal('show');
     }
     });
   }
@@ -118,10 +225,11 @@
         <tr>
           <th style="text-size: 20px;">Image</th>
           <th>Name</th>
-          <th>Text</th>
+          <th>Description</th>
           <th>Fill Percentage</th>
           <th>Last Update</th>
           <th>Details</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody class="table-border-bottom-0">
@@ -135,11 +243,60 @@
           <td>{{ $bin['last_update'] }}</td>
           {{-- <td><a class="btn btn-primary btn-sm text-white">View</a></span></td> --}}
           <td><a class="btn btn-primary btn-sm text-white"
-              href="{{ route('dustbin-details', $bin['id']) }}">View</a></span></td>
+              href="{{ route('dustbin-details', $bin['id']) }}">View</a></td>
+          <td><a class="btn btn-success btn-sm text-white"
+              onclick="openEditDustbin({{ $bin['id'] }})">Update</a></td>
         </tr>
         @endforeach
       </tbody>
     </table>
+  </div>
+</div>
+
+
+{{-- Dustbin Table Modal --}}
+<div class="modal fade" id="editDustbinModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel1">Update Dustbin</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ route('dustbin-update') }}" method="post">
+          @csrf
+          <div class="row g-3">
+            <div class="col-6 mb-3">
+              <label for="name" class="form-label">Name</label>
+              <input type="text" id="name" class="form-control" name="name" required>
+              <input type="hidden" name="id" id="dustbinupdateid">
+            </div>
+            <div class="col-6 mb-3">
+              <label for="fill_percentage" class="form-label">Fill Percentage</label>
+              <input type="text" id="fill_percentage" class="form-control" name="fill_percentage" required>
+            </div>
+            <div class="col-12 mb-3">
+              <label for="text" class="form-label">Description</label>
+              {{-- <input type="text" id="text" class="form-control" name="text" required> --}}
+              <textarea name="text" id="text" rows="2" class="form-control" required></textarea>
+            </div>
+            <div class="col-12 mb-3">
+              <label for="image" class="form-label">Image</label>
+              <div class="text-center">
+                <img id="imageicon" style="border-radius: 30%;">
+              </div>
+              {{-- <div style="width: 210px;">
+                <input type="file" id="imageicon" name="photo" class="dropify" data-max-file-size="1M" required>
+              </div> --}}
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+      </form>
+    </div>
   </div>
 </div>
 
@@ -354,7 +511,7 @@
           <td><span class="fw-medium">{{ $bin_maintain_cost['nov'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_maintain_cost['dec'] }}</span></td>
           <td><a class="btn btn-primary btn-sm text-white"
-              href="{{ route('dustbin-details', $bin_maintain_cost['id']) }}">Update</a></span></td>
+            onclick="openEditMaintenanceCost({{ $bin_maintain_cost['id'] }})">Update</a></span></td>
         </tr>
         @endforeach
       </tbody>
@@ -384,7 +541,7 @@
           <td><span class="fw-medium">{{ $bin_response_time['4_hr'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_response_time['4_plus_hr'] }}</span></td>
           <td><a class="btn btn-primary btn-sm text-white"
-              href="{{ route('dustbin-details', $bin_response_time['id']) }}">Update</a></span></td>
+            onclick="openEditResponseTime({{ $bin_response_time['id'] }})">Update</a></span></td>
         </tr>
         @endforeach
       </tbody>
@@ -430,7 +587,7 @@
           <td><span class="fw-medium">{{ $bin_satisfied_public['nov'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_satisfied_public['dec'] }}</span></td>
           <td><a class="btn btn-primary btn-sm text-white"
-              href="{{ route('dustbin-details', $bin_satisfied_public['id']) }}">Update</a></span></td>
+            onclick="openEditSatisfiedPublic({{ $bin_satisfied_public['id'] }})">Update</a></span></td>
         </tr>
         @endforeach
       </tbody>
@@ -462,7 +619,7 @@
           <td><span class="fw-medium">{{ $bin_waste_breakdown['cardboard'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_waste_breakdown['other_waste'] }}</span></td>
           <td><a class="btn btn-primary btn-sm text-white"
-              href="{{ route('dustbin-details', $bin_waste_breakdown['id']) }}">Update</a></span></td>
+            onclick="openEditWasteBreakdown({{ $bin_waste_breakdown['id'] }})">Update</a></span></td>
         </tr>
         @endforeach
       </tbody>
@@ -471,6 +628,7 @@
 </div>
 
 
+{{-- Dustbin Detailed Tables Modal --}}
 {{-- Dusbin Usage Update Modal --}}
 <div class="modal fade" id="editDustbinusage" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -480,7 +638,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="{{ route('dustbin-update') }}" method="post">
+        <form action="{{ route('dustbin-usage-update') }}" method="post">
           @csrf
           <div class="row g-3">
             <div class="col-6 mb-3">
@@ -652,7 +810,7 @@
               <label for="day_30" class="form-label">Day 30</label>
               <input type="text" id="day_30" class="form-control" name="day_30" required>
             </div>
-            
+
           </div>
       </div>
       <div class="modal-footer">
@@ -679,7 +837,7 @@
             <div class="col-3 mb-3">
               <label for="jan" class="form-label">Janaury</label>
               <input type="text" id="jan" class="form-control" name="jan" required>
-              <input type="hidden" name="id" id="RepairCostId">
+              <input type="hidden" name="id" id="RepairCostid">
             </div>
             <div class="col-3 mb-3">
               <label for="feb" class="form-label">February</label>
@@ -725,7 +883,7 @@
               <label for="dec" class="form-label">Decemeber</label>
               <input type="text" id="dec" class="form-control" name="dec" required>
             </div>
-            
+
           </div>
       </div>
       <div class="modal-footer">
@@ -737,6 +895,235 @@
   </div>
 </div>
 
+{{-- Maintenance Cost Update Modal --}}
+<div class="modal fade" id="editMaintenanceCost" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel1">Update Maintenance Cost</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ route('maintenance-cost-update') }}" method="post">
+          @csrf
+          <div class="row g-3">
+            <div class="col-3 mb-3">
+              <label for="jan1" class="form-label">Janaury</label>
+              <input type="text" id="jan1" class="form-control" name="jan" required>
+              <input type="hidden" name="id" id="MaintenanceCostid">
+            </div>
+            <div class="col-3 mb-3">
+              <label for="feb1" class="form-label">February</label>
+              <input type="text" id="feb1" class="form-control" name="feb" required>
+            </div>
+            <div class="col-3 mb-3">
+              <label for="mar1" class="form-label">March</label>
+              <input type="text" id="mar1" class="form-control" name="mar" required>
+            </div>
+            <div class="col-3 mb-3">
+              <label for="apr1" class="form-label">April</label>
+              <input type="text" id="apr1" class="form-control" name="apr" required>
+            </div>
+            <div class="col-3 mb-3">
+              <label for="may1" class="form-label">May</label>
+              <input type="text" id="may1" class="form-control" name="may" required>
+            </div>
+            <div class="col-3 mb-3">
+              <label for="jun1" class="form-label">June</label>
+              <input type="text" id="jun1" class="form-control" name="jun" required>
+            </div>
+            <div class="col-3 mb-3">
+              <label for="jul1" class="form-label">July</label>
+              <input type="text" id="jul1" class="form-control" name="jul" required>
+            </div>
+            <div class="col-3 mb-3">
+              <label for="aug1" class="form-label">August</label>
+              <input type="text" id="aug1" class="form-control" name="aug" required>
+            </div>
+            <div class="col-3 mb-3">
+              <label for="sep1" class="form-label">September</label>
+              <input type="text" id="sep1" class="form-control" name="sep" required>
+            </div>
+            <div class="col-3 mb-3">
+              <label for="oct1" class="form-label">October</label>
+              <input type="text" id="oct1" class="form-control" name="oct" required>
+            </div>
+            <div class="col-3 mb-3">
+              <label for="nov1" class="form-label">November</label>
+              <input type="text" id="nov1" class="form-control" name="nov" required>
+            </div>
+            <div class="col-3 mb-3">
+              <label for="dec1" class="form-label">Decemeber</label>
+              <input type="text" id="dec1" class="form-control" name="dec" required>
+            </div>
+
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{{-- Response Time Update Modal --}}
+<div class="modal fade" id="editResponseTime" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel1">Update Response Time</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ route('response-time-update') }}" method="post">
+          @csrf
+          <div class="row g-3">
+            <div class="col-6 mb-3">
+              <label for="1_hr" class="form-label">1 Hour</label>
+              <input type="text" id="1_hr" class="form-control" name="1_hr" required>
+              <input type="hidden" name="id" id="ResponseTimeid">
+            </div>
+            <div class="col-6 mb-3">
+              <label for="2_hr" class="form-label">2 Hours</label>
+              <input type="text" id="2_hr" class="form-control" name="2_hr" required>
+            </div>
+            <div class="col-6 mb-3">
+              <label for="4_hr" class="form-label">4 Hours</label>
+              <input type="text" id="4_hr" class="form-control" name="4_hr" required>
+            </div>
+            <div class="col-6 mb-3">
+              <label for="4_plus_hr" class="form-label">4 Plus Hours</label>
+              <input type="text" id="4_plus_hr" class="form-control" name="4_plus_hr" required>
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{{-- Public Satisfaction Update Modal --}}
+<div class="modal fade" id="editSatisfiedPublic" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel1">Update Public Satisfaction</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ route('public-satisfaction-update') }}" method="post">
+          @csrf
+          <div class="row g-3">
+            <div class="col-3 mb-3">
+              <label for="jan2" class="form-label">Janaury</label>
+              <input type="text" id="jan2" class="form-control" name="jan" required>
+              <input type="hidden" name="id" id="PublicSatisfactionid">
+            </div>
+            <div class="col-3 mb-3">
+              <label for="feb2" class="form-label">February</label>
+              <input type="text" id="feb2" class="form-control" name="feb" required>
+            </div>
+            <div class="col-3 mb-3">
+              <label for="mar2" class="form-label">March</label>
+              <input type="text" id="mar2" class="form-control" name="mar" required>
+            </div>
+            <div class="col-3 mb-3">
+              <label for="apr2" class="form-label">April</label>
+              <input type="text" id="apr2" class="form-control" name="apr" required>
+            </div>
+            <div class="col-3 mb-3">
+              <label for="may2" class="form-label">May</label>
+              <input type="text" id="may2" class="form-control" name="may" required>
+            </div>
+            <div class="col-3 mb-3">
+              <label for="jun2" class="form-label">June</label>
+              <input type="text" id="jun2" class="form-control" name="jun" required>
+            </div>
+            <div class="col-3 mb-3">
+              <label for="jul2" class="form-label">July</label>
+              <input type="text" id="jul2" class="form-control" name="jul" required>
+            </div>
+            <div class="col-3 mb-3">
+              <label for="aug2" class="form-label">August</label>
+              <input type="text" id="aug2" class="form-control" name="aug" required>
+            </div>
+            <div class="col-3 mb-3">
+              <label for="sep2" class="form-label">September</label>
+              <input type="text" id="sep2" class="form-control" name="sep" required>
+            </div>
+            <div class="col-3 mb-3">
+              <label for="oct2" class="form-label">October</label>
+              <input type="text" id="oct2" class="form-control" name="oct" required>
+            </div>
+            <div class="col-3 mb-3">
+              <label for="nov2" class="form-label">November</label>
+              <input type="text" id="nov2" class="form-control" name="nov" required>
+            </div>
+            <div class="col-3 mb-3">
+              <label for="dec2" class="form-label">Decemeber</label>
+              <input type="text" id="dec2" class="form-control" name="dec" required>
+            </div>
+
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{{-- Response Time Update Modal --}}
+<div class="modal fade" id="editWasteBreakdown" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel1">Update Waste Breakdown</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ route('waste-breakdown-update') }}" method="post">
+          @csrf
+          <div class="row g-3">
+            <div class="col-6 mb-3">
+              <label for="organic_waste" class="form-label">Organic Waste</label>
+              <input type="text" id="organic_waste" class="form-control" name="organic_waste" required>
+              <input type="hidden" name="id" id="WasteBreakdownid">
+            </div>
+            <div class="col-6 mb-3">
+              <label for="bottles_cans" class="form-label">Bottles & cans</label>
+              <input type="text" id="bottles_cans" class="form-control" name="bottles_cans" required>
+            </div>
+            <div class="col-6 mb-3">
+              <label for="paper_packaging" class="form-label">Paper Packaging</label>
+              <input type="text" id="paper_packaging" class="form-control" name="paper_packaging" required>
+            </div>
+            <div class="col-6 mb-3">
+              <label for="cardboard" class="form-label">Cardboard</label>
+              <input type="text" id="cardboard" class="form-control" name="cardboard" required>
+            </div>
+            <div class="col-12 mb-3">
+              <label for="other_waste" class="form-label">Other Waste</label>
+              <input type="text" id="other_waste" class="form-control" name="other_waste" required>
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
 @endif
 
 @endsection

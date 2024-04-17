@@ -116,11 +116,15 @@ Route::get('/auth/forgot-password-basic', [ForgotPasswordBasic::class, 'index'])
 
 // dustbin routes
 Route::get('/dustbin', [DustbinController::class, 'getAllBins'])->name('dustbin');
+Route::get('/fetchDustbin/{id}', [DustbinController::class, 'fetchDustbin']);
+Route::post('/dustbin/update', [DustbinController::class, 'storeOrUpdateDustbin'])->name('dustbin-update');
+
+// dustbin details
 Route::get('/dustbin/{bin_id}', [DustbinController::class, 'getBinDetails'])->name('dustbin-details');
 
 // dustbin usage routes
 Route::get('/fetchBinUsage/{id}', [DustbinController::class, 'fetchBinUsage']);
-Route::post('/dustbin/bin-usage', [DustbinController::class, 'storeOrUpdateDustbinUsage'])->name('dustbin-update');
+Route::post('/dustbin/bin-usage', [DustbinController::class, 'storeOrUpdateDustbinUsage'])->name('dustbin-usage-update');
 
 // waste removal routes
 Route::get('/fetchWasteRemoval/{id}', [DustbinController::class, 'fetchWasteRemoval']);
@@ -129,6 +133,23 @@ Route::post('/dustbin/waste-removal', [DustbinController::class, 'storeOrUpdateD
 // Repair Cost routes
 Route::get('/fetchRepairCost/{id}', [DustbinController::class, 'fetchRepairCost']);
 Route::post('/dustbin/repair-cost', [DustbinController::class, 'storeOrUpdateDustbinRepairCost'])->name('repair-cost-update');
+
+// Maintenance Cost routes
+Route::get('/fetchMaintenanceCost/{id}', [DustbinController::class, 'fetchMaintenanceCost']);
+Route::post('/dustbin/maintenance-cost', [DustbinController::class, 'storeOrUpdateDustbinMaintenanceCost'])->name('maintenance-cost-update');
+
+// Response time routes
+Route::get('/fetchResponseTime/{id}', [DustbinController::class, 'fetchResponseTime']);
+Route::post('/dustbin/response-time', [DustbinController::class, 'storeOrUpdateDustbinResponseTime'])->name('response-time-update');
+
+// Public Satisfaction routes
+Route::get('/fetchPublicSatisfaction/{id}', [DustbinController::class, 'fetchPublicSatisfaction']);
+Route::post('/dustbin/public-satisfaction', [DustbinController::class, 'storeOrUpdateDustbinPublicSatisfaction'])->name('public-satisfaction-update');
+
+// Waste Breakdown routes
+Route::get('/fetchWasteBreakdown/{id}', [DustbinController::class, 'fetchWasteBreakdown']);
+Route::post('/dustbin/waste-breakdown', [DustbinController::class, 'storeOrUpdateDustbinWasteBreakdown'])->name('waste-breakdown-update');
+
 
 //cctvs routes
 Route::get('/cctvs',function (){
