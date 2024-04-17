@@ -118,6 +118,17 @@ Route::get('/auth/forgot-password-basic', [ForgotPasswordBasic::class, 'index'])
 Route::get('/dustbin', [DustbinController::class, 'getAllBins'])->name('dustbin');
 Route::get('/dustbin/{bin_id}', [DustbinController::class, 'getBinDetails'])->name('dustbin-details');
 
+// dustbin usage routes
+Route::get('/fetchBinUsage/{id}', [DustbinController::class, 'fetchBinUsage']);
+Route::post('/dustbin/bin-usage', [DustbinController::class, 'storeOrUpdateDustbinUsage'])->name('dustbin-update');
+
+// waste removal routes
+Route::get('/fetchWasteRemoval/{id}', [DustbinController::class, 'fetchWasteRemoval']);
+Route::post('/dustbin/waste-removal', [DustbinController::class, 'storeOrUpdateDustbinWasteRemoval'])->name('dustbin-waste-removal');
+
+// Repair Cost routes
+Route::get('/fetchRepairCost/{id}', [DustbinController::class, 'fetchRepairCost']);
+Route::post('/dustbin/repair-cost', [DustbinController::class, 'storeOrUpdateDustbinRepairCost'])->name('repair-cost-update');
 
 //cctvs routes
 Route::get('/cctvs',function (){
