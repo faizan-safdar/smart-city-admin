@@ -137,7 +137,7 @@
 <!--/ Basic Bootstrap Table -->
 
 <hr class="my-5">
-
+ 
 <!-- Bootstrap Dark Table -->
 <div class="card">
   <h5 class="card-header">Table Dark</h5>
