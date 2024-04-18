@@ -5,6 +5,50 @@
       "name": "Dashboards",
       "icon": "menu-icon tf-icons bx bx-home-circle",
       "slug": "dashboard"
+    },
+    {
+      "url": "/dustbin",
+      "name": "Dustbin",
+      "icon": "menu-icon tf-icons bx bx-trash-alt",
+      "slug": "dustbin"
+    },
+    {
+      "url": "/cctvs",
+      "name": "CCTV's",
+      "icon": "menu-icon tf-icons bx bx-cctv",
+      "slug": "cctv's"
+    },
+    {
+      "url": "/streetlights",
+      "name": "Street lights",
+      "icon": "menu-icon tf-icons bx bx-bulb",
+      "slug": "streetlights"
+    },
+    {
+      "url": "/buildings",
+      "name": "Buildings",
+      "icon": "menu-icon tf-icons bx bx-buildings",
+      "slug": "buildings"
+    },
+    {
+      "url": "/trafficsignals",
+      "name": "Traffic Signal",
+      "icon": "menu-icon tf-icons bx bxs-traffic",
+      "slug": "trafficsignals"
+    },
+    {
+      "url": "/energy",
+      "name": "Energy",
+      "icon": "menu-icon tf-icons bx bx-bolt-circle",
+      "slug": "energy"
     }
+
+
+
+
   ]
+  
+ 
+ 
 }
+

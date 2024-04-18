@@ -20,6 +20,7 @@ class DustbinController extends Controller
   // Get All bins
   public function getAllBins()
   {
+    $dustbinId = 0;
     $bins = Dustbin::with('binUsage', 'binWasteRemoval', 'binRepairCost', 'binMaintenanceCost', 'binResponseTime', 'binSatisfiedPublic', 'binWasteBreakdown')->get();
 
     $formattedBins = [];
@@ -41,8 +42,23 @@ class DustbinController extends Controller
       ];
       $formattedBins[] = $formattedBin;
     }
+    // dd($formattedBins);
+    return view('content.dustbin.dustbin', compact('formattedBins', 'dustbinId'));
+  }
 
-    return response()->json(['status' => 'success', 'data' => $formattedBins]);
+  public function getBinDetails($dustbinId)
+  {
+    // dd($dustbinId);
+    $bin_usages = BinUsage::where('dustbin_id', $dustbinId)->get();
+    $bin_waste_removals = BinWasteRemoval::where('dustbin_id', $dustbinId)->get();
+    $bin_waste_removals = BinWasteRemoval::where('dustbin_id', $dustbinId)->get();
+    $bin_repair_costs = BinRepairCost::where('dustbin_id', $dustbinId)->get();
+    $bin_maintenance_costs = BinMaintenanceCost::where('dustbin_id', $dustbinId)->get();
+    $bin_response_times = BinResponseTime::where('dustbin_id', $dustbinId)->get();
+    $bin_satisfied_publics = BinSatisfiedPublic::where('dustbin_id', $dustbinId)->get();
+    $bin_waste_breakdowns = BinWasteBreakdown::where('dustbin_id', $dustbinId)->get();
+
+    return view('content.dustbin.dustbin', compact('bin_usages', 'bin_waste_removals', 'bin_repair_costs', 'bin_maintenance_costs', 'bin_response_times', 'bin_satisfied_publics', 'bin_waste_breakdowns', 'dustbinId'));
   }
 
   // private function filterDateTimeStrings($array)
@@ -61,68 +77,138 @@ class DustbinController extends Controller
 
 
   // create or Update Bins
+  public function fetchDustbin($id)
+  {
+    $record = Dustbin::findOrFail($id);
+    return response()->json($record);
+  }
+
   public function storeOrUpdateDustbin(Request $request)
   {
     $data = $request->except('_token');
     $data['last_update'] = Carbon::now()->format('Y-m-d H:i:s');
+    // dd($data);
     $dustbin = Dustbin::updateOrCreate(['id' => $request->id], $data);
 
-    return response()->json(['message' => 'Dustbin created/updated successfully', 'data' => $dustbin]);
+    // return response()->json(['message' => 'Dustbin created/updated successfully', 'data' => $dustbin]);
+    return redirect()->route('dustbin', compact('dustbin'));
   }
 
   // create or Update Bins Usage
+  public function fetchBinUsage($id)
+  {
+    $record = BinUsage::findOrFail($id);
+    return response()->json($record);
+  }
+
   public function storeOrUpdateDustbinUsage(Request $request)
   {
     $data = $request->except('_token');
     $dustbin = BinUsage::updateOrCreate(['id' => $request->id], $data);
-    return response()->json(['message' => 'Dustbin usage created/updated successfully', 'data' => $dustbin]);
+    
+    // return response()->json(['message' => 'Dustbin usage created/updated successfully', 'data' => $dustbin]);
+
+    // return view('content.dustbin.dustbin', compact('responsedata', 'dustbinId'));
+    // return $this->getBinDetails($dustbin->dustbin_id);
+
+    return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
   }
 
   // create or Update Bins Waste removal
+  public function fetchWasteRemoval($id)
+  {
+    $record = BinWasteRemoval::findOrFail($id);
+    return response()->json($record);
+  }
+
   public function storeOrUpdateDustbinWasteRemoval(Request $request)
   {
     $data = $request->except('_token');
     $dustbin = BinWasteRemoval::updateOrCreate(['id' => $request->id], $data);
-    return response()->json(['message' => 'Dustbin Waste removal created/updated successfully', 'data' => $dustbin]);
+    // return response()->json(['message' => 'Dustbin Waste removal created/updated successfully', 'data' => $dustbin]);
+    // dd($dustbin);
+    // return $this->getBinDetails($dustbin->dustbin_id);
+
+    return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
   }
 
-  // create or Update Bins Waste removal
-  public function storeOrUpdateDustbinResponseTime(Request $request)
-  {
-    $data = $request->except('_token');
-    $dustbin = BinResponseTime::updateOrCreate(['id' => $request->id], $data);
-    return response()->json(['message' => 'Dustbin response time created/updated successfully', 'data' => $dustbin]);
+  // create or Update Bins Repair cost
+  public function fetchRepairCost($id){
+    $record = BinRepairCost::findOrFail($id);
+    return response()->json($record);
   }
 
-  // create or Update Bins Public satisfaction
-  public function storeOrUpdateDustbinPublicSatisfaction(Request $request)
-  {
-    $data = $request->except('_token');
-    $dustbin = BinSatisfiedPublic::updateOrCreate(['id' => $request->id], $data);
-    return response()->json(['message' => 'Dustbin Public satisfaction created/updated successfully', 'data' => $dustbin]);
-  }
-
-  // create or Update Bins Public satisfaction
-  public function storeOrUpdateDustbinWasteBreakdown(Request $request)
-  {
-    $data = $request->except('_token');
-    $dustbin = BinWasteBreakdown::updateOrCreate(['id' => $request->id], $data);
-    return response()->json(['message' => 'Dustbin waste breakdown created/updated successfully', 'data' => $dustbin]);
-  }
-
-  // create or Update Bins Public satisfaction
-  public function storeOrUpdateDustbinMaintenanceCost(Request $request)
-  {
-    $data = $request->except('_token');
-    $dustbin = BinMaintenanceCost::updateOrCreate(['id' => $request->id], $data);
-    return response()->json(['message' => 'Dustbin Maintenance Cost created/updated successfully', 'data' => $dustbin]);
-  }
-
-  // create or Update Bins Public satisfaction
   public function storeOrUpdateDustbinRepairCost(Request $request)
   {
     $data = $request->except('_token');
     $dustbin = BinRepairCost::updateOrCreate(['id' => $request->id], $data);
-    return response()->json(['message' => 'Dustbin Repair Cost created/updated successfully', 'data' => $dustbin]);
+    // return response()->json(['message' => 'Dustbin Repair Cost created/updated successfully', 'data' => $dustbin]);
+    // return $this->getBinDetails($dustbin->dustbin_id);
+
+    return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
+  }
+
+  // create or Update Bins Maintenance cost
+  public function fetchMaintenanceCost($id){
+    $record = BinMaintenanceCost::findOrFail($id);
+    return response()->json($record);
+  }
+
+  public function storeOrUpdateDustbinMaintenanceCost(Request $request)
+  {
+    $data = $request->except('_token');
+    $dustbin = BinMaintenanceCost::updateOrCreate(['id' => $request->id], $data);
+    // return response()->json(['message' => 'Dustbin Maintenance Cost created/updated successfully', 'data' => $dustbin]);
+    // return $this->getBinDetails($dustbin->dustbin_id);
+
+    return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
+  }
+
+  // create or Update Bins Response time
+  public function fetchResponseTime($id){
+    $record = BinResponseTime::findOrFail($id);
+    return response()->json($record);
+  }
+
+  public function storeOrUpdateDustbinResponseTime(Request $request)
+  {
+    $data = $request->except('_token');
+    $dustbin = BinResponseTime::updateOrCreate(['id' => $request->id], $data);
+    // return response()->json(['message' => 'Dustbin response time created/updated successfully', 'data' => $dustbin]);
+    // return $this->getBinDetails($dustbin->dustbin_id);
+
+    return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
+  }
+
+  // create or Update Bins Public satisfaction
+  public function fetchPublicSatisfaction($id){
+    $record = BinSatisfiedPublic::findOrFail($id);
+    return response()->json($record);
+  }
+
+  public function storeOrUpdateDustbinPublicSatisfaction(Request $request)
+  {
+    $data = $request->except('_token');
+    $dustbin = BinSatisfiedPublic::updateOrCreate(['id' => $request->id], $data);
+    // return response()->json(['message' => 'Dustbin Public satisfaction created/updated successfully', 'data' => $dustbin]);
+    // return $this->getBinDetails($dustbin->dustbin_id);
+
+    return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
+  }
+
+  // create or Update Bins Waste breakdown
+  public function fetchWasteBreakdown($id){
+    $record = BinWasteBreakdown::findOrFail($id);
+    return response()->json($record);
+  }
+
+  public function storeOrUpdateDustbinWasteBreakdown(Request $request)
+  {
+    $data = $request->except('_token');
+    $dustbin = BinWasteBreakdown::updateOrCreate(['id' => $request->id], $data);
+    // return response()->json(['message' => 'Dustbin waste breakdown created/updated successfully', 'data' => $dustbin]);
+    // return $this->getBinDetails($dustbin->dustbin_id);
+
+    return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
   }
 }

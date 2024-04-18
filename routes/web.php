@@ -43,6 +43,7 @@ use App\Http\Controllers\form_elements\InputGroups;
 use App\Http\Controllers\form_layouts\VerticalForm;
 use App\Http\Controllers\form_layouts\HorizontalForm;
 use App\Http\Controllers\tables\Basic as TablesBasic;
+use App\Http\Controllers\DustbinController;
 
 // Main Page Route
 Route::middleware('auth')->group(function () {
@@ -112,3 +113,66 @@ Route::get('/auth/login-basic', [LoginBasic::class, 'index'])->name('auth-login-
 Route::post('/auth/login-basic', [LoginBasic::class, 'indexPost'])->name('post.auth-login-basic');
 Route::get('/auth/register-basic', [RegisterBasic::class, 'index'])->name('auth-register-basic');
 Route::get('/auth/forgot-password-basic', [ForgotPasswordBasic::class, 'index'])->name('auth-reset-password-basic');
+
+// dustbin routes
+Route::get('/dustbin', [DustbinController::class, 'getAllBins'])->name('dustbin');
+Route::get('/fetchDustbin/{id}', [DustbinController::class, 'fetchDustbin']);
+Route::post('/dustbin/update', [DustbinController::class, 'storeOrUpdateDustbin'])->name('dustbin-update');
+
+// dustbin details
+Route::get('/dustbin/{bin_id}', [DustbinController::class, 'getBinDetails'])->name('dustbin-details');
+
+// dustbin usage routes
+Route::get('/fetchBinUsage/{id}', [DustbinController::class, 'fetchBinUsage']);
+Route::post('/dustbin/bin-usage', [DustbinController::class, 'storeOrUpdateDustbinUsage'])->name('dustbin-usage-update');
+
+// waste removal routes
+Route::get('/fetchWasteRemoval/{id}', [DustbinController::class, 'fetchWasteRemoval']);
+Route::post('/dustbin/waste-removal', [DustbinController::class, 'storeOrUpdateDustbinWasteRemoval'])->name('dustbin-waste-removal');
+
+// Repair Cost routes
+Route::get('/fetchRepairCost/{id}', [DustbinController::class, 'fetchRepairCost']);
+Route::post('/dustbin/repair-cost', [DustbinController::class, 'storeOrUpdateDustbinRepairCost'])->name('repair-cost-update');
+
+// Maintenance Cost routes
+Route::get('/fetchMaintenanceCost/{id}', [DustbinController::class, 'fetchMaintenanceCost']);
+Route::post('/dustbin/maintenance-cost', [DustbinController::class, 'storeOrUpdateDustbinMaintenanceCost'])->name('maintenance-cost-update');
+
+// Response time routes
+Route::get('/fetchResponseTime/{id}', [DustbinController::class, 'fetchResponseTime']);
+Route::post('/dustbin/response-time', [DustbinController::class, 'storeOrUpdateDustbinResponseTime'])->name('response-time-update');
+
+// Public Satisfaction routes
+Route::get('/fetchPublicSatisfaction/{id}', [DustbinController::class, 'fetchPublicSatisfaction']);
+Route::post('/dustbin/public-satisfaction', [DustbinController::class, 'storeOrUpdateDustbinPublicSatisfaction'])->name('public-satisfaction-update');
+
+// Waste Breakdown routes
+Route::get('/fetchWasteBreakdown/{id}', [DustbinController::class, 'fetchWasteBreakdown']);
+Route::post('/dustbin/waste-breakdown', [DustbinController::class, 'storeOrUpdateDustbinWasteBreakdown'])->name('waste-breakdown-update');
+
+
+//cctvs routes
+Route::get('/cctvs',function (){
+     return view ('content.cctvs.cctvs');
+});
+
+//streetlights  routes
+Route::get('/streetlights',function(){
+  return view('content.streetlights.streetlights');
+});
+
+// building routes
+Route::get('/buildings',function(){
+   return view('content.buildings.buildings');
+});
+
+// trafficsignals routes
+Route::get('trafficsignals',function(){
+   return view('content.trafficsignals.trafficsignals');
+});
+
+//energy routes
+
+Route::get('energy',function(){
+return view('content.energy.energy');
+});
