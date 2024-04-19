@@ -84,7 +84,6 @@ class TrafficSignalController extends Controller
       $signalData = TrafficSignalFour::updateOrCreate(['id' => $request->id], $data);
       // return response()->json(['message' => 'Signal Four created/updated successfully', 'data' => $signalData]);
     }
-
     return redirect()->route('trafficsignals');
   }
 }
