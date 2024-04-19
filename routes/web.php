@@ -45,6 +45,7 @@ use App\Http\Controllers\form_layouts\HorizontalForm;
 use App\Http\Controllers\tables\Basic as TablesBasic;
 use App\Http\Controllers\DustbinController;
 use App\Http\Controllers\CCTVController;
+use App\Http\Controllers\StreetLightController;
 use App\Http\Controllers\TrafficSignalController;
 
 // Main Page Route
@@ -159,15 +160,20 @@ Route::get('/cctvs', [CCTVController::class, 'getAllCctv'])->name('cctv');
 Route::get('/fetchCCTV/{id}', [CCTVController::class, 'fetchCCTV']);
 Route::post('/cctv/update', [CCTVController::class, 'storeOrUpdateCctv'])->name('cctv-update');
 
-// trafficsignals routes
+// TrafficSignals routes
 Route::get('/trafficsignals', [TrafficSignalController::class, 'getSignalsData'])->name('trafficsignals');
 Route::get('/fetchTrafficsignals/{id}/{signal}', [TrafficSignalController::class, 'fetchTrafficSignal']);
 Route::post('/trafficsignals/update', [TrafficSignalController::class, 'storeOrUpdateTrafficSignal'])->name('trafficsignals-update');
 
-//streetlights  routes
-Route::get('/streetlights',function(){
-  return view('content.streetlights.streetlights');
-});
+// Streetlights  routes
+Route::get('/streetlights', [StreetLightController::class, 'getStreetLight'])->name('streetlights');
+Route::get('/fetchStreetlight/{id}', [StreetLightController::class, 'fetchStreetLight']);
+Route::post('/streetlight/update', [StreetLightController::class, 'storeOrUpdateStreetLight'])->name('streetlight-update');
+Route::get('/streetlight/{id}', [StreetLightController::class, 'getStreetLightDetails'])->name('streetlight-details');
+
+// Lamp Current routes
+Route::get('/fetchLampCurrent/{id}/{lamp}', [StreetLightController::class, 'fetchLampData']);
+Route::post('/streetlight/lamp-current', [StreetLightController::class, 'storeOrUpdateLampCurrent'])->name('lamp-current-update');
 
 // building routes
 Route::get('/buildings',function(){

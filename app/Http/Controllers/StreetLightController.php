@@ -12,12 +12,17 @@ use App\Models\LampVoltageGraph;
 use App\Models\LampPhotocellGraph;
 use App\Models\LampCurrentGraph;
 
+use function Ramsey\Uuid\v1;
+
 class StreetLightController extends Controller
 {
+
+  // Get Street Light Data
   public function getStreetLight()
   {
+    $streetLightId = 0;
     $data = StreetLight::with('lampVoltage', 'lampPhotocell', 'lampCurrent', 'lampVoltageGraph', 'lampPhotocellGraph', 'lampCurrentGraph')->get();
-    $formattedLamp = [];
+    $formattedLamps = [];
     foreach ($data as $bin) {
       $formattedBin = [
         'id' => $bin->id,
@@ -45,17 +50,63 @@ class StreetLightController extends Controller
         'lampCurrentGraph' => array_merge(...array_map('array_values', $bin->lampCurrentGraph->toArray())),
 
       ];
-      $formattedLamp[] = $formattedBin;
+      $formattedLamps[] = $formattedBin;
     }
-    return response()->json(['message' => 'Street Light data found successfully', 'data' => $formattedLamp]);
+    // return response()->json(['message' => 'Street Light data found successfully', 'data' => $formattedLamp]);
+    return view('content.streetlights.streetlights', compact('formattedLamps', 'streetLightId'));
+  }
+
+
+  // Store or Update Street Light
+  public function fetchStreetLight($id)
+  {
+    $data = StreetLight::findorFail($id);
+    return response()->json($data);
   }
 
   public function storeOrUpdateStreetLight(Request $request)
   {
     $data = $request->except('_token');
+    if (!request()->has('status')) {  $data['status'] = 'off';  }
+    if (!request()->has('power_status')) {  $data['power_status'] = 'NOT OK';  }
+    if (!request()->has('device_status')) {  $data['device_status'] = 'NOT OK';  }
+    if (!request()->has('street_light_status')) {  $data['street_light_status'] = 'CS - OFF';  }
+    if (!request()->has('lamp_status')) {  $data['lamp_status'] = 'NOT OK';  }
+    if (!request()->has('knockdown_status')) {  $data['knockdown_status'] = 'OFF';  }
+    if (!request()->has('photocell_mode_on')) {  $data['photocell_mode_on'] = 'OFF';  }
+    if (!request()->has('photocell_mode_off')) {  $data['photocell_mode_off'] = 'OFF';  }
+    if (!request()->has('beacon_control')) {  $data['beacon_control'] = 'OFF';  }
+    
     $data['last_contact'] = date($request->last_contact);
     $streetLight = StreetLight::updateOrCreate(['id' => $request->id], $data);
-    return response()->json(['message' => 'Street Light created/updated successfully', 'data' => $streetLight]);
+    // return response()->json(['message' => 'Street Light created/updated successfully', 'data' => $streetLight]);
+    return redirect()->route('streetlights');
+  }
+
+  public function getStreetLightDetails($streetLightId){
+     $LampVoltages = LampVoltage::where('lamp_id', $streetLightId)->get();
+     $LampPhotocells = LampPhotocell::where('lamp_id', $streetLightId)->get();
+     $LampCurrents = LampCurrent::where('lamp_id', $streetLightId)->get();
+     $LampVoltageGraphs = LampVoltageGraph::where('lamp_id', $streetLightId)->get();
+     $LampPhotocellGraphs = LampPhotocellGraph::where('lamp_id', $streetLightId)->get();
+     $LampCurrentGraphs = LampCurrentGraph::where('lamp_id', $streetLightId)->get();
+
+     return view('content.streetlights.streetlights', compact('LampVoltages', 'LampPhotocells', 'LampCurrents', 'LampVoltageGraphs', 'LampPhotocellGraphs', 'LampCurrentGraphs', 'streetLightId'));
+  }
+
+  // Store or Update Lamp Current
+  public function fetchLampData($id, $lamp)
+  {
+    $data = [];
+    if($lamp == 'Current'){
+      $data = LampCurrent::findorFail($id);
+    }elseif($lamp == 'Voltage'){
+      $data = LampVoltage::findorFail($id);
+    }elseif($lamp == 'Photocell'){
+      $data = LampPhotocell::findorFail($id);
+    }
+
+    return response()->json($data);
   }
 
   public function storeOrUpdateLampVoltage(Request $request)

@@ -362,7 +362,7 @@
           <td><span class="fw-medium">{{ $bin_usage['eighth_4'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_usage['eighth_5'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_usage['eighth_6'] }}</span></td>
-          <td><button class="btn btn-primary btn-sm text-white" data-bs-toggle="modal" onclick="openEditBinUsage({{ $bin_usage['id'] }})">Update</button></td>
+          <td><button class="btn btn-success btn-sm text-white" data-bs-toggle="modal" onclick="openEditBinUsage({{ $bin_usage['id'] }})">Update</button></td>
         </tr>
         @endforeach
       </tbody>
@@ -442,7 +442,7 @@
           <td><span class="fw-medium">{{ $bin_waste_removal['day_18'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_waste_removal['day_19'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_waste_removal['day_20'] }}</span></td>
-          <td class="border-bottom-0"><a class="btn btn-primary btn-sm text-white" onclick="openEditWasteRemoval({{ $bin_waste_removal['id'] }})">Update</a></span></td>
+          <td class="border-bottom-0"><a class="btn btn-success btn-sm text-white" onclick="openEditWasteRemoval({{ $bin_waste_removal['id'] }})">Update</a></span></td>
         </tr>
         <tr class="text-center">
           <td><span class="fw-medium">{{ $bin_waste_removal['day_21'] }}</span></td>
@@ -499,7 +499,7 @@
           <td><span class="fw-medium">{{ $bin_repair_cost['oct'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_repair_cost['nov'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_repair_cost['dec'] }}</span></td>
-          <td><a class="btn btn-primary btn-sm text-white"
+          <td><a class="btn btn-success btn-sm text-white"
             onclick="openEditRepairCost({{ $bin_repair_cost['id'] }})">Update</a></span></td>
         </tr>
         @endforeach
@@ -545,7 +545,7 @@
           <td><span class="fw-medium">{{ $bin_maintain_cost['oct'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_maintain_cost['nov'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_maintain_cost['dec'] }}</span></td>
-          <td><a class="btn btn-primary btn-sm text-white"
+          <td><a class="btn btn-success btn-sm text-white"
             onclick="openEditMaintenanceCost({{ $bin_maintain_cost['id'] }})">Update</a></span></td>
         </tr>
         @endforeach
@@ -575,7 +575,7 @@
           <td><span class="fw-medium">{{ $bin_response_time['2_hr'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_response_time['4_hr'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_response_time['4_plus_hr'] }}</span></td>
-          <td><a class="btn btn-primary btn-sm text-white"
+          <td><a class="btn btn-success btn-sm text-white"
             onclick="openEditResponseTime({{ $bin_response_time['id'] }})">Update</a></span></td>
         </tr>
         @endforeach
@@ -621,7 +621,7 @@
           <td><span class="fw-medium">{{ $bin_satisfied_public['oct'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_satisfied_public['nov'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_satisfied_public['dec'] }}</span></td>
-          <td><a class="btn btn-primary btn-sm text-white"
+          <td><a class="btn btn-success btn-sm text-white"
             onclick="openEditSatisfiedPublic({{ $bin_satisfied_public['id'] }})">Update</a></span></td>
         </tr>
         @endforeach
@@ -653,7 +653,7 @@
           <td><span class="fw-medium">{{ $bin_waste_breakdown['paper_packaging'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_waste_breakdown['cardboard'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_waste_breakdown['other_waste'] }}</span></td>
-          <td><a class="btn btn-primary btn-sm text-white"
+          <td><a class="btn btn-success btn-sm text-white"
             onclick="openEditWasteBreakdown({{ $bin_waste_breakdown['id'] }})">Update</a></span></td>
         </tr>
         @endforeach
