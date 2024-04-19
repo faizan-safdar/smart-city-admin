@@ -44,6 +44,8 @@ use App\Http\Controllers\form_layouts\VerticalForm;
 use App\Http\Controllers\form_layouts\HorizontalForm;
 use App\Http\Controllers\tables\Basic as TablesBasic;
 use App\Http\Controllers\DustbinController;
+use App\Http\Controllers\CCTVController;
+use App\Http\Controllers\TrafficSignalController;
 
 // Main Page Route
 Route::middleware('auth')->group(function () {
@@ -114,6 +116,7 @@ Route::post('/auth/login-basic', [LoginBasic::class, 'indexPost'])->name('post.a
 Route::get('/auth/register-basic', [RegisterBasic::class, 'index'])->name('auth-register-basic');
 Route::get('/auth/forgot-password-basic', [ForgotPasswordBasic::class, 'index'])->name('auth-reset-password-basic');
 
+
 // dustbin routes
 Route::get('/dustbin', [DustbinController::class, 'getAllBins'])->name('dustbin');
 Route::get('/fetchDustbin/{id}', [DustbinController::class, 'fetchDustbin']);
@@ -151,10 +154,15 @@ Route::get('/fetchWasteBreakdown/{id}', [DustbinController::class, 'fetchWasteBr
 Route::post('/dustbin/waste-breakdown', [DustbinController::class, 'storeOrUpdateDustbinWasteBreakdown'])->name('waste-breakdown-update');
 
 
-//cctvs routes
-Route::get('/cctvs',function (){
-     return view ('content.cctvs.cctvs');
-});
+//CCTVs routes
+Route::get('/cctvs', [CCTVController::class, 'getAllCctv'])->name('cctv');
+Route::get('/fetchCCTV/{id}', [CCTVController::class, 'fetchCCTV']);
+Route::post('/cctv/update', [CCTVController::class, 'storeOrUpdateCctv'])->name('cctv-update');
+
+// trafficsignals routes
+Route::get('/trafficsignals', [TrafficSignalController::class, 'getSignalsData'])->name('trafficsignals');
+Route::get('/fetchTrafficsignals/{id}/{signal}', [TrafficSignalController::class, 'fetchTrafficSignal']);
+Route::post('/trafficsignals/update', [TrafficSignalController::class, 'storeOrUpdateTrafficSignal'])->name('trafficsignals-update');
 
 //streetlights  routes
 Route::get('/streetlights',function(){
@@ -164,11 +172,6 @@ Route::get('/streetlights',function(){
 // building routes
 Route::get('/buildings',function(){
    return view('content.buildings.buildings');
-});
-
-// trafficsignals routes
-Route::get('trafficsignals',function(){
-   return view('content.trafficsignals.trafficsignals');
 });
 
 //energy routes
