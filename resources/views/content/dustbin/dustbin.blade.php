@@ -12,11 +12,43 @@
 <script src="{{asset('assets/vendor/libs/apex-charts/apexcharts.js')}}"></script>
 @endsection
 
+
+<style>
+    .dropify-message p {
+      font-size: 16px;
+    }
+
+    .dropify-wrapper {
+      border-radius: 50%;
+    }
+</style>
 @section('page-script')
 <script src="{{asset('assets/js/dashboards-analytics.js')}}"></script>
 <script>
-  $(document).ready(function() {
-    $('.dropify').dropify();
+  $('.dropify').dropify({
+    allowedFileExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+    messages: {
+        'default': 'Drag and drop a file here or click',
+        'replace': 'Drag and drop or click to replace',
+        'remove':  'Remove',
+        'error':   'Ooops, something wrong happended.'
+    },
+    
+    tpl: {
+        wrap:            '<div class="dropify-wrapper"></div>',
+        loader:          '<div class="dropify-loader"></div>',
+        message:         '<div class="dropify-message"><span class="file-icon" /> <p>Drag and drop Image</p></div>',
+        preview:         '<div class="dropify-preview"><span class="dropify-render"></span><div class="dropify-infos"><div class="dropify-infos-inner"><p class="dropify-infos-message">Drag and drop to replace</p></div></div></div>',
+        filename:        '<p class="dropify-filename"><span class="file-icon"></span> <span class="dropify-filename-inner"></span></p>',
+        clearButton:     '<button type="button" class="dropify-clear" style="margin-right:60px">Remove</button>',
+        errorLine:       '<p class="dropify-error">Ooops, something wrong happended.</p>',
+        errorsContainer: '<div class="dropify-errors-container"><ul></ul></div>'
+    },
+
+    error: {
+        'fileSize': 'The file size is too big (2MB max).'
+    }
+
   });
   function openEditDustbin(recordId) {
     $.ajax({
@@ -26,12 +58,18 @@
       $('#name').val(data.name);
       $('#text').val(data.text);
       $('#fill_percentage').val(data.fill_percentage);
-      $('#imageicon').attr('src', data.image);
-      // $('#imageicon').attr('data-default-file', data.image);
-
-    // Initialize Dropify
-      // $('.dropify').dropify();
       $('#dustbinupdateid').val(recordId);
+
+      var imagenUrl = "assets/img/dustbins/" + data.image;
+      var drEvent = $('.dropify').dropify({
+        defaultFile: imagenUrl
+      });
+      drEvent = drEvent.data('dropify');
+      drEvent.resetPreview();
+      drEvent.clearElement();
+      drEvent.settings.defaultFile = imagenUrl;
+      drEvent.destroy();
+      drEvent.init();
 
       $('#editDustbinModal').modal('show');
     }
@@ -236,7 +274,7 @@
 
         @foreach ($formattedBins as $bin)
         <tr>
-          <td><img src="{{ $bin['image'] }}" alt="Dustbin" width="30" height="30" class="rounded-circle"></td>
+          <td><img src="{{ asset('assets/img/dustbins/'.$bin['image']) }}" alt="Dustbin" width="30" height="30" class="rounded-circle"></td>
           <td><span class="fw-medium">{{ $bin['name'] }}</span></td>
           <td>{{ $bin['text'] }}</td>
           <td>{{ $bin['fill_percentage'] }}</td>
@@ -263,7 +301,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="{{ route('dustbin-update') }}" method="post">
+        <form action="{{ route('dustbin-update') }}" method="post" enctype="multipart/form-data">
           @csrf
           <div class="row g-3">
             <div class="col-6 mb-3">
@@ -280,14 +318,11 @@
               {{-- <input type="text" id="text" class="form-control" name="text" required> --}}
               <textarea name="text" id="text" rows="2" class="form-control" required></textarea>
             </div>
-            <div class="col-12 mb-3">
-              <label for="image" class="form-label">Image</label>
-              <div class="text-center">
-                <img id="imageicon" style="border-radius: 30%;">
+            <label class="form-label font-weight-bolder">Image</label>
+            <div class="col-12 mb-3 d-flex justify-content-center align-items-center">
+              <div style="width: 210px; display: block;">
+                <input id="photo" name="photo" type="file" class="dropify" data-max-file-size="2M" data-allowed-file-extensions="jpg jpeg png gif" required>
               </div>
-              {{-- <div style="width: 210px;">
-                <input type="file" id="imageicon" name="photo" class="dropify" data-max-file-size="1M" required>
-              </div> --}}
             </div>
           </div>
       </div>

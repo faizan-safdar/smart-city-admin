@@ -83,14 +83,37 @@ class DustbinController extends Controller
     return response()->json($record);
   }
 
+  // public function storedustbinimage(Request $request){
+  //   $data = $request->except('_token');
+  //   if () {
+  //     # code...
+  //   }
+  // }
+
   public function storeOrUpdateDustbin(Request $request)
   {
     $data = $request->except('_token');
     $data['last_update'] = Carbon::now()->format('Y-m-d H:i:s');
-    // dd($data);
+
+    if ($request->hasFile('photo')) {
+      $photo = $request->file('photo');
+      $extension = $photo->getClientOriginalExtension(); // Get the file extension
+      $photoName = $request->id.$request->name . '.' . $extension; // Concatenate the ID with the extension
+
+      if ($oldPhotoName = $photoName ?? null) {
+        $oldPhotoPath = public_path('assets/img/dustbins') . '/' . $oldPhotoName;
+        if (file_exists($oldPhotoPath)) {
+            unlink($oldPhotoPath);
+        }
+      }
+
+      $photo->move(public_path('assets/img/dustbins'), $photoName);
+
+      $data['image'] = $photoName; // Adjust the path as needed
+    }
+
     $dustbin = Dustbin::updateOrCreate(['id' => $request->id], $data);
 
-    // return response()->json(['message' => 'Dustbin created/updated successfully', 'data' => $dustbin]);
     return redirect()->route('dustbin', compact('dustbin'));
   }
 
