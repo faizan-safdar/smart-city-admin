@@ -21,7 +21,6 @@ class CCTVController extends Controller
     $data['timestamp'] = Carbon::now()->format('Y-m-d H:i:s');
     $cctv = CCTV::updateOrCreate(['id' => $request->id], $data);
 
-    // return response()->json(['message' => 'CCTV created/updated successfully', 'data' => $cctv]);
     return redirect()->route('cctv', compact('cctv'));
   }
 

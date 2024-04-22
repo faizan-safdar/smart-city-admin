@@ -61,12 +61,6 @@ class DustbinController extends Controller
     return view('content.dustbin.dustbin', compact('bin_usages', 'bin_waste_removals', 'bin_repair_costs', 'bin_maintenance_costs', 'bin_response_times', 'bin_satisfied_publics', 'bin_waste_breakdowns', 'dustbinId'));
   }
 
-  // private function filterDateTimeStrings($array)
-  // {
-  //   return array_filter($array, function ($value) {
-  //     return !is_string($value) || !strtotime($value);
-  //   });
-  // }
   private function filterDateTimeStrings($array)
   {
     return array_filter($array, function ($value, $key) {
@@ -83,13 +77,7 @@ class DustbinController extends Controller
     return response()->json($record);
   }
 
-  // public function storedustbinimage(Request $request){
-  //   $data = $request->except('_token');
-  //   if () {
-  //     # code...
-  //   }
-  // }
-
+  // create or Update Bins
   public function storeOrUpdateDustbin(Request $request)
   {
     $data = $request->except('_token');
@@ -129,11 +117,6 @@ class DustbinController extends Controller
     $data = $request->except('_token');
     $dustbin = BinUsage::updateOrCreate(['id' => $request->id], $data);
     
-    // return response()->json(['message' => 'Dustbin usage created/updated successfully', 'data' => $dustbin]);
-
-    // return view('content.dustbin.dustbin', compact('responsedata', 'dustbinId'));
-    // return $this->getBinDetails($dustbin->dustbin_id);
-
     return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
   }
 
@@ -148,10 +131,7 @@ class DustbinController extends Controller
   {
     $data = $request->except('_token');
     $dustbin = BinWasteRemoval::updateOrCreate(['id' => $request->id], $data);
-    // return response()->json(['message' => 'Dustbin Waste removal created/updated successfully', 'data' => $dustbin]);
-    // dd($dustbin);
-    // return $this->getBinDetails($dustbin->dustbin_id);
-
+    
     return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
   }
 
@@ -165,9 +145,7 @@ class DustbinController extends Controller
   {
     $data = $request->except('_token');
     $dustbin = BinRepairCost::updateOrCreate(['id' => $request->id], $data);
-    // return response()->json(['message' => 'Dustbin Repair Cost created/updated successfully', 'data' => $dustbin]);
-    // return $this->getBinDetails($dustbin->dustbin_id);
-
+    
     return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
   }
 
@@ -181,9 +159,6 @@ class DustbinController extends Controller
   {
     $data = $request->except('_token');
     $dustbin = BinMaintenanceCost::updateOrCreate(['id' => $request->id], $data);
-    // return response()->json(['message' => 'Dustbin Maintenance Cost created/updated successfully', 'data' => $dustbin]);
-    // return $this->getBinDetails($dustbin->dustbin_id);
-
     return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
   }
 
@@ -197,9 +172,7 @@ class DustbinController extends Controller
   {
     $data = $request->except('_token');
     $dustbin = BinResponseTime::updateOrCreate(['id' => $request->id], $data);
-    // return response()->json(['message' => 'Dustbin response time created/updated successfully', 'data' => $dustbin]);
-    // return $this->getBinDetails($dustbin->dustbin_id);
-
+    
     return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
   }
 
@@ -213,9 +186,7 @@ class DustbinController extends Controller
   {
     $data = $request->except('_token');
     $dustbin = BinSatisfiedPublic::updateOrCreate(['id' => $request->id], $data);
-    // return response()->json(['message' => 'Dustbin Public satisfaction created/updated successfully', 'data' => $dustbin]);
-    // return $this->getBinDetails($dustbin->dustbin_id);
-
+    
     return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
   }
 
@@ -229,9 +200,7 @@ class DustbinController extends Controller
   {
     $data = $request->except('_token');
     $dustbin = BinWasteBreakdown::updateOrCreate(['id' => $request->id], $data);
-    // return response()->json(['message' => 'Dustbin waste breakdown created/updated successfully', 'data' => $dustbin]);
-    // return $this->getBinDetails($dustbin->dustbin_id);
-
+    
     return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
   }
 }
