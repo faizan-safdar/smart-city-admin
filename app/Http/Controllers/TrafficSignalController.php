@@ -52,7 +52,6 @@ class TrafficSignalController extends Controller
     } elseif ($request->signal == 'four') {
       $signalData = TrafficSignalFour::updateOrCreate(['id' => $request->id], $data);
     }
-
     return redirect()->route('trafficsignals');
   }
 }
