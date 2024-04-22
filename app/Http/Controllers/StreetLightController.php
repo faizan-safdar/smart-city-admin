@@ -79,7 +79,6 @@ class StreetLightController extends Controller
     
     $data['last_contact'] = date($request->last_contact);
     $streetLight = StreetLight::updateOrCreate(['id' => $request->id], $data);
-    // return response()->json(['message' => 'Street Light created/updated successfully', 'data' => $streetLight]);
     return redirect()->route('streetlights');
   }
 
@@ -94,7 +93,7 @@ class StreetLightController extends Controller
      return view('content.streetlights.streetlights', compact('LampVoltages', 'LampPhotocells', 'LampCurrents', 'LampVoltageGraphs', 'LampPhotocellGraphs', 'LampCurrentGraphs', 'streetLightId'));
   }
 
-  // Store or Update Lamp Current
+  // Store or Update Lamp Data
   public function fetchLampData($id, $lamp)
   {
     $data = [];
@@ -105,49 +104,47 @@ class StreetLightController extends Controller
     }elseif($lamp == 'Photocell'){
       $data = LampPhotocell::findorFail($id);
     }
-
     return response()->json($data);
   }
 
-  public function storeOrUpdateLampVoltage(Request $request)
+  public function storeOrUpdateLampData(Request $request)
   {
     $data = $request->except('_token');
-    $LampVoltage = LampVoltage::updateOrCreate(['id' => $request->id], $data);
-    return response()->json(['message' => 'Lamp Voltage created/updated successfully', 'data' => $LampVoltage]);
+    if ($data['type'] == 'Current') {
+      $LampCurrent = LampCurrent::updateOrCreate(['id' => $request->id], $data);
+    } elseif ($data['type'] == 'Voltage') {
+      $LampVoltage = LampVoltage::updateOrCreate(['id' => $request->id], $data);
+    } elseif ($data['type'] == 'Photocell') {
+      $LampPhotocell = LampPhotocell::updateOrCreate(['id' => $request->id], $data);
+    } 
+    return redirect()->route('streetlight-details', $data['streetlight_id']);
   }
 
-  public function storeOrUpdateLampPhotocell(Request $request)
+  // Store or Update Lamp Graph Data
+  public function fetchLampGraphData($id, $lamp)
   {
-    $data = $request->except('_token');
-    $LampPhotocell = LampPhotocell::updateOrCreate(['id' => $request->id], $data);
-    return response()->json(['message' => 'Lamp Photocell created/updated successfully', 'data' => $LampPhotocell]);
+    $data = [];
+    if($lamp == 'Current'){
+      $data = LampCurrentGraph::findorFail($id);
+    }elseif($lamp == 'Voltage'){
+      $data = LampVoltageGraph::findorFail($id);
+    }elseif($lamp == 'Photocell'){
+      $data = LampPhotocellGraph::findorFail($id);
+    }
+    return response()->json($data);
   }
 
-  public function storeOrUpdateLampCurrent(Request $request)
+  public function storeOrUpdateLampGraphData(Request $request)
   {
     $data = $request->except('_token');
-    $LampCurrent = LampCurrent::updateOrCreate(['id' => $request->id], $data);
-    return response()->json(['message' => 'Lamp Current created/updated successfully', 'data' => $LampCurrent]);
-  }
+    if ($data['type'] == 'Current') {
+      $LampCurrent = LampCurrentGraph::updateOrCreate(['id' => $request->id], $data);
+    } elseif ($data['type'] == 'Voltage') {
+      $LampVoltage = LampVoltageGraph::updateOrCreate(['id' => $request->id], $data);
+    } elseif ($data['type'] == 'Photocell') {
+      $LampPhotocell = LampPhotocellGraph::updateOrCreate(['id' => $request->id], $data);
+    }
 
-  public function storeOrUpdateLampVoltageGraph(Request $request)
-  {
-    $data = $request->except('_token');
-    $LampVoltage = LampVoltageGraph::updateOrCreate(['id' => $request->id], $data);
-    return response()->json(['message' => 'Lamp Voltage created/updated successfully', 'data' => $LampVoltage]);
-  }
-
-  public function storeOrUpdateLampPhotocellGraph(Request $request)
-  {
-    $data = $request->except('_token');
-    $LampPhotocell = LampPhotocellGraph::updateOrCreate(['id' => $request->id], $data);
-    return response()->json(['message' => 'Lamp Photocell created/updated successfully', 'data' => $LampPhotocell]);
-  }
-
-  public function storeOrUpdateLampCurrentGraph(Request $request)
-  {
-    $data = $request->except('_token');
-    $LampCurrent = LampCurrentGraph::updateOrCreate(['id' => $request->id], $data);
-    return response()->json(['message' => 'Lamp Current created/updated successfully', 'data' => $LampCurrent]);
+    return redirect()->route('streetlight-details', $data['streetlight_id']);
   }
 }
