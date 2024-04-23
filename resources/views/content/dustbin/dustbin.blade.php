@@ -1,7 +1,5 @@
 @extends('layouts/contentNavbarLayout')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-  integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-  crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 @section('title', 'Dustbin - Analytics')
 
 @section('vendor-style')
@@ -14,13 +12,13 @@
 
 
 <style>
-    .dropify-message p {
-      font-size: 16px;
-    }
+  .dropify-message p {
+    font-size: 16px;
+  }
 
-    .dropify-wrapper {
-      border-radius: 50%;
-    }
+  .dropify-wrapper {
+    border-radius: 50%;
+  }
 </style>
 @section('page-script')
 <script src="{{asset('assets/js/dashboards-analytics.js')}}"></script>
@@ -28,224 +26,226 @@
   $('.dropify').dropify({
     allowedFileExtensions: ['jpg', 'jpeg', 'png', 'gif'],
     messages: {
-        'default': 'Drag and drop a file here or click',
-        'replace': 'Drag and drop or click to replace',
-        'remove':  'Remove',
-        'error':   'Ooops, something wrong happended.'
+      'default': 'Drag and drop a file here or click',
+      'replace': 'Drag and drop or click to replace',
+      'remove': 'Remove',
+      'error': 'Ooops, something wrong happended.'
     },
-    
+
     tpl: {
-        wrap:            '<div class="dropify-wrapper"></div>',
-        loader:          '<div class="dropify-loader"></div>',
-        message:         '<div class="dropify-message"><span class="file-icon" /> <p>Drag and drop Image</p></div>',
-        preview:         '<div class="dropify-preview"><span class="dropify-render"></span><div class="dropify-infos"><div class="dropify-infos-inner"><p class="dropify-infos-message">Drag and drop to replace</p></div></div></div>',
-        filename:        '<p class="dropify-filename"><span class="file-icon"></span> <span class="dropify-filename-inner"></span></p>',
-        clearButton:     '<button type="button" class="dropify-clear" style="margin-right:60px">Remove</button>',
-        errorLine:       '<p class="dropify-error">Ooops, something wrong happended.</p>',
-        errorsContainer: '<div class="dropify-errors-container"><ul></ul></div>'
+      wrap: '<div class="dropify-wrapper"></div>',
+      loader: '<div class="dropify-loader"></div>',
+      message: '<div class="dropify-message"><span class="file-icon" /> <p>Drag and drop Image</p></div>',
+      preview: '<div class="dropify-preview"><span class="dropify-render"></span><div class="dropify-infos"><div class="dropify-infos-inner"><p class="dropify-infos-message">Drag and drop to replace</p></div></div></div>',
+      filename: '<p class="dropify-filename"><span class="file-icon"></span> <span class="dropify-filename-inner"></span></p>',
+      clearButton: '<button type="button" class="dropify-clear" style="margin-right:60px">Remove</button>',
+      errorLine: '<p class="dropify-error">Ooops, something wrong happended.</p>',
+      errorsContainer: '<div class="dropify-errors-container"><ul></ul></div>'
     },
 
     error: {
-        'fileSize': 'The file size is too big (2MB max).'
+      'fileSize': 'The file size is too big (2MB max).'
     }
 
   });
+
   function openEditDustbin(recordId) {
+    let url = `{{url('fetchDustbin/${recordId}')}}`;
     $.ajax({
-    url: '/fetchDustbin/' + recordId,
-    type: 'GET',
-    success: function(data) {
-      $('#name').val(data.name);
-      $('#text').val(data.text);
-      $('#fill_percentage').val(data.fill_percentage);
-      $('#dustbinupdateid').val(recordId);
+      url: url,
+      type: 'GET',
+      success: function(data) {
+        $('#name').val(data.name);
+        $('#text').val(data.text);
+        $('#fill_percentage').val(data.fill_percentage);
+        $('#dustbinupdateid').val(recordId);
 
-      var imagenUrl = "assets/img/dustbins/" + data.image;
-      var drEvent = $('.dropify').dropify({
-        defaultFile: imagenUrl
-      });
-      drEvent = drEvent.data('dropify');
-      drEvent.resetPreview();
-      drEvent.clearElement();
-      drEvent.settings.defaultFile = imagenUrl;
-      drEvent.destroy();
-      drEvent.init();
+        var imagenUrl = "assets/img/dustbins/" + data.image;
+        var drEvent = $('.dropify').dropify({
+          defaultFile: imagenUrl
+        });
+        drEvent = drEvent.data('dropify');
+        drEvent.resetPreview();
+        drEvent.clearElement();
+        drEvent.settings.defaultFile = imagenUrl;
+        drEvent.destroy();
+        drEvent.init();
 
-      $('#editDustbinModal').modal('show');
-    }
+        $('#editDustbinModal').modal('show');
+      }
     });
   }
 
   function openEditBinUsage(recordId) {
     $.ajax({
-    url: '/fetchBinUsage/' + recordId,
-    type: 'GET',
-    success: function(data) {
-      $('#eighth1').val(data.eighth_1);
-      $('#eighth2').val(data.eighth_2);
-      $('#eighth3').val(data.eighth_3);
-      $('#eighth4').val(data.eighth_4);
-      $('#eighth5').val(data.eighth_5);
-      $('#eighth6').val(data.eighth_6);
+      url: '/fetchBinUsage/' + recordId,
+      type: 'GET',
+      success: function(data) {
+        $('#eighth1').val(data.eighth_1);
+        $('#eighth2').val(data.eighth_2);
+        $('#eighth3').val(data.eighth_3);
+        $('#eighth4').val(data.eighth_4);
+        $('#eighth5').val(data.eighth_5);
+        $('#eighth6').val(data.eighth_6);
 
-      $('#BinUsageid').val(recordId);
+        $('#BinUsageid').val(recordId);
 
-      $('#editDustbinupdate').modal('show');
-    }
+        $('#editDustbinupdate').modal('show');
+      }
     });
   }
 
   function openEditWasteRemoval(recordId) {
     $.ajax({
-    url: '/fetchWasteRemoval/' + recordId,
-    type: 'GET',
-    success: function(data) {
-      $('#day_1').val(data.day_1);
-      $('#day_2').val(data.day_2);
-      $('#day_3').val(data.day_3);
-      $('#day_4').val(data.day_4);
-      $('#day_5').val(data.day_5);
-      $('#day_6').val(data.day_6);
-      $('#day_7').val(data.day_7);
-      $('#day_8').val(data.day_8);
-      $('#day_9').val(data.day_9);
-      $('#day_10').val(data.day_10);
-      $('#day_11').val(data.day_11);
-      $('#day_12').val(data.day_12);
-      $('#day_13').val(data.day_13);
-      $('#day_14').val(data.day_14);
-      $('#day_15').val(data.day_15);
-      $('#day_16').val(data.day_16);
-      $('#day_17').val(data.day_17);
-      $('#day_18').val(data.day_18);
-      $('#day_19').val(data.day_19);
-      $('#day_20').val(data.day_20);
-      $('#day_21').val(data.day_21);
-      $('#day_22').val(data.day_22);
-      $('#day_23').val(data.day_23);
-      $('#day_24').val(data.day_24);
-      $('#day_25').val(data.day_25);
-      $('#day_26').val(data.day_26);
-      $('#day_27').val(data.day_27);
-      $('#day_28').val(data.day_28);
-      $('#day_29').val(data.day_29);
-      $('#day_30').val(data.day_30);
+      url: '/fetchWasteRemoval/' + recordId,
+      type: 'GET',
+      success: function(data) {
+        $('#day_1').val(data.day_1);
+        $('#day_2').val(data.day_2);
+        $('#day_3').val(data.day_3);
+        $('#day_4').val(data.day_4);
+        $('#day_5').val(data.day_5);
+        $('#day_6').val(data.day_6);
+        $('#day_7').val(data.day_7);
+        $('#day_8').val(data.day_8);
+        $('#day_9').val(data.day_9);
+        $('#day_10').val(data.day_10);
+        $('#day_11').val(data.day_11);
+        $('#day_12').val(data.day_12);
+        $('#day_13').val(data.day_13);
+        $('#day_14').val(data.day_14);
+        $('#day_15').val(data.day_15);
+        $('#day_16').val(data.day_16);
+        $('#day_17').val(data.day_17);
+        $('#day_18').val(data.day_18);
+        $('#day_19').val(data.day_19);
+        $('#day_20').val(data.day_20);
+        $('#day_21').val(data.day_21);
+        $('#day_22').val(data.day_22);
+        $('#day_23').val(data.day_23);
+        $('#day_24').val(data.day_24);
+        $('#day_25').val(data.day_25);
+        $('#day_26').val(data.day_26);
+        $('#day_27').val(data.day_27);
+        $('#day_28').val(data.day_28);
+        $('#day_29').val(data.day_29);
+        $('#day_30').val(data.day_30);
 
-      $('#WasteRemovalid').val(recordId);
-      // $('#dustbin_id').val(data.dustbin_id);
+        $('#WasteRemovalid').val(recordId);
+        // $('#dustbin_id').val(data.dustbin_id);
 
-      $('#editWasteRemoval').modal('show');
-    }
+        $('#editWasteRemoval').modal('show');
+      }
     });
   }
 
   function openEditRepairCost(recordId) {
     $.ajax({
-    url: '/fetchRepairCost/' + recordId,
-    type: 'GET',
-    success: function(data) {
-      $('#jan').val(data.jan);
-      $('#feb').val(data.feb);
-      $('#mar').val(data.mar);
-      $('#apr').val(data.apr);
-      $('#may').val(data.may);
-      $('#jun').val(data.jun);
-      $('#jul').val(data.jul);
-      $('#aug').val(data.aug);
-      $('#sep').val(data.sep);
-      $('#oct').val(data.oct);
-      $('#nov').val(data.nov);
-      $('#dec').val(data.dec);
+      url: '/fetchRepairCost/' + recordId,
+      type: 'GET',
+      success: function(data) {
+        $('#jan').val(data.jan);
+        $('#feb').val(data.feb);
+        $('#mar').val(data.mar);
+        $('#apr').val(data.apr);
+        $('#may').val(data.may);
+        $('#jun').val(data.jun);
+        $('#jul').val(data.jul);
+        $('#aug').val(data.aug);
+        $('#sep').val(data.sep);
+        $('#oct').val(data.oct);
+        $('#nov').val(data.nov);
+        $('#dec').val(data.dec);
 
-      $('#RepairCostid').val(recordId);
+        $('#RepairCostid').val(recordId);
 
-      $('#editRepairCost').modal('show');
-    }
+        $('#editRepairCost').modal('show');
+      }
     });
   }
 
   function openEditMaintenanceCost(recordId) {
     $.ajax({
-    url: '/fetchMaintenanceCost/' + recordId,
-    type: 'GET',
-    success: function(data) {
-      $('#jan1').val(data.jan);
-      $('#feb1').val(data.feb);
-      $('#mar1').val(data.mar);
-      $('#apr1').val(data.apr);
-      $('#may1').val(data.may);
-      $('#jun1').val(data.jun);
-      $('#jul1').val(data.jul);
-      $('#aug1').val(data.aug);
-      $('#sep1').val(data.sep);
-      $('#oct1').val(data.oct);
-      $('#nov1').val(data.nov);
-      $('#dec1').val(data.dec);
+      url: '/fetchMaintenanceCost/' + recordId,
+      type: 'GET',
+      success: function(data) {
+        $('#jan1').val(data.jan);
+        $('#feb1').val(data.feb);
+        $('#mar1').val(data.mar);
+        $('#apr1').val(data.apr);
+        $('#may1').val(data.may);
+        $('#jun1').val(data.jun);
+        $('#jul1').val(data.jul);
+        $('#aug1').val(data.aug);
+        $('#sep1').val(data.sep);
+        $('#oct1').val(data.oct);
+        $('#nov1').val(data.nov);
+        $('#dec1').val(data.dec);
 
-      $('#MaintenanceCostid').val(recordId);
+        $('#MaintenanceCostid').val(recordId);
 
-      $('#editMaintenanceCost').modal('show');
-    }
+        $('#editMaintenanceCost').modal('show');
+      }
     });
   }
 
   function openEditResponseTime(recordId) {
     $.ajax({
-    url: '/fetchResponseTime/' + recordId,
-    type: 'GET',
-    success: function(data) {
-      $('#1_hr').val(data['1_hr']);
-      $('#2_hr').val(data['2_hr']);
-      $('#4_hr').val(data['4_hr']);
-      $('#4_plus_hr').val(data['4_plus_hr']);
+      url: '/fetchResponseTime/' + recordId,
+      type: 'GET',
+      success: function(data) {
+        $('#1_hr').val(data['1_hr']);
+        $('#2_hr').val(data['2_hr']);
+        $('#4_hr').val(data['4_hr']);
+        $('#4_plus_hr').val(data['4_plus_hr']);
 
-      $('#ResponseTimeid').val(recordId);
+        $('#ResponseTimeid').val(recordId);
 
-      $('#editResponseTime').modal('show');
-    }
+        $('#editResponseTime').modal('show');
+      }
     });
   }
 
   function openEditSatisfiedPublic(recordId) {
     $.ajax({
-    url: '/fetchPublicSatisfaction/' + recordId,
-    type: 'GET',
-    success: function(data) {
-      $('#jan2').val(data.jan);
-      $('#feb2').val(data.feb);
-      $('#mar2').val(data.mar);
-      $('#apr2').val(data.apr);
-      $('#may2').val(data.may);
-      $('#jun2').val(data.jun);
-      $('#jul2').val(data.jul);
-      $('#aug2').val(data.aug);
-      $('#sep2').val(data.sep);
-      $('#oct2').val(data.oct);
-      $('#nov2').val(data.nov);
-      $('#dec2').val(data.dec);
+      url: '/fetchPublicSatisfaction/' + recordId,
+      type: 'GET',
+      success: function(data) {
+        $('#jan2').val(data.jan);
+        $('#feb2').val(data.feb);
+        $('#mar2').val(data.mar);
+        $('#apr2').val(data.apr);
+        $('#may2').val(data.may);
+        $('#jun2').val(data.jun);
+        $('#jul2').val(data.jul);
+        $('#aug2').val(data.aug);
+        $('#sep2').val(data.sep);
+        $('#oct2').val(data.oct);
+        $('#nov2').val(data.nov);
+        $('#dec2').val(data.dec);
 
-      $('#PublicSatisfactionid').val(recordId);
+        $('#PublicSatisfactionid').val(recordId);
 
-      $('#editSatisfiedPublic').modal('show');
-    }
+        $('#editSatisfiedPublic').modal('show');
+      }
     });
   }
 
   function openEditWasteBreakdown(recordId) {
     $.ajax({
-    url: '/fetchWasteBreakdown/' + recordId,
-    type: 'GET',
-    success: function(data) {
-      $('#organic_waste').val(data['organic_waste']);
-      $('#bottles_cans').val(data['bottles_cans']);
-      $('#paper_packaging').val(data['paper_packaging']);
-      $('#cardboard').val(data['cardboard']);
-      $('#other_waste').val(data['other_waste']);
+      url: '/fetchWasteBreakdown/' + recordId,
+      type: 'GET',
+      success: function(data) {
+        $('#organic_waste').val(data['organic_waste']);
+        $('#bottles_cans').val(data['bottles_cans']);
+        $('#paper_packaging').val(data['paper_packaging']);
+        $('#cardboard').val(data['cardboard']);
+        $('#other_waste').val(data['other_waste']);
 
-      $('#WasteBreakdownid').val(recordId);
+        $('#WasteBreakdownid').val(recordId);
 
-      $('#editWasteBreakdown').modal('show');
-    }
+        $('#editWasteBreakdown').modal('show');
+      }
     });
   }
 </script>
@@ -280,10 +280,8 @@
           <td>{{ $bin['fill_percentage'] }}</td>
           <td>{{ $bin['last_update'] }}</td>
           {{-- <td><a class="btn btn-primary btn-sm text-white">View</a></span></td> --}}
-          <td><a class="btn btn-primary btn-sm text-white"
-              href="{{ route('dustbin-details', $bin['id']) }}">View</a></td>
-          <td><a class="btn btn-success btn-sm text-white"
-              onclick="openEditDustbin({{ $bin['id'] }})">Update</a></td>
+          <td><a class="btn btn-primary btn-sm text-white" href="{{ route('dustbin-details', $bin['id']) }}">View</a></td>
+          <td><a class="btn btn-success btn-sm text-white" onclick="openEditDustbin({{ $bin['id'] }})">Update</a></td>
         </tr>
         @endforeach
       </tbody>
@@ -499,8 +497,7 @@
           <td><span class="fw-medium">{{ $bin_repair_cost['oct'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_repair_cost['nov'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_repair_cost['dec'] }}</span></td>
-          <td><a class="btn btn-success btn-sm text-white"
-            onclick="openEditRepairCost({{ $bin_repair_cost['id'] }})">Update</a></span></td>
+          <td><a class="btn btn-success btn-sm text-white" onclick="openEditRepairCost({{ $bin_repair_cost['id'] }})">Update</a></span></td>
         </tr>
         @endforeach
       </tbody>
@@ -545,8 +542,7 @@
           <td><span class="fw-medium">{{ $bin_maintain_cost['oct'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_maintain_cost['nov'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_maintain_cost['dec'] }}</span></td>
-          <td><a class="btn btn-success btn-sm text-white"
-            onclick="openEditMaintenanceCost({{ $bin_maintain_cost['id'] }})">Update</a></span></td>
+          <td><a class="btn btn-success btn-sm text-white" onclick="openEditMaintenanceCost({{ $bin_maintain_cost['id'] }})">Update</a></span></td>
         </tr>
         @endforeach
       </tbody>
@@ -575,8 +571,7 @@
           <td><span class="fw-medium">{{ $bin_response_time['2_hr'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_response_time['4_hr'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_response_time['4_plus_hr'] }}</span></td>
-          <td><a class="btn btn-success btn-sm text-white"
-            onclick="openEditResponseTime({{ $bin_response_time['id'] }})">Update</a></span></td>
+          <td><a class="btn btn-success btn-sm text-white" onclick="openEditResponseTime({{ $bin_response_time['id'] }})">Update</a></span></td>
         </tr>
         @endforeach
       </tbody>
@@ -621,8 +616,7 @@
           <td><span class="fw-medium">{{ $bin_satisfied_public['oct'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_satisfied_public['nov'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_satisfied_public['dec'] }}</span></td>
-          <td><a class="btn btn-success btn-sm text-white"
-            onclick="openEditSatisfiedPublic({{ $bin_satisfied_public['id'] }})">Update</a></span></td>
+          <td><a class="btn btn-success btn-sm text-white" onclick="openEditSatisfiedPublic({{ $bin_satisfied_public['id'] }})">Update</a></span></td>
         </tr>
         @endforeach
       </tbody>
@@ -653,8 +647,7 @@
           <td><span class="fw-medium">{{ $bin_waste_breakdown['paper_packaging'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_waste_breakdown['cardboard'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_waste_breakdown['other_waste'] }}</span></td>
-          <td><a class="btn btn-success btn-sm text-white"
-            onclick="openEditWasteBreakdown({{ $bin_waste_breakdown['id'] }})">Update</a></span></td>
+          <td><a class="btn btn-success btn-sm text-white" onclick="openEditWasteBreakdown({{ $bin_waste_breakdown['id'] }})">Update</a></span></td>
         </tr>
         @endforeach
       </tbody>
