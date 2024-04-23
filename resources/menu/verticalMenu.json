@@ -25,30 +25,22 @@
       "slug": "streetlights"
     },
     {
-      "url": "/buildings",
-      "name": "Buildings",
-      "icon": "menu-icon tf-icons bx bx-buildings",
-      "slug": "buildings"
-    },
-    {
       "url": "/trafficsignals",
       "name": "Traffic Signal",
       "icon": "menu-icon tf-icons bx bxs-traffic",
       "slug": "trafficsignals"
     },
     {
-      "url": "/energy",
+      "url": "/energies",
       "name": "Energy",
       "icon": "menu-icon tf-icons bx bx-bolt-circle",
       "slug": "energy"
+    },
+    {
+      "url": "/water-usages",
+      "name": "Water Usage",
+      "icon": "menu-icon tf-icons bx bx-water",
+      "slug": "water"
     }
-
-
-
-
   ]
-  
- 
- 
 }
-

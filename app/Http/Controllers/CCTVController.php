@@ -9,6 +9,18 @@ use Illuminate\Support\Carbon;
 
 class CCTVController extends Controller
 {
+  public function getAllCctv(Request $request)
+  {
+    $cctvs = CCTV::get();
+    return response()->json(['message' => 'List of all CCTVs', 'data' => $cctvs]);
+  }
+
+  public function getAllCctvs(Request $request)
+  {
+    $cctvs = CCTV::get();
+    return view('content.cctvs.cctvs', compact('cctvs'));
+  }
+
   public function fetchCCTV($id)
   {
     $record = CCTV::findOrFail($id);
@@ -22,13 +34,5 @@ class CCTVController extends Controller
     $cctv = CCTV::updateOrCreate(['id' => $request->id], $data);
 
     return redirect()->route('cctv', compact('cctv'));
-  }
-
-  public function getAllCctv(Request $request)
-  {
-    $cctvs = CCTV::get();
-    // return response()->json(['message' => 'List of all CCTVs', 'data' => $cctvs]);
-
-    return view('content.cctvs.cctvs', compact('cctvs'));
   }
 }

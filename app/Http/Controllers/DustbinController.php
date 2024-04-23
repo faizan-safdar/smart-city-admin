@@ -42,7 +42,34 @@ class DustbinController extends Controller
       ];
       $formattedBins[] = $formattedBin;
     }
-    // dd($formattedBins);
+
+    return response()->json(['message' => 'List of all Dustbins', 'data' => $formattedBins]);
+  }
+
+  public function getAllBin()
+  {
+    $dustbinId = 0;
+    $bins = Dustbin::with('binUsage', 'binWasteRemoval', 'binRepairCost', 'binMaintenanceCost', 'binResponseTime', 'binSatisfiedPublic', 'binWasteBreakdown')->get();
+
+    $formattedBins = [];
+    foreach ($bins as $bin) {
+      $formattedBin = [
+        'id' => $bin->id,
+        'name' => $bin->name,
+        'text' => $bin->text,
+        'last_update' => $bin->last_update,
+        'fill_percentage' => $bin->fill_percentage,
+        'image' => $bin->image,
+        'bin_usage' => array_values($this->filterDateTimeStrings(($bin->binUsage->toArray()))),
+        'bin_waste_removal' => array_values($this->filterDateTimeStrings(($bin->binWasteRemoval->toArray()))),
+        'bin_repair_cost' => array_values($this->filterDateTimeStrings(($bin->binRepairCost->toArray()))),
+        'bin_maintenance_cost' => array_values($this->filterDateTimeStrings(($bin->binMaintenanceCost->toArray()))),
+        'bin_response_time' => array_values($this->filterDateTimeStrings(($bin->binResponseTime->toArray()))),
+        'bin_satisfied_public' => array_values($this->filterDateTimeStrings(($bin->binSatisfiedPublic->toArray()))),
+        'bin_waste_breakdown' => array_values($this->filterDateTimeStrings(($bin->binWasteBreakdown->toArray())))
+      ];
+      $formattedBins[] = $formattedBin;
+    }
     return view('content.dustbin.dustbin', compact('formattedBins', 'dustbinId'));
   }
 

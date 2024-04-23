@@ -45,8 +45,10 @@ use App\Http\Controllers\form_layouts\HorizontalForm;
 use App\Http\Controllers\tables\Basic as TablesBasic;
 use App\Http\Controllers\DustbinController;
 use App\Http\Controllers\CCTVController;
+use App\Http\Controllers\EnergyController;
 use App\Http\Controllers\StreetLightController;
 use App\Http\Controllers\TrafficSignalController;
+use App\Http\Controllers\WaterController;
 
 // Main Page Route
 Route::middleware('auth')->group(function () {
@@ -119,57 +121,62 @@ Route::get('/auth/forgot-password-basic', [ForgotPasswordBasic::class, 'index'])
 
 
 // dustbin routes
-Route::get('/dustbin', [DustbinController::class, 'getAllBins'])->name('dustbin');
+Route::get('/dustbins', [DustbinController::class, 'getAllBins']);
+Route::get('/dustbin', [DustbinController::class, 'getAllBin']);
 Route::get('/fetchDustbin/{id}', [DustbinController::class, 'fetchDustbin']);
 Route::post('/dustbin/update', [DustbinController::class, 'storeOrUpdateDustbin'])->name('dustbin-update');
 
-// dustbin details
+// dustbin details routes (Within Dustbin)
 Route::get('/dustbin/{bin_id}', [DustbinController::class, 'getBinDetails'])->name('dustbin-details');
 
-// dustbin usage routes
+// dustbin usage routes (Within Dustbin)
 Route::get('/fetchBinUsage/{id}', [DustbinController::class, 'fetchBinUsage']);
 Route::post('/dustbin/bin-usage', [DustbinController::class, 'storeOrUpdateDustbinUsage'])->name('dustbin-usage-update');
 
-// waste removal routes
+// waste removal routes (Within Dustbin)
 Route::get('/fetchWasteRemoval/{id}', [DustbinController::class, 'fetchWasteRemoval']);
 Route::post('/dustbin/waste-removal', [DustbinController::class, 'storeOrUpdateDustbinWasteRemoval'])->name('dustbin-waste-removal');
 
-// Repair Cost routes
+// Repair Cost routes (Within Dustbin)
 Route::get('/fetchRepairCost/{id}', [DustbinController::class, 'fetchRepairCost']);
 Route::post('/dustbin/repair-cost', [DustbinController::class, 'storeOrUpdateDustbinRepairCost'])->name('repair-cost-update');
 
-// Maintenance Cost routes
+// Maintenance Cost routes (Within Dustbin))
 Route::get('/fetchMaintenanceCost/{id}', [DustbinController::class, 'fetchMaintenanceCost']);
 Route::post('/dustbin/maintenance-cost', [DustbinController::class, 'storeOrUpdateDustbinMaintenanceCost'])->name('maintenance-cost-update');
 
-// Response time routes
+// Response time routes (Within Dustbin)
 Route::get('/fetchResponseTime/{id}', [DustbinController::class, 'fetchResponseTime']);
 Route::post('/dustbin/response-time', [DustbinController::class, 'storeOrUpdateDustbinResponseTime'])->name('response-time-update');
 
-// Public Satisfaction routes
+// Public Satisfaction routes (Within Dustbin))
 Route::get('/fetchPublicSatisfaction/{id}', [DustbinController::class, 'fetchPublicSatisfaction']);
 Route::post('/dustbin/public-satisfaction', [DustbinController::class, 'storeOrUpdateDustbinPublicSatisfaction'])->name('public-satisfaction-update');
 
-// Waste Breakdown routes
+// Waste Breakdown routes (Within Dustbin))
 Route::get('/fetchWasteBreakdown/{id}', [DustbinController::class, 'fetchWasteBreakdown']);
 Route::post('/dustbin/waste-breakdown', [DustbinController::class, 'storeOrUpdateDustbinWasteBreakdown'])->name('waste-breakdown-update');
 
 
 //CCTVs routes
-Route::get('/cctvs', [CCTVController::class, 'getAllCctv'])->name('cctv');
+Route::get('/cctv', [CCTVController::class, 'getAllCctv']);
+Route::get('/cctvs', [CCTVController::class, 'getAllCctvs'])->name('cctv');
 Route::get('/fetchCCTV/{id}', [CCTVController::class, 'fetchCCTV']);
 Route::post('/cctv/update', [CCTVController::class, 'storeOrUpdateCctv'])->name('cctv-update');
 
 // TrafficSignals routes
+Route::get('/traffic-signal', [TrafficSignalController::class, 'getSignalData']);
 Route::get('/trafficsignals', [TrafficSignalController::class, 'getSignalsData'])->name('trafficsignals');
 Route::get('/fetchTrafficsignals/{id}/{signal}', [TrafficSignalController::class, 'fetchTrafficSignal']);
 Route::post('/trafficsignals/update', [TrafficSignalController::class, 'storeOrUpdateTrafficSignal'])->name('trafficsignals-update');
 
 // Streetlights  routes
-Route::get('/streetlights', [StreetLightController::class, 'getStreetLight'])->name('streetlights');
+Route::get('/streetlight', [StreetLightController::class, 'getStreetLight']);
+Route::get('/streetlights', [StreetLightController::class, 'getStreetLights'])->name('streetlights');
 Route::get('/fetchStreetlight/{id}', [StreetLightController::class, 'fetchStreetLight']);
 Route::post('/streetlight/update', [StreetLightController::class, 'storeOrUpdateStreetLight'])->name('streetlight-update');
 Route::get('/streetlight/{id}', [StreetLightController::class, 'getStreetLightDetails'])->name('streetlight-details');
+
 
 // Lamp Data(Current, Voltage, Photocell) routes
 Route::get('/fetchLampData/{id}/{lamp}', [StreetLightController::class, 'fetchLampData']);
@@ -180,12 +187,54 @@ Route::get('/fetchLampGraphData/{id}/{lamp}', [StreetLightController::class, 'fe
 Route::post('/streetlight/lamp-graph-data-update', [StreetLightController::class, 'storeOrUpdateLampGraphData'])->name('LampGraph-data-update');
 
 // building routes
-Route::get('/buildings',function(){
-   return view('content.buildings.buildings');
+Route::get('/template',function(){
+   return view('content.default-template.template');
 });
 
-//energy routes
+// Energy routes
+Route::get('/energy', [EnergyController::class, 'getEnergyData']);
+Route::get('/energies', [EnergyController::class, 'getEnergiesData'])->name('energy');
+Route::get('/fetchEnergy/{id}', [EnergyController::class, 'fetchEnergy']);
+Route::post('/energy/update', [EnergyController::class, 'storeOrUpdateEnergy'])->name('energy-update');
+Route::get('/energy/{id}', [EnergyController::class, 'getEnergyDetails'])->name('energy-details');
 
-Route::get('energy',function(){
-return view('content.energy.energy');
-});
+// Energy Data(Power, ACMV, ELECV, Lighting, Mixed Loads) routes (Within Energy)
+Route::get('/fetchEnergyData/{id}/{energy}', [EnergyController::class, 'fetchEnergyData']);
+Route::post('/energy/energy-data-update', [EnergyController::class, 'storeOrUpdateEnergyData'])->name('energy-data-update');
+
+// Connection Types routes (Within Energy)
+Route::get('/fetchConnectionType/{id}', [EnergyController::class, 'fetchConnectionTypes']);
+Route::post('/energy/connection-types', [EnergyController::class, 'storeOrUpdateConnectionTypes'])->name('connection-types-update');
+
+// Usage Hours Graph routes (Within Energy)
+Route::get('/fetchUsageHours/{id}', [EnergyController::class, 'fetchUsageHoursGraph']);
+Route::post('/energy/usage-hours-graph', [EnergyController::class, 'storeOrUpdateUsageHours'])->name('usage-hours-graph-update');
+
+// Water Usage routes
+Route::get('/water-usage', [WaterController::class, 'getWaterUsage']);
+Route::get('/water-usages', [WaterController::class, 'getWaterUsages'])->name('water-usage');
+Route::get('/fetchWaterUsage/{id}', [WaterController::class, 'fetchWaterUsage']);
+Route::post('/water-usage/update', [WaterController::class, 'storeOrUpdateWaterUsage'])->name('water-usage-update');
+Route::get('/water-usage/{id}', [WaterController::class, 'fetchWaterUsageDetails'])->name('water-usage-details');
+
+// Energy Utilization routes (Within Water Usage)
+Route::get('/fetchWaterEnergyUtilization/{id}', [WaterController::class, 'fetchWaterEnergyUtilization']);
+Route::post('/water-usage/energy-utilization', [WaterController::class, 'storeOrUpdateEnergyUtilization'])->name('energy-utilization-update');
+
+// Electricity Consumption routes (Within Water Usage)
+Route::get('/water-usage/electricity-consumption/{month}/{water_id}', [WaterController::class, 'MonthlyWaterElectricityConsumption'])->name('monthly-electricity-consumption');
+Route::get('/fetchElectricityConsumption/{id}', [WaterController::class, 'fetchElectricityConsumption']);
+Route::post('/water-usage/electricity-consumption', [WaterController::class, 'waterElectricityConsumption'])->name('electricity-consumption-update');
+
+// Energy Breakdown routes (Within Water Usage)
+Route::get('/fetchWaterEnergyBreakdown/{id}', [WaterController::class, 'fetchWaterEnergyBreakdown']);
+Route::post('/water-usage/energy-breakdown', [WaterController::class, 'waterEnergyBreakdown'])->name('energy-breakdown-update');
+
+// Usage Breakdown and Waste Discharges routes (Within Water Usage)
+Route::get('/fetchUsageBreakdownWasteDischarges/{id}/{type}', [WaterController::class, 'fetchUsageBreakdownWasteDischarges']);
+Route::post('/water-usage/usage-breakdown-waste-discharges', [WaterController::class, 'storeOrUpdateUsageBreakdownWasteDischarges'])->name('usage-breakdown-waste-discharges-update');
+
+// Average Consumption routes (Within Water Usage)
+Route::get('/water-usage/Average-consumption/{month}/{water_id}', [WaterController::class, 'MonthlyWaterAverageConsumption'])->name('monthly-average-consumption');
+Route::get('/fetchAverageConsumption/{id}', [WaterController::class, 'fetchAverageConsumption']);
+Route::post('/water-usage/average-consumption', [WaterController::class, 'waterAverageConsumption'])->name('average-consumption-update');
