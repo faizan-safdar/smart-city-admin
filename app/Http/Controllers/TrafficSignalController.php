@@ -11,6 +11,17 @@ use App\Models\TrafficSignalFour;
 
 class TrafficSignalController extends Controller
 {
+  public function getSignalData()
+  {
+    $success = [];
+    $success['signalOne'] = TrafficSignalOne::get();
+    $success['signalTwo'] = TrafficSignalTwo::get();
+    $success['signalThree'] = TrafficSignalThree::get();
+    $success['signalFour'] = TrafficSignalFour::get();
+    
+    return response()->json(['message', 'List of all Traffic Signals', 'data' => $success]);
+  }
+
   public function getSignalsData()
   {
     $success = [];

@@ -59,7 +59,7 @@ Route::post('/lamp-photocell-graph', [StreetLightController::class, 'storeOrUpda
 Route::post('/lamp-current-graph', [StreetLightController::class, 'storeOrUpdateLampCurrentGraph']);
 
 // Traffic Signal Routes
-Route::get('/traffic-signal', [TrafficSignalController::class, 'getSignalsData']);
+Route::get('/traffic-signal', [TrafficSignalController::class, 'getSignalData']);
 Route::post('/traffic-signal-one', [TrafficSignalController::class, 'storeOrUpdateTrafficSignalOne']);
 Route::post('/traffic-signal-two', [TrafficSignalController::class, 'storeOrUpdateTrafficSignalTwo']);
 Route::post('/traffic-signal-three', [TrafficSignalController::class, 'storeOrUpdateTrafficSignalthree']);

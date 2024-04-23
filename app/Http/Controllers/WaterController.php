@@ -12,35 +12,16 @@ use App\Models\WaterWasteDischarge;
 use App\Models\WaterAverageConsumption;
 use App\Models\WaterUsageBreakdown;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class WaterController extends Controller
 {
   // Get Water Usage
   public function getWaterUsage(Request $request)
   {
+    $water_id = 0;
     $waterFloors = WaterManagement::with('waterEnergyUtilizations', 'waterElectricityConsumption', 'waterEnergyBreakdown', 'waterWasteDischarge', 'waterAverageConsumption', 'waterUsageBreakdown')->get();
-    $formattedWater = [];
-    $months = [
-      'january', 'february', 'march', 'april', 'may', 'june',
-      'july', 'august', 'september', 'october', 'november', 'december'
-    ];
-
-    $dataWater = [];
-    $dataElectricity = [];
-    foreach ($months as $month) {
-      $dataWater[$month] = [];
-
-      for ($i = 0; $i < 10; $i++) {
-        $dataWater[$month][] = rand(1, 100); // Generate random value between 1 and 100
-      }
-    }
-    foreach ($months as $month) {
-      $dataElectricity[$month] = [];
-
-      for ($i = 0; $i < 5; $i++) {
-        $dataElectricity[$month][] = rand(1, 100); // Generate random value between 1 and 100
-      }
-    }
+    $formattedWaters = [];
     foreach ($waterFloors as $bin) {
       $formattedBin = [
         'id' => $bin->id,
@@ -51,21 +32,48 @@ class WaterController extends Controller
         'time' => $bin->time,
         'alarm_status' => $bin->alarm_status,
         'water_energy_utilizations' => array_merge(...array_map('array_values', $bin->waterEnergyUtilizations->toArray())),
-        // 'water_electricity_consumption' => $this->filterMyArray($bin->waterElectricityConsumption->toArray(),'water_electricity_consumption'),
-        'water_electricity_consumption' => $dataElectricity,
+        'water_electricity_consumption' => $this->filterMyArray($bin->waterElectricityConsumption->toArray(),'water_electricity_consumption'),
+        // 'water_electricity_consumption' => $dataElectricity,
         'water_energy_breakdown' => array_merge(...array_map('array_values', $bin->waterEnergyBreakdown->toArray())),
         'water_waste_discharge' => array_merge(...array_map('array_values', $bin->waterWasteDischarge->toArray())),
-        // 'water_average_consumption' => $this->filterMyArray($bin->waterAverageConsumption->toArray(),'water_average_consumption'),
-        'water_average_consumption' => $dataWater,
+        'water_average_consumption' => $this->filterMyArray($bin->waterAverageConsumption->toArray(),'water_average_consumption'),
+        // 'water_average_consumption' => $dataWater,
         'water_usage_breakdown' => array_merge(...array_map('array_values', $bin->waterUsageBreakdown->toArray())),
 
       ];
-      $formattedWater[] = $formattedBin;
+      $formattedWaters[] = $formattedBin;
     }
-    return response()->json(['message' => 'Water Floors Data!', 'data' => $formattedWater]);
+    return response()->json(['message' => 'Water Floors Data!', 'data' => $formattedWaters]);
   }
 
+  public function getWaterUsages(Request $request)
+  {
+    $water_id = 0;
+    $waterFloors = WaterManagement::with('waterEnergyUtilizations', 'waterElectricityConsumption', 'waterEnergyBreakdown', 'waterWasteDischarge', 'waterAverageConsumption', 'waterUsageBreakdown')->get();
+    $formattedWaters = [];
+    foreach ($waterFloors as $bin) {
+      $formattedBin = [
+        'id' => $bin->id,
+        'level_name' => $bin->level_name,
+        'current_capacity' => $bin->current_capacity,
+        'max_capacity' => $bin->max_capacity,
+        'level_status' => $bin->level_status,
+        'time' => $bin->time,
+        'alarm_status' => $bin->alarm_status,
+        'water_energy_utilizations' => array_merge(...array_map('array_values', $bin->waterEnergyUtilizations->toArray())),
+        'water_electricity_consumption' => $this->filterMyArray($bin->waterElectricityConsumption->toArray(),'water_electricity_consumption'),
+        // 'water_electricity_consumption' => $dataElectricity,
+        'water_energy_breakdown' => array_merge(...array_map('array_values', $bin->waterEnergyBreakdown->toArray())),
+        'water_waste_discharge' => array_merge(...array_map('array_values', $bin->waterWasteDischarge->toArray())),
+        'water_average_consumption' => $this->filterMyArray($bin->waterAverageConsumption->toArray(),'water_average_consumption'),
+        // 'water_average_consumption' => $dataWater,
+        'water_usage_breakdown' => array_merge(...array_map('array_values', $bin->waterUsageBreakdown->toArray())),
 
+      ];
+      $formattedWaters[] = $formattedBin;
+    }
+    return view('content.water.water', compact('formattedWaters', 'water_id'));
+  }
 
   private function filterMyArray($array, $flag)
   {
@@ -94,71 +102,190 @@ class WaterController extends Controller
     return $result;
   }
 
-  // private function filterDateTimeStrings($array)
-  // {
-  //   return array_filter($array, function ($value, $key) {
-  //     $filteredKeys = ["id", "water_id"];
-  //     return !in_array($key, $filteredKeys) && !is_string($value) && !strtotime($value);
-  //   }, ARRAY_FILTER_USE_BOTH);
-  // }
-
-  private function filterDateTimeStrings($array)
+  // fetch Water Usage 
+  public function fetchWaterUsage($id)
   {
-    return array_filter($array, function ($value, $key) {
-      $filteredKeys = ["id", "water_id"];
-      return !in_array($key, $filteredKeys) && !is_array($value) && !is_string($value) && !strtotime($value);
-    }, ARRAY_FILTER_USE_BOTH);
+    $record = WaterManagement::findOrFail($id);
+    return response()->json($record);
   }
 
-
-
-  public function waterFloorData(Request $request)
+  // Store or Update Water Usage
+  public function storeOrUpdateWaterUsage(Request $request)
   {
     $data = $request->except('_token');
     $data['time'] = Carbon::now();
     $waterData = WaterManagement::updateOrCreate(['id' => $request->id], $data);
-    return response()->json(['message' => 'Water Floor added / updated!', 'data' => $waterData]);
+    // return response()->json(['message' => 'Water Floor added / updated!', 'data' => $waterData]);
+    return redirect()->route('water-usage');
   }
 
-  public function waterEnergyUtilization(Request $request)
+  // Fetch Water Usage Details Data
+  public function fetchWaterUsageDetails($water_id)
   {
-    $data = $request->except('_token');
-    $waterEnergyUtilization = WaterEnergyUtilization::updateOrCreate(['id' => $request->id], $data);
-    return response()->json(['message' => 'Water Utilization added / updated!', 'data' => $waterEnergyUtilization]);
+    $waterEnergyUtilizations = WaterEnergyUtilization::where('water_id', $water_id)->get();
+    $unsortwaterElectricityConsumptions = WaterElectricityConsumption::where('water_id', $water_id)
+    ->select(DB::raw('month'), DB::raw('SUM(energy_usage) as total_energy_usage'))
+    ->groupBy(DB::raw('month'))
+    ->get();
+
+    // Sort waterElectricityConsumptions by month
+    $waterElectricityConsumptions = $this->monthlysort($unsortwaterElectricityConsumptions);
+
+    $waterEnergyBreakdowns = WaterEnergyBreakdown::where('water_id', $water_id)->get();
+    $waterWasteDischarges = WaterWasteDischarge::where('water_id', $water_id)->get();
+    $unsortwaterAverageConsumptions = WaterAverageConsumption::where('water_id', $water_id)
+    ->select(DB::raw('month'), DB::raw('SUM(value) as total_value'))
+    ->groupBy(DB::raw('month'))
+    ->get();
+
+    // Sort waterAverageConsumptions by month
+    $waterAverageConsumptions = $this->monthlysort($unsortwaterAverageConsumptions);
+
+    $waterUsageBreakdowns = WaterUsageBreakdown::where('water_id', $water_id)->get();
+
+    return view('content.water.water', compact('waterEnergyUtilizations', 'waterElectricityConsumptions', 'waterEnergyBreakdowns', 'waterWasteDischarges', 'waterAverageConsumptions', 'waterUsageBreakdowns', 'water_id'));
   }
 
+  // Fetch Water Electricity Consumption Monthly Data
+  public function MonthlyWaterElectricityConsumption($month, $water_id)
+  {
+    $waterElectricityConsumptions = WaterElectricityConsumption::where('water_id', $water_id)
+    ->where('month', $month)
+    ->get();
+
+    $waterElectricityConsumptions = $this->monthlysort($waterElectricityConsumptions);
+    $type = 'electricity';
+    
+    return view('content.water.WaterConsumption', compact('waterElectricityConsumptions', 'type', 'water_id'));
+  }
+
+  // Fetch Water Electricity Consumption Singe Data
+  public function fetchElectricityConsumption($id)
+  {
+    $record = WaterElectricityConsumption::findOrFail($id);
+    return response()->json($record);
+  }
+
+  // Store or Update Water Electricity Consumption
   public function waterElectricityConsumption(Request $request)
   {
     $data = $request->except('_token');
     $WaterElectricityConsumption = WaterElectricityConsumption::updateOrCreate(['id' => $request->id], $data);
-    return response()->json(['message' => 'Water Electricity Consumption added / updated!', 'data' => $WaterElectricityConsumption]);
+    // return response()->json(['message' => 'Water Electricity Consumption added / updated!', 'data' => $WaterElectricityConsumption]);
+    return redirect()->route('monthly-electricity-consumption', ['month' => $data['month'], 'water_id' => $data['water_id']]);
+  }
+  
+  // Sort and Camel Case Month Conversion
+  public function monthlysort($data){
+    $monthOrder = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    $sorteddata = $data->sortBy(function ($item) use ($monthOrder) {
+      return array_search(ucfirst($item->month), $monthOrder);
+    })->map(function ($item) {
+      $item->month = ucfirst($item->month); // Convert first character to uppercase
+      return $item;
+    });
+
+    return $sorteddata;
   }
 
+  // Fetch Water Energy Utilization Data
+  public function fetchWaterEnergyUtilization($id)
+  {
+    $record = WaterEnergyUtilization::findOrFail($id);
+    return response()->json($record);
+  }
+
+  // Store or Update Water Energy Utilization
+  public function storeOrUpdateEnergyUtilization(Request $request)
+  {
+    $data = $request->except('_token');
+    $waterData = WaterEnergyUtilization::updateOrCreate(['id' => $request->id], $data);
+    // return response()->json(['message' => 'Water Floor added / updated!', 'data' => $waterData]);
+    return redirect()->route('water-usage-details', $data['water_id']);
+  }
+
+  // Fetch Energy Breakdown Data
+  public function fetchWaterEnergyBreakdown($id)
+  {
+    $record = WaterEnergyBreakdown::findOrFail($id);
+    return response()->json($record);
+  }
+
+  // Store or Update Water Energy Breakdown
   public function waterEnergyBreakdown(Request $request)
   {
     $data = $request->except('_token');
     $WaterEnergyBreakdown = WaterEnergyBreakdown::updateOrCreate(['id' => $request->id], $data);
-    return response()->json(['message' => 'Water Energy Breakdown added / updated!', 'data' => $WaterEnergyBreakdown]);
+    // return response()->json(['message' => 'Water Energy Breakdown added / updated!', 'data' => $WaterEnergyBreakdown]);
+    return redirect()->route('water-usage-details', $data['water_id']);
   }
 
-  public function waterWasteDischarge(Request $request)
+  // Fetch Usage Breakdown and Waste Discharge Data
+  public function fetchUsageBreakdownWasteDischarges($id, $type)
+  {
+    $record = [];
+    if ($type == 'Usage Breakdown') {
+      $record = WaterUsageBreakdown::findOrFail($id); 
+    }
+    elseif ($type == 'Waste Discharge') {
+      $record = WaterWasteDischarge::findOrFail($id);
+    }
+
+    return response()->json($record);
+  }
+
+  // private function filterDateTimeStrings($array)
+  // {
+  //   return array_filter($array, function ($value, $key) {
+  //     $filteredKeys = ["id", "water_id"];
+  //     return !in_array($key, $filteredKeys) && !is_array($value) && !is_string($value) && !strtotime($value);
+  //   }, ARRAY_FILTER_USE_BOTH);
+  // }
+
+
+  public function storeOrUpdateUsageBreakdownWasteDischarges(Request $request)
   {
     $data = $request->except('_token');
-    $WaterWasteDischarge = WaterWasteDischarge::updateOrCreate(['id' => $request->id], $data);
-    return response()->json(['message' => 'Water Waste Discharge added / updated!', 'data' => $WaterWasteDischarge]);
+
+    if ($data['type'] == 'Usage Breakdown') {
+      $WaterUsageBreakdown = WaterUsageBreakdown::updateOrCreate(['id' => $request->id], $data);
+    }
+    elseif ($data['type'] == 'Waste Discharge') {
+      $WaterWasteDischarge = WaterWasteDischarge::updateOrCreate(['id' => $request->id], $data);
+    }
+
+    return redirect()->route('water-usage-details', $data['water_id']);
   }
 
+  // Fetch Water Average Consumption Monthly Data
+  public function MonthlyWaterAverageConsumption($month, $water_id)
+  {
+    $waterAverageConsumptions = WaterAverageConsumption::where('water_id', $water_id)
+    ->where('month', $month)
+    ->get();
+
+    $waterAverageConsumptions = $this->monthlysort($waterAverageConsumptions);
+    $type = 'average';
+    
+    return view('content.water.WaterConsumption', compact('waterAverageConsumptions', 'type', 'water_id'));
+  }
+
+  // Fetch Water Average Consumption Singe Data
+  public function fetchAverageConsumption($id)
+  {
+    $record = WaterAverageConsumption::findOrFail($id);
+    return response()->json($record);
+  }
+
+  // Store or Update Water Average Consumption
   public function waterAverageConsumption(Request $request)
   {
     $data = $request->except('_token');
     $WaterAverageConsumption = WaterAverageConsumption::updateOrCreate(['id' => $request->id], $data);
-    return response()->json(['message' => 'Water Average Consumption added / updated!', 'data' => $WaterAverageConsumption]);
-  }
-
-  public function waterUsageBreakdown(Request $request)
-  {
-    $data = $request->except('_token');
-    $WaterUsageBreakdown = WaterUsageBreakdown::updateOrCreate(['id' => $request->id], $data);
-    return response()->json(['message' => 'Water Usage Breakdown added / updated!', 'data' => $WaterUsageBreakdown]);
+    // return response()->json(['message' => 'Water Average Consumption added / updated!', 'data' => $WaterAverageConsumption]);
+    return redirect()->route('monthly-average-consumption', ['month' => $data['month'], 'water_id' => $data['water_id']]);
   }
 }
