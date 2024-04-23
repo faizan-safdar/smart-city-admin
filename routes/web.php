@@ -177,11 +177,12 @@ Route::get('/fetchStreetlight/{id}', [StreetLightController::class, 'fetchStreet
 Route::post('/streetlight/update', [StreetLightController::class, 'storeOrUpdateStreetLight'])->name('streetlight-update');
 Route::get('/streetlight/{id}', [StreetLightController::class, 'getStreetLightDetails'])->name('streetlight-details');
 
-// Lamp Data(Current, Voltage, Photocell) routes (Within Streetlight)
+
+// Lamp Data(Current, Voltage, Photocell) routes
 Route::get('/fetchLampData/{id}/{lamp}', [StreetLightController::class, 'fetchLampData']);
 Route::post('/streetlight/lamp-data-update', [StreetLightController::class, 'storeOrUpdateLampData'])->name('lamp-data-update');
 
-// Lamp Graph Data(Current, Voltage, Photocell) routes (Within Streetlight)
+// Lamp Graph Data(Current, Voltage, Photocell) routes
 Route::get('/fetchLampGraphData/{id}/{lamp}', [StreetLightController::class, 'fetchLampGraphData']);
 Route::post('/streetlight/lamp-graph-data-update', [StreetLightController::class, 'storeOrUpdateLampGraphData'])->name('LampGraph-data-update');
 
