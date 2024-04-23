@@ -122,7 +122,7 @@ Route::get('/auth/forgot-password-basic', [ForgotPasswordBasic::class, 'index'])
 
 // dustbin routes
 Route::get('/dustbins', [DustbinController::class, 'getAllBins']);
-Route::get('/dustbin', [DustbinController::class, 'getAllBin']);
+Route::get('/dustbin', [DustbinController::class, 'getAllBin'])->name('dustbin');
 Route::get('/fetchDustbin/{id}', [DustbinController::class, 'fetchDustbin']);
 Route::post('/dustbin/update', [DustbinController::class, 'storeOrUpdateDustbin'])->name('dustbin-update');
 
