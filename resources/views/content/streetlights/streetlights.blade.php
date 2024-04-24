@@ -22,12 +22,9 @@ function convertDate($date) {
 <script src="{{asset('assets/js/dashboards-analytics.js')}}"></script>
 <script>
   function openEditStreetlight(recordId) {
-    console.log(recordId);
-    console.log(recordId);
-    console.log(recordId);
-    console.log(recordId);
+    let url = `{{url('fetchStreetlight/${recordId}')}}`;
     $.ajax({
-    url: '/fetchStreetlight/' + recordId,
+    url: url,
     type: 'GET',
     success: function(data) {
         $('#name').val(data.name);
@@ -54,8 +51,9 @@ function convertDate($date) {
   }
 
   function openEditLampData(recordId, lamp) {
+    let url = `{{url('fetchLampData/${recordId}/${lamp}')}}`;
     $.ajax({
-    url: '/fetchLampData/' + recordId + '/' + lamp,
+    url: url,
     type: 'GET',
     success: function(data) {
         $('#LampModalHeadingText').text('Update Lamp ' + lamp)
@@ -74,8 +72,9 @@ function convertDate($date) {
   }
 
   function openEditLampGraphData(recordId, lamp) {
+    let url = `{{url('fetchLampGraphData/${recordId}/${lamp}')}}`;
     $.ajax({
-    url: '/fetchLampGraphData/' + recordId + '/' + lamp,
+    url: url,
     type: 'GET',
     success: function(data) {
         $('#LampGraphModalHeadingText').text('Update Lamp ' + lamp + ' Graph Data')

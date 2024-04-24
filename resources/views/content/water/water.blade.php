@@ -21,8 +21,9 @@ use Carbon\Carbon;
 <script>
     
     function openEditWaterUsage(recordId) {
+        let url = `{{url('fetchWaterUsage/${recordId}')}}`;
         $.ajax({
-        url: '/fetchWaterUsage/' + recordId,
+        url: url,
         type: 'GET',
         success: function(data) {
         console.log(data);
@@ -40,8 +41,9 @@ use Carbon\Carbon;
     }
     
     function openEditWaterEnergyUtilization(recordId) {
+        let url = `{{url('fetchWaterEnergyUtilization/${recordId}')}}`;
         $.ajax({
-        url: '/fetchWaterEnergyUtilization/' + recordId,
+        url: url,
         type: 'GET',
         success: function(data) {
         console.log(data);
@@ -61,8 +63,9 @@ use Carbon\Carbon;
     }
 
     function openEditWaterEnergyBreakdown(recordId) {
+        let url = `{{url('fetchWaterEnergyBreakdown/${recordId}')}}`;
         $.ajax({
-        url: '/fetchWaterEnergyBreakdown/' + recordId,
+        url: url,
         type: 'GET',
         success: function(data) {
         console.log(data);
@@ -81,13 +84,9 @@ use Carbon\Carbon;
     }
 
     function openEditWaterUsageBreakdownWasteDischarge(recordId, type) {
-        console.log(recordId, type);
-        console.log(recordId, type);
-        console.log(recordId, type);
-        console.log(recordId, type);
-
+        let url = `{{url('fetchUsageBreakdownWasteDischarges/${recordId}/${type}')}}`;
         $.ajax({
-        url: '/fetchUsageBreakdownWasteDischarges/' + recordId + '/' + type,
+        url: url,
         type: 'GET',
         success: function(data) {
         $('#UsageBreakdownWasteDischargeModalHeading').text('Update ' + type);

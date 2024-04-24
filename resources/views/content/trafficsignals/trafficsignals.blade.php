@@ -14,7 +14,7 @@
 <script src="{{asset('assets/js/dashboards-analytics.js')}}"></script>
 <script>
     function openEditTrafficSignals(id, signal) {
-    var url = '/fetchTrafficsignals/' + id + '/' + signal;
+    let url = `{{url('fetchTrafficsignals/${id}/${signal}')}}`;
     console.log(url);
     $.ajax({
     url: url,

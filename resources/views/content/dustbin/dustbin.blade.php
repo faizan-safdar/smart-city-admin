@@ -25,34 +25,43 @@
 @section('page-script')
 <script src="{{asset('assets/js/dashboards-analytics.js')}}"></script>
 <script>
-  $('.dropify').dropify({
-    allowedFileExtensions: ['jpg', 'jpeg', 'png', 'gif'],
-    messages: {
-        'default': 'Drag and drop a file here or click',
-        'replace': 'Drag and drop or click to replace',
-        'remove':  'Remove',
-        'error':   'Ooops, something wrong happended.'
-    },
+  // $('.dropify').dropify({
+  //   allowedFileExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+  //   messages: {
+  //       'default': 'Drag and drop a file here or click',
+  //       'replace': 'Drag and drop or click to replace',
+  //       'remove':  'Remove',
+  //       'error':   'Ooops, something wrong happended.'
+  //   },
     
-    tpl: {
-        wrap:            '<div class="dropify-wrapper"></div>',
-        loader:          '<div class="dropify-loader"></div>',
-        message:         '<div class="dropify-message"><span class="file-icon" /> <p>Drag and drop Image</p></div>',
-        preview:         '<div class="dropify-preview"><span class="dropify-render"></span><div class="dropify-infos"><div class="dropify-infos-inner"><p class="dropify-infos-message">Drag and drop to replace</p></div></div></div>',
-        filename:        '<p class="dropify-filename"><span class="file-icon"></span> <span class="dropify-filename-inner"></span></p>',
-        clearButton:     '<button type="button" class="dropify-clear" style="margin-right:60px">Remove</button>',
-        errorLine:       '<p class="dropify-error">Ooops, something wrong happended.</p>',
-        errorsContainer: '<div class="dropify-errors-container"><ul></ul></div>'
-    },
+  //   tpl: {
+  //       wrap:            '<div class="dropify-wrapper"></div>',
+  //       loader:          '<div class="dropify-loader"></div>',
+  //       message:         '<div class="dropify-message"><span class="file-icon" /> <p>Drag and drop Image</p></div>',
+  //       preview:         '<div class="dropify-preview"><span class="dropify-render"></span><div class="dropify-infos"><div class="dropify-infos-inner"><p class="dropify-infos-message">Drag and drop to replace</p></div></div></div>',
+  //       filename:        '<p class="dropify-filename"><span class="file-icon"></span> <span class="dropify-filename-inner"></span></p>',
+  //       clearButton:     '<button type="button" class="dropify-clear" style="margin-right:60px">Remove</button>',
+  //       errorLine:       '<p class="dropify-error">No Image</p>',
+  //       errorsContainer: '<div class="dropify-errors-container"><ul></ul></div>'
+  //   },
 
-    error: {
-        'fileSize': 'The file size is too big (2MB max).'
-    }
+  //   error: {
+  //       'fileSize': 'The file size is too big (2MB max).'
+  //   }
 
-  });
+  // });
+
+  function imageExists(image_url){
+  var http = new XMLHttpRequest();
+  http.open('HEAD', image_url, false);
+  http.send();
+  return http.status != 404;
+  }
+
   function openEditDustbin(recordId) {
+    let url = `{{url('fetchDustbin/${recordId}')}}`;
     $.ajax({
-    url: '/fetchDustbin/' + recordId,
+    url: url,
     type: 'GET',
     success: function(data) {
       $('#name').val(data.name);
@@ -60,16 +69,67 @@
       $('#fill_percentage').val(data.fill_percentage);
       $('#dustbinupdateid').val(recordId);
 
-      var imagenUrl = "assets/img/dustbins/" + data.image;
-      var drEvent = $('.dropify').dropify({
-        defaultFile: imagenUrl
-      });
-      drEvent = drEvent.data('dropify');
-      drEvent.resetPreview();
-      drEvent.clearElement();
-      drEvent.settings.defaultFile = imagenUrl;
-      drEvent.destroy();
-      drEvent.init();
+      // var imagenUrl = "assets/img/dustbins/" + data.image;
+      var imagenUrl = `{{url('assets/img/dustbins//${data.image}')}}`;
+
+      if (!imageExists(imagenUrl)) {
+        let imagenUrl1 = "";
+        let drEvent1 = $('.dropify').dropify({
+        defaultFile: imagenUrl1,
+        allowedFileExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+        tpl: {
+          wrap:            '<div class="dropify-wrapper"></div>',
+          loader:          '<div class="dropify-loader"></div>',
+          message:         '<div class="dropify-message"><span class="file-icon" /> <p>Image Not Found</p></div>',
+          preview:         '<div class="dropify-preview" style="display:none;"><span class="dropify-render"></span><div class="dropify-infos"><div class="dropify-infos-inner"><p class="dropify-infos-message">Drag and drop to replace</p></div></div></div>',
+          filename:        '<p class="dropify-filename" style="display:none;"><span class="file-icon"></span> <span class="dropify-filename-inner"></span></p>',
+          clearButton:     '<button type="button" class="dropify-clear" style="margin-right:60px; display:none;">Remove</button>',
+          errorLine:       '<p class="dropify-error">No Image</p>',
+          errorsContainer: '<div class="dropify-errors-container"><ul></ul></div>'
+        },
+
+        error: {
+          'fileSize': 'The file size is too big (2MB max).'
+        }
+
+        });
+        console.log('Ni milaaa na janu....!!!!');
+        // drEvent1.resetPreview();
+        // drEvent1.clearElement();
+        drEvent1 = drEvent1.data('dropify');
+        drEvent1.settings.defaultFile = imagenUrl1;
+        drEvent1.destroy();
+        drEvent1.init();
+      }
+      else {
+        let imagenUrl2 = `{{url('assets/img/dustbins//${data.image}')}}`;
+        let drEvent2 = $('.dropify').dropify({
+          defaultFile: imagenUrl2,
+        allowedFileExtensions: ['jpg', 'jpeg', 'png', 'gif'],
+        tpl: {
+          wrap:            '<div class="dropify-wrapper"></div>',
+          loader:          '<div class="dropify-loader"></div>',
+          message:         '<div class="dropify-message"><span class="file-icon" /> <p>Drag and Drop Image</p></div>',
+          preview:         '<div class="dropify-preview"><span class="dropify-render"></span><div class="dropify-infos"><div class="dropify-infos-inner"><p class="dropify-infos-message">Drag and drop to replace</p></div></div></div>',
+          filename:        '<p class="dropify-filename"><span class="file-icon"></span> <span class="dropify-filename-inner"></span></p>',
+          clearButton:     '<button type="button" class="dropify-clear" style="margin-right:60px">Remove</button>',
+          errorLine:       '<p class="dropify-error">No Image</p>',
+          errorsContainer: '<div class="dropify-errors-container"><ul></ul></div>'
+        },
+
+        error: {
+          'fileSize': 'The file size is too big (2MB max).'
+        }
+
+        });
+        console.log('mil gya na janu....!!!!');
+        drEvent2 = drEvent2.data('dropify');
+        // drEvent2.resetPreview();
+        // drEvent2.clearElement();
+        drEvent2.settings.defaultFile = imagenUrl2;
+        drEvent2.destroy();
+        drEvent2.init();
+      }
 
       $('#editDustbinModal').modal('show');
     }
@@ -77,10 +137,12 @@
   }
 
   function openEditBinUsage(recordId) {
+    let url = `{{url('fetchBinUsage/${recordId}')}}`;
     $.ajax({
-    url: '/fetchBinUsage/' + recordId,
+    url: url,
     type: 'GET',
     success: function(data) {
+      console.log(data);
       $('#eighth1').val(data.eighth_1);
       $('#eighth2').val(data.eighth_2);
       $('#eighth3').val(data.eighth_3);
@@ -90,14 +152,15 @@
 
       $('#BinUsageid').val(recordId);
 
-      $('#editDustbinupdate').modal('show');
+      $('#editDustbinusage').modal('show');
     }
     });
   }
 
   function openEditWasteRemoval(recordId) {
+    let url = `{{url('fetchWasteRemoval/${recordId}')}}`;
     $.ajax({
-    url: '/fetchWasteRemoval/' + recordId,
+    url: url,
     type: 'GET',
     success: function(data) {
       $('#day_1').val(data.day_1);
@@ -140,8 +203,9 @@
   }
 
   function openEditRepairCost(recordId) {
+    let url = `{{url('fetchRepairCost/${recordId}')}}`;
     $.ajax({
-    url: '/fetchRepairCost/' + recordId,
+    url: url,
     type: 'GET',
     success: function(data) {
       $('#jan').val(data.jan);
@@ -165,8 +229,9 @@
   }
 
   function openEditMaintenanceCost(recordId) {
+    let url = `{{url('fetchMaintenanceCost/${recordId}')}}`;
     $.ajax({
-    url: '/fetchMaintenanceCost/' + recordId,
+    url: url,
     type: 'GET',
     success: function(data) {
       $('#jan1').val(data.jan);
@@ -190,8 +255,9 @@
   }
 
   function openEditResponseTime(recordId) {
+    let url = `{{url('fetchResponseTime/${recordId}')}}`;
     $.ajax({
-    url: '/fetchResponseTime/' + recordId,
+    url: url,
     type: 'GET',
     success: function(data) {
       $('#1_hr').val(data['1_hr']);
@@ -207,8 +273,9 @@
   }
 
   function openEditSatisfiedPublic(recordId) {
+    let url = `{{url('fetchPublicSatisfaction/${recordId}')}}`;
     $.ajax({
-    url: '/fetchPublicSatisfaction/' + recordId,
+    url: url,
     type: 'GET',
     success: function(data) {
       $('#jan2').val(data.jan);
@@ -232,8 +299,9 @@
   }
 
   function openEditWasteBreakdown(recordId) {
+    let url = `{{url('fetchWasteBreakdown/${recordId}')}}`;
     $.ajax({
-    url: '/fetchWasteBreakdown/' + recordId,
+    url: url,
     type: 'GET',
     success: function(data) {
       $('#organic_waste').val(data['organic_waste']);
@@ -321,7 +389,7 @@
             <label class="form-label font-weight-bolder">Image</label>
             <div class="col-12 mb-3 d-flex justify-content-center align-items-center">
               <div style="width: 210px; display: block;">
-                <input id="photo" name="photo" type="file" class="dropify" data-max-file-size="2M" data-allowed-file-extensions="jpg jpeg png gif" required>
+                <input id="photo" name="photo" type="file" class="dropify" data-max-file-size="2M" data-allowed-file-extensions="jpg jpeg png gif">
               </div>
             </div>
           </div>
@@ -376,7 +444,7 @@
     <table id="dustbintable" class="table table-hover">
       @foreach ($bin_waste_removals as $bin_waste_removal)
       <thead class="table-border-bottom-1 table-primary">
-        <tr class="text-center">
+        <tr class="text-center text-nowrap">
           <th>Day 1</th>
           <th>Day 2</th>
           <th>Day 3</th>
@@ -387,9 +455,6 @@
           <th>Day 8</th>
           <th>Day 9</th>
           <th>Day 10</th>
-          <th class=border-bottom-0></th>
-        </tr>
-        <tr class="text-center">
           <th>Day 11</th>
           <th>Day 12</th>
           <th>Day 13</th>
@@ -400,10 +465,6 @@
           <th>Day 18</th>
           <th>Day 19</th>
           <th>Day 20</th>
-          <th class="border-bottom-0">Action</th>
-
-        </tr>
-        <tr class="text-center">
           <th>Day 21</th>
           <th>Day 22</th>
           <th>Day 23</th>
@@ -414,12 +475,12 @@
           <th>Day 28</th>
           <th>Day 29</th>
           <th>Day 30</th>
-          <th></th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody class="table-border-bottom-0">
 
-        <tr class="text-center">
+        <tr class="text-center text-nowrap">
           <td><span class="fw-medium">{{ $bin_waste_removal['day_1'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_waste_removal['day_2'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_waste_removal['day_3'] }}</span></td>
@@ -430,8 +491,6 @@
           <td><span class="fw-medium">{{ $bin_waste_removal['day_8'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_waste_removal['day_9'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_waste_removal['day_10'] }}</span></td>
-        </tr>
-        <tr class="text-center">
           <td><span class="fw-medium">{{ $bin_waste_removal['day_11'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_waste_removal['day_12'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_waste_removal['day_13'] }}</span></td>
@@ -442,9 +501,6 @@
           <td><span class="fw-medium">{{ $bin_waste_removal['day_18'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_waste_removal['day_19'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_waste_removal['day_20'] }}</span></td>
-          <td class="border-bottom-0"><a class="btn btn-success btn-sm text-white" onclick="openEditWasteRemoval({{ $bin_waste_removal['id'] }})">Update</a></span></td>
-        </tr>
-        <tr class="text-center">
           <td><span class="fw-medium">{{ $bin_waste_removal['day_21'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_waste_removal['day_22'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_waste_removal['day_23'] }}</span></td>
@@ -455,6 +511,7 @@
           <td><span class="fw-medium">{{ $bin_waste_removal['day_28'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_waste_removal['day_29'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_waste_removal['day_30'] }}</span></td>
+          <td class="border-bottom-0"><a class="btn btn-success btn-sm text-white" onclick="openEditWasteRemoval({{ $bin_waste_removal['id'] }})">Update</a></span></td>
         </tr>
       </tbody>
       @endforeach

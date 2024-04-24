@@ -4,7 +4,7 @@
       "url": "/",
       "name": "Dashboards",
       "icon": "menu-icon tf-icons bx bx-home-circle",
-      "slug": "dashboard"
+      "slug": "dashboard-analytics"
     },
     {
       "url": "/dustbin",
@@ -16,7 +16,7 @@
       "url": "/cctvs",
       "name": "CCTV's",
       "icon": "menu-icon tf-icons bx bx-cctv",
-      "slug": "cctv's"
+      "slug": "cctv"
     },
     {
       "url": "/streetlights",
@@ -40,7 +40,7 @@
       "url": "/water-usages",
       "name": "Water Usage",
       "icon": "menu-icon tf-icons bx bx-water",
-      "slug": "water"
+      "slug": "water-usage"
     }
   ]
 }

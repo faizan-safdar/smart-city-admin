@@ -21,8 +21,9 @@ use Carbon\Carbon;
 <script>
     
     function openEditElectricityConsumption(recordId) {
+        let url = `{{url('fetchElectricityConsumption/${recordId}')}}`;
         $.ajax({
-        url: '/fetchElectricityConsumption/' + recordId,
+        url: url,
         type: 'GET',
         success: function(data) {
         console.log(data);
@@ -38,8 +39,9 @@ use Carbon\Carbon;
     }
     
     function openEditAverageConsumption(recordId) {
+        let url = '/fetchAverageConsumption/' + recordId;
         $.ajax({
-        url: '/fetchAverageConsumption/' + recordId,
+        url: url,
         type: 'GET',
         success: function(data) {
         console.log(data);

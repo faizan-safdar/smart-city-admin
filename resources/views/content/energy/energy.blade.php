@@ -20,8 +20,9 @@ use Carbon\Carbon;
 <script src="{{asset('assets/js/dashboards-analytics.js')}}"></script>
 <script>
     function openEditEnergy(recordId) {
+    let url = `{{url('fetchEnergy/${recordId}')}}`;
     $.ajax({
-    url: '/fetchEnergy/' + recordId,
+    url: url,
     type: 'GET',
     success: function(data) {
         $('#energy').val(data.energy);
@@ -45,8 +46,9 @@ use Carbon\Carbon;
   }
 
   function openEditEnergyData(recordId, energy) {
+    let url = `{{url('fetchEnergyData/${recordId}/${energy}')}}`;
     $.ajax({
-    url: '/fetchEnergyData/' + recordId + '/' + energy,
+    url: url,
     type: 'GET',
     success: function(data) {
         console.log(data);
@@ -65,8 +67,9 @@ use Carbon\Carbon;
   }
 
   function openEditConnectionType(recordId) {
+    let url = `{{url('fetchConnectionType/${recordId}')}}`;
     $.ajax({
-    url: '/fetchConnectionType/' + recordId,
+    url: url,
     type: 'GET',
     success: function(data) {
         $('#power').val(data.power);
@@ -84,8 +87,9 @@ use Carbon\Carbon;
   }
 
   function openEditUsageHour(recordId) {
+    let url = `{{url('fetchUsageHours/${recordId}')}}`;
     $.ajax({
-    url: '/fetchUsageHours/' + recordId,
+    url: url,
     type: 'GET',
     success: function(data) {
         $('#eighth_1').val(data.eighth_1);

@@ -17,8 +17,9 @@
 
 <script>
     function openEditCCTV(recordId) {
+    let url = `{{url('fetchCCTV/${recordId}')}}`;
     $.ajax({
-    url: '/fetchCCTV/' + recordId,
+    url: url,
     type: 'GET',
     success: function(data) {
       $('#name').val(data.name);
