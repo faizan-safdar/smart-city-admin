@@ -39,7 +39,7 @@ use Carbon\Carbon;
     }
     
     function openEditAverageConsumption(recordId) {
-        let url = '/fetchAverageConsumption/' + recordId;
+        let url = `{{url('fetchAverageConsumption/${recordId}')}}`;
         $.ajax({
         url: url,
         type: 'GET',
