@@ -143,7 +143,7 @@ class DustbinController extends Controller
   {
     $data = $request->except('_token');
     $dustbin = BinUsage::updateOrCreate(['id' => $request->id], $data);
-    
+
     return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
   }
 
@@ -158,7 +158,7 @@ class DustbinController extends Controller
   {
     $data = $request->except('_token');
     $dustbin = BinWasteRemoval::updateOrCreate(['id' => $request->id], $data);
-    
+
     return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
   }
 
@@ -172,7 +172,7 @@ class DustbinController extends Controller
   {
     $data = $request->except('_token');
     $dustbin = BinRepairCost::updateOrCreate(['id' => $request->id], $data);
-    
+
     return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
   }
 
@@ -199,7 +199,7 @@ class DustbinController extends Controller
   {
     $data = $request->except('_token');
     $dustbin = BinResponseTime::updateOrCreate(['id' => $request->id], $data);
-    
+
     return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
   }
 
@@ -213,7 +213,7 @@ class DustbinController extends Controller
   {
     $data = $request->except('_token');
     $dustbin = BinSatisfiedPublic::updateOrCreate(['id' => $request->id], $data);
-    
+
     return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
   }
 
@@ -227,7 +227,7 @@ class DustbinController extends Controller
   {
     $data = $request->except('_token');
     $dustbin = BinWasteBreakdown::updateOrCreate(['id' => $request->id], $data);
-    
+
     return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
   }
 }

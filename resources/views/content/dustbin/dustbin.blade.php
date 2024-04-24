@@ -1,7 +1,5 @@
 @extends('layouts/contentNavbarLayout')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-  integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-  crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 @section('title', 'Dustbin - Analytics')
 
 @section('vendor-style')
@@ -14,17 +12,18 @@
 
 
 <style>
-    .dropify-message p {
-      font-size: 16px;
-    }
+  .dropify-message p {
+    font-size: 16px;
+  }
 
-    .dropify-wrapper {
-      border-radius: 50%;
-    }
+  .dropify-wrapper {
+    border-radius: 50%;
+  }
 </style>
 @section('page-script')
 <script src="{{asset('assets/js/dashboards-analytics.js')}}"></script>
 <script>
+
   // $('.dropify').dropify({
   //   allowedFileExtensions: ['jpg', 'jpeg', 'png', 'gif'],
   //   messages: {
@@ -131,14 +130,15 @@
         drEvent2.init();
       }
 
-      $('#editDustbinModal').modal('show');
-    }
+        $('#editDustbinModal').modal('show');
+      }
     });
   }
 
   function openEditBinUsage(recordId) {
     let url = `{{url('fetchBinUsage/${recordId}')}}`;
     $.ajax({
+
     url: url,
     type: 'GET',
     success: function(data) {
@@ -150,16 +150,20 @@
       $('#eighth5').val(data.eighth_5);
       $('#eighth6').val(data.eighth_6);
 
-      $('#BinUsageid').val(recordId);
+
+        $('#BinUsageid').val(recordId);
+
 
       $('#editDustbinusage').modal('show');
     }
+
     });
   }
 
   function openEditWasteRemoval(recordId) {
     let url = `{{url('fetchWasteRemoval/${recordId}')}}`;
     $.ajax({
+
     url: url,
     type: 'GET',
     success: function(data) {
@@ -194,17 +198,19 @@
       $('#day_29').val(data.day_29);
       $('#day_30').val(data.day_30);
 
-      $('#WasteRemovalid').val(recordId);
-      // $('#dustbin_id').val(data.dustbin_id);
 
-      $('#editWasteRemoval').modal('show');
-    }
+        $('#WasteRemovalid').val(recordId);
+        // $('#dustbin_id').val(data.dustbin_id);
+
+        $('#editWasteRemoval').modal('show');
+      }
     });
   }
 
   function openEditRepairCost(recordId) {
     let url = `{{url('fetchRepairCost/${recordId}')}}`;
     $.ajax({
+
     url: url,
     type: 'GET',
     success: function(data) {
@@ -221,16 +227,17 @@
       $('#nov').val(data.nov);
       $('#dec').val(data.dec);
 
-      $('#RepairCostid').val(recordId);
+        $('#RepairCostid').val(recordId);
 
-      $('#editRepairCost').modal('show');
-    }
+        $('#editRepairCost').modal('show');
+      }
     });
   }
 
   function openEditMaintenanceCost(recordId) {
     let url = `{{url('fetchMaintenanceCost/${recordId}')}}`;
     $.ajax({
+
     url: url,
     type: 'GET',
     success: function(data) {
@@ -247,16 +254,18 @@
       $('#nov1').val(data.nov);
       $('#dec1').val(data.dec);
 
-      $('#MaintenanceCostid').val(recordId);
 
-      $('#editMaintenanceCost').modal('show');
-    }
+        $('#MaintenanceCostid').val(recordId);
+
+        $('#editMaintenanceCost').modal('show');
+      }
     });
   }
 
   function openEditResponseTime(recordId) {
     let url = `{{url('fetchResponseTime/${recordId}')}}`;
     $.ajax({
+
     url: url,
     type: 'GET',
     success: function(data) {
@@ -265,16 +274,18 @@
       $('#4_hr').val(data['4_hr']);
       $('#4_plus_hr').val(data['4_plus_hr']);
 
-      $('#ResponseTimeid').val(recordId);
 
-      $('#editResponseTime').modal('show');
-    }
+        $('#ResponseTimeid').val(recordId);
+
+        $('#editResponseTime').modal('show');
+      }
     });
   }
 
   function openEditSatisfiedPublic(recordId) {
     let url = `{{url('fetchPublicSatisfaction/${recordId}')}}`;
     $.ajax({
+
     url: url,
     type: 'GET',
     success: function(data) {
@@ -291,16 +302,18 @@
       $('#nov2').val(data.nov);
       $('#dec2').val(data.dec);
 
-      $('#PublicSatisfactionid').val(recordId);
 
-      $('#editSatisfiedPublic').modal('show');
-    }
+        $('#PublicSatisfactionid').val(recordId);
+
+        $('#editSatisfiedPublic').modal('show');
+      }
     });
   }
 
   function openEditWasteBreakdown(recordId) {
     let url = `{{url('fetchWasteBreakdown/${recordId}')}}`;
     $.ajax({
+
     url: url,
     type: 'GET',
     success: function(data) {
@@ -310,10 +323,11 @@
       $('#cardboard').val(data['cardboard']);
       $('#other_waste').val(data['other_waste']);
 
-      $('#WasteBreakdownid').val(recordId);
 
-      $('#editWasteBreakdown').modal('show');
-    }
+        $('#WasteBreakdownid').val(recordId);
+
+        $('#editWasteBreakdown').modal('show');
+      }
     });
   }
 </script>
@@ -348,10 +362,8 @@
           <td>{{ $bin['fill_percentage'] }}</td>
           <td>{{ $bin['last_update'] }}</td>
           {{-- <td><a class="btn btn-primary btn-sm text-white">View</a></span></td> --}}
-          <td><a class="btn btn-primary btn-sm text-white"
-              href="{{ route('dustbin-details', $bin['id']) }}">View</a></td>
-          <td><a class="btn btn-success btn-sm text-white"
-              onclick="openEditDustbin({{ $bin['id'] }})">Update</a></td>
+          <td><a class="btn btn-primary btn-sm text-white" href="{{ route('dustbin-details', $bin['id']) }}">View</a></td>
+          <td><a class="btn btn-success btn-sm text-white" onclick="openEditDustbin({{ $bin['id'] }})">Update</a></td>
         </tr>
         @endforeach
       </tbody>
@@ -556,8 +568,7 @@
           <td><span class="fw-medium">{{ $bin_repair_cost['oct'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_repair_cost['nov'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_repair_cost['dec'] }}</span></td>
-          <td><a class="btn btn-success btn-sm text-white"
-            onclick="openEditRepairCost({{ $bin_repair_cost['id'] }})">Update</a></span></td>
+          <td><a class="btn btn-success btn-sm text-white" onclick="openEditRepairCost({{ $bin_repair_cost['id'] }})">Update</a></span></td>
         </tr>
         @endforeach
       </tbody>
@@ -602,8 +613,7 @@
           <td><span class="fw-medium">{{ $bin_maintain_cost['oct'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_maintain_cost['nov'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_maintain_cost['dec'] }}</span></td>
-          <td><a class="btn btn-success btn-sm text-white"
-            onclick="openEditMaintenanceCost({{ $bin_maintain_cost['id'] }})">Update</a></span></td>
+          <td><a class="btn btn-success btn-sm text-white" onclick="openEditMaintenanceCost({{ $bin_maintain_cost['id'] }})">Update</a></span></td>
         </tr>
         @endforeach
       </tbody>
@@ -632,8 +642,7 @@
           <td><span class="fw-medium">{{ $bin_response_time['2_hr'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_response_time['4_hr'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_response_time['4_plus_hr'] }}</span></td>
-          <td><a class="btn btn-success btn-sm text-white"
-            onclick="openEditResponseTime({{ $bin_response_time['id'] }})">Update</a></span></td>
+          <td><a class="btn btn-success btn-sm text-white" onclick="openEditResponseTime({{ $bin_response_time['id'] }})">Update</a></span></td>
         </tr>
         @endforeach
       </tbody>
@@ -678,8 +687,7 @@
           <td><span class="fw-medium">{{ $bin_satisfied_public['oct'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_satisfied_public['nov'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_satisfied_public['dec'] }}</span></td>
-          <td><a class="btn btn-success btn-sm text-white"
-            onclick="openEditSatisfiedPublic({{ $bin_satisfied_public['id'] }})">Update</a></span></td>
+          <td><a class="btn btn-success btn-sm text-white" onclick="openEditSatisfiedPublic({{ $bin_satisfied_public['id'] }})">Update</a></span></td>
         </tr>
         @endforeach
       </tbody>
@@ -710,8 +718,7 @@
           <td><span class="fw-medium">{{ $bin_waste_breakdown['paper_packaging'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_waste_breakdown['cardboard'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_waste_breakdown['other_waste'] }}</span></td>
-          <td><a class="btn btn-success btn-sm text-white"
-            onclick="openEditWasteBreakdown({{ $bin_waste_breakdown['id'] }})">Update</a></span></td>
+          <td><a class="btn btn-success btn-sm text-white" onclick="openEditWasteBreakdown({{ $bin_waste_breakdown['id'] }})">Update</a></span></td>
         </tr>
         @endforeach
       </tbody>
