@@ -14,4 +14,5 @@ class Power extends Model
     "energy",
     "co2"
   ];
+  protected $hidden = ['created_at', 'updated_at', 'id', 'energy_id'];
 }

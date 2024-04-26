@@ -14,6 +14,6 @@ class WaterElectricityConsumption extends Model
     'room_name',
     'energy_usage',
   ];
-  protected $hidden = ['created_at', 'updated_at', 'id'];
+  protected $hidden = ['created_at', 'updated_at', 'id', 'water_id'];
 
 }

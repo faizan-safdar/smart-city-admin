@@ -35,5 +35,5 @@ class LampCurrentGraph extends Model
     "hour_23",
     "hour_24",
   ];
-  protected $hidden = ['created_at', 'updated_at', 'id'];
+  protected $hidden = ['created_at', 'updated_at', 'id', 'lamp_id'];
 }

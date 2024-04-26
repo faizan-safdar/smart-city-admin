@@ -17,6 +17,6 @@ class WaterEnergyUtilization extends Model
     'eighth_5',
     'eighth_6',
   ];
-  protected $hidden = ['created_at', 'updated_at', 'id'];
+  protected $hidden = ['created_at', 'updated_at', 'id', 'water_id'];
 
 }

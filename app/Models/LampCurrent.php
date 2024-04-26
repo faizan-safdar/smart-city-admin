@@ -15,4 +15,5 @@ class LampCurrent extends Model
     "max",
     "avg",
   ];
+  protected $hidden = ['created_at', 'updated_at', 'id', 'lamp_id'];
 }

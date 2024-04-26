@@ -16,6 +16,6 @@ class WaterEnergyBreakdown extends Model
     'transport',
     'others',
   ];
-  protected $hidden = ['created_at', 'updated_at', 'id'];
+  protected $hidden = ['created_at', 'updated_at', 'id', 'water_id'];
 
 }

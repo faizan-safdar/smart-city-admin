@@ -15,5 +15,5 @@ class WaterUsageBreakdown extends Model
     'domestic',
     'agriculture',
   ];
-  protected $hidden = ['created_at', 'updated_at', 'id'];
+  protected $hidden = ['created_at', 'updated_at', 'id', 'water_id'];
 }

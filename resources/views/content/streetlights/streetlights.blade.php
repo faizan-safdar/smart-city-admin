@@ -64,8 +64,7 @@ function convertDate($date) {
         
         $('#LampDataid').val(recordId);
         $('#LampDatatype').val(lamp);
-        $('#LampDatastreetlight_id').val(data.lamp_id);
-
+        
         $('#editLampData').modal('show');
     }
     });
@@ -107,8 +106,7 @@ function convertDate($date) {
     
         $('#LampGraphDataid').val(recordId);
         $('#LampGraphDatatype').val(lamp);
-        $('#LampGraphDatastreetlight_id').val(data.lamp_id);
-
+        
         $('#editLampGraphData').modal('show');
     }
     });
@@ -612,7 +610,7 @@ function convertDate($date) {
                             <input type="text" id="now" class="form-control" name="now" required>
                             <input type="hidden" name="id" id="LampDataid">
                             <input type="hidden" name="type" id="LampDatatype">
-                            <input type="hidden" name="streetlight_id" id="LampDatastreetlight_id">
+                            <input type="hidden" name="streetlight_id" value="{{ $streetLightId }}">
                         </div>
                         <div class="col-6 mb-3">
                             <label for="min" class="form-label">Minimum</label>
@@ -654,7 +652,7 @@ function convertDate($date) {
                             <input type="text" id="hour_1" class="form-control" name="hour_1" required>
                             <input type="hidden" name="id" id="LampGraphDataid">
                             <input type="hidden" name="type" id="LampGraphDatatype">
-                            <input type="hidden" name="streetlight_id" id="LampGraphDatastreetlight_id">
+                            <input type="hidden" name="streetlight_id" value="{{ $streetLightId }}">
                         </div>
                         <div class="col-4 mb-3">
                             <label for="hour_2" class="form-label">Hour 2</label>
