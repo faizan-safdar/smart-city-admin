@@ -11,6 +11,7 @@ use App\Models\LampCurrent;
 use App\Models\LampVoltageGraph;
 use App\Models\LampPhotocellGraph;
 use App\Models\LampCurrentGraph;
+use Illuminate\Support\Facades\Validator;
 
 use function Ramsey\Uuid\v1;
 
@@ -172,14 +173,43 @@ class StreetLightController extends Controller
   public function storeOrUpdateLampGraphData(Request $request)
   {
     $data = $request->except('_token');
-    if ($data['type'] == 'Current') {
-      $LampCurrent = LampCurrentGraph::updateOrCreate(['id' => $request->id], $data);
-    } elseif ($data['type'] == 'Voltage') {
-      $LampVoltage = LampVoltageGraph::updateOrCreate(['id' => $request->id], $data);
-    } elseif ($data['type'] == 'Photocell') {
-      $LampPhotocell = LampPhotocellGraph::updateOrCreate(['id' => $request->id], $data);
+
+    $check = $this->MinMaxValidation($request, 0, 90);
+    if ($check !== true) {
+      return redirect()->back()->withErrors($check)->withInput();
+    } else {
+      if ($data['type'] == 'Current') {
+        $LampCurrent = LampCurrentGraph::updateOrCreate(['id' => $request->id], $data);
+      } elseif ($data['type'] == 'Voltage') {
+        $LampVoltage = LampVoltageGraph::updateOrCreate(['id' => $request->id], $data);
+      } elseif ($data['type'] == 'Photocell') {
+        $LampPhotocell = LampPhotocellGraph::updateOrCreate(['id' => $request->id], $data);
+      }
+      return redirect()->route('streetlight-details', $data['streetlight_id']);
+    }
+  }
+
+  public function MinMaxValidation($request, $min, $max)
+  {
+    $inputAttributes = $request->except('_token', 'id', 'type', 'streetlight_id');
+
+    $rules = [];
+    $messages = [];
+
+    foreach ($inputAttributes as $attributeName => $attributeValue) {
+      $rules[$attributeName] = 'required|numeric|min:'. $min .'|max:' . $max .'';
+
+      $messages["$attributeName.min"] = str_replace('_', ' ', ucfirst($attributeName) . ' value must be between '.$min.' and '.$max);
+      $messages["$attributeName.max"] = str_replace('_', ' ', ucfirst($attributeName) . ' value must be between '.$min.' and '.$max);
     }
 
-    return redirect()->route('streetlight-details', $data['streetlight_id']);
+    $validator = Validator::make($request->all(), $rules, $messages);
+
+    if ($validator->fails()) {
+      return $validator;
+    }
+    else {
+      return true;
+    }
   }
 }

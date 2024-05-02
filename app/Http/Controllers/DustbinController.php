@@ -13,7 +13,8 @@ use App\Models\BinMaintenanceCost;
 use App\Models\BinResponseTime;
 use App\Models\BinSatisfiedPublic;
 use App\Models\BinWasteBreakdown;
-
+use Illuminate\Support\Facades\Validator;
+use PHPUnit\Framework\MockObject\Rule\Parameters;
 
 class DustbinController extends Controller
 {
@@ -113,12 +114,12 @@ class DustbinController extends Controller
     if ($request->hasFile('photo')) {
       $photo = $request->file('photo');
       $extension = $photo->getClientOriginalExtension(); // Get the file extension
-      $photoName = $request->id.$request->name . '.' . $extension; // Concatenate the ID with the extension
+      $photoName = $request->id . $request->name . '.' . $extension; // Concatenate the ID with the extension
 
       if ($oldPhotoName = $photoName ?? null) {
         $oldPhotoPath = public_path('assets/img/dustbins') . '/' . $oldPhotoName;
         if (file_exists($oldPhotoPath)) {
-            unlink($oldPhotoPath);
+          unlink($oldPhotoPath);
         }
       }
 
@@ -142,9 +143,17 @@ class DustbinController extends Controller
   public function storeOrUpdateDustbinUsage(Request $request)
   {
     $data = $request->except('_token');
-    $dustbin = BinUsage::updateOrCreate(['id' => $request->id], $data);
 
-    return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
+    $check = $this->MinMaxValidation($request, 0, 9);
+
+    if ($check !== true) {
+      return redirect()->back()
+        ->withErrors($check)
+        ->withInput();
+    } else {
+      $dustbin = BinUsage::updateOrCreate(['id' => $request->id], $data);
+      return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
+    }
   }
 
   // create or Update Bins Waste removal
@@ -157,13 +166,22 @@ class DustbinController extends Controller
   public function storeOrUpdateDustbinWasteRemoval(Request $request)
   {
     $data = $request->except('_token');
-    $dustbin = BinWasteRemoval::updateOrCreate(['id' => $request->id], $data);
 
-    return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
+    $check = $this->MinMaxValidation($request, 0, 100);
+
+    if ($check !== true) {
+      return redirect()->back()
+        ->withErrors($check)
+        ->withInput();
+    } else {
+      $dustbin = BinWasteRemoval::updateOrCreate(['id' => $request->id], $data);
+      return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
+    }
   }
 
   // create or Update Bins Repair cost
-  public function fetchRepairCost($id){
+  public function fetchRepairCost($id)
+  {
     $record = BinRepairCost::findOrFail($id);
     return response()->json($record);
   }
@@ -171,13 +189,22 @@ class DustbinController extends Controller
   public function storeOrUpdateDustbinRepairCost(Request $request)
   {
     $data = $request->except('_token');
-    $dustbin = BinRepairCost::updateOrCreate(['id' => $request->id], $data);
 
-    return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
+    $check = $this->MinMaxValidation($request, 0, 125);
+
+    if ($check !== true) {
+      return redirect()->back()
+        ->withErrors($check)
+        ->withInput();
+    } else {
+      $dustbin = BinRepairCost::updateOrCreate(['id' => $request->id], $data);
+      return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
+    }
   }
 
   // create or Update Bins Maintenance cost
-  public function fetchMaintenanceCost($id){
+  public function fetchMaintenanceCost($id)
+  {
     $record = BinMaintenanceCost::findOrFail($id);
     return response()->json($record);
   }
@@ -185,12 +212,22 @@ class DustbinController extends Controller
   public function storeOrUpdateDustbinMaintenanceCost(Request $request)
   {
     $data = $request->except('_token');
-    $dustbin = BinMaintenanceCost::updateOrCreate(['id' => $request->id], $data);
-    return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
+
+    $check = $this->MinMaxValidation($request, 0, 125);
+
+    if ($check !== true) {
+      return redirect()->back()
+        ->withErrors($check)
+        ->withInput();
+    } else {
+      $dustbin = BinMaintenanceCost::updateOrCreate(['id' => $request->id], $data);
+      return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
+    }
   }
 
   // create or Update Bins Response time
-  public function fetchResponseTime($id){
+  public function fetchResponseTime($id)
+  {
     $record = BinResponseTime::findOrFail($id);
     return response()->json($record);
   }
@@ -198,13 +235,22 @@ class DustbinController extends Controller
   public function storeOrUpdateDustbinResponseTime(Request $request)
   {
     $data = $request->except('_token');
-    $dustbin = BinResponseTime::updateOrCreate(['id' => $request->id], $data);
 
-    return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
+    $check = $this->MinMaxValidation($request, 0, 100);
+
+    if ($check !== true) {
+      return redirect()->back()
+        ->withErrors($check)
+        ->withInput();
+    } else {
+      $dustbin = BinResponseTime::updateOrCreate(['id' => $request->id], $data);
+      return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
+    }
   }
 
   // create or Update Bins Public satisfaction
-  public function fetchPublicSatisfaction($id){
+  public function fetchPublicSatisfaction($id)
+  {
     $record = BinSatisfiedPublic::findOrFail($id);
     return response()->json($record);
   }
@@ -212,13 +258,22 @@ class DustbinController extends Controller
   public function storeOrUpdateDustbinPublicSatisfaction(Request $request)
   {
     $data = $request->except('_token');
-    $dustbin = BinSatisfiedPublic::updateOrCreate(['id' => $request->id], $data);
 
-    return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
+    $check = $this->MinMaxValidation($request, 0, 50);
+
+    if ($check !== true) {
+      return redirect()->back()
+        ->withErrors($check)
+        ->withInput();
+    } else {
+      $dustbin = BinSatisfiedPublic::updateOrCreate(['id' => $request->id], $data);
+      return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
+    }
   }
 
   // create or Update Bins Waste breakdown
-  public function fetchWasteBreakdown($id){
+  public function fetchWasteBreakdown($id)
+  {
     $record = BinWasteBreakdown::findOrFail($id);
     return response()->json($record);
   }
@@ -226,8 +281,40 @@ class DustbinController extends Controller
   public function storeOrUpdateDustbinWasteBreakdown(Request $request)
   {
     $data = $request->except('_token');
-    $dustbin = BinWasteBreakdown::updateOrCreate(['id' => $request->id], $data);
 
-    return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
+    $check = $this->MinMaxValidation($request, 0, 100);
+
+    if ($check !== true) {
+      return redirect()->back()
+        ->withErrors($check)
+        ->withInput();
+    } else {
+      $dustbin = BinWasteBreakdown::updateOrCreate(['id' => $request->id], $data);
+      return redirect()->route('dustbin-details', ['bin_id' => $dustbin->dustbin_id]);
+    }
+  }
+
+  public function MinMaxValidation($request, $min, $max)
+  {
+    $inputAttributes = $request->except('_token', 'id', 'dustbin_id');
+    // dd($inputAttributes);
+
+    $rules = [];
+    $messages = [];
+
+    foreach ($inputAttributes as $attributeName => $attributeValue) {
+      $rules[$attributeName] = 'required|numeric|min:' . $min . '|max:' . $max . '';
+
+      $messages["$attributeName.min"] = str_replace('_', ' ', ucfirst($attributeName) . ' value must be between ' . $min . ' and ' . $max);
+      $messages["$attributeName.max"] = str_replace('_', ' ', ucfirst($attributeName) . ' value must be between ' . $min . ' and ' . $max);
+    }
+
+    $validator = Validator::make($request->all(), $rules, $messages);
+
+    if ($validator->fails()) {
+      return $validator;
+    } else {
+      return true;
+    }
   }
 }

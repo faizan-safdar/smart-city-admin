@@ -58,7 +58,16 @@ use Carbon\Carbon;
 @endsection
 
 @section('content')
-
+<div class="mb-4">
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul class="m-0">
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>@endif
+</div>
 @if ($type == 'electricity')
 
 {{-- Electricity Consumption Table --}}
@@ -114,7 +123,7 @@ use Carbon\Carbon;
                         </div>
                         <div class="col-6 mb-3">
                             <label for="energy_usage" class="form-label">Energy Usage</label>
-                            <input type="text" id="energy_usage" class="form-control" name="energy_usage" required>
+                            <input type="number" id="energy_usage" class="form-control" min="0" max="125" name="energy_usage" required>
                         </div>
                     </div>
             </div>
@@ -182,7 +191,7 @@ use Carbon\Carbon;
                         </div>
                         <div class="col-6 mb-3">
                             <label for="value" class="form-label">Value</label>
-                            <input type="text" id="value" class="form-control" name="value" required>
+                            <input type="number" id="value" class="form-control" min="0" max="90" name="value" required>
                         </div>
                     </div>
             </div>

@@ -416,6 +416,16 @@
 </div>
 
 @elseif ($dustbinId)
+<div class="mb-4">
+  @if ($errors->any())
+  <div class="alert alert-danger">
+    <ul class="m-0">
+      @foreach ($errors->all() as $error)
+      <li>{{ $error }}</li>
+      @endforeach
+    </ul>
+  </div>@endif
+</div>
 {{-- Dustbin Usage Table --}}
 <div class="card mb-4">
   <h5 class="card-header text-bolder">Usage</h5>
@@ -655,7 +665,7 @@
   <div class="table-responsive text-nowrap">
     <table id="dustbintable" class="table table-hover">
       <thead class="table-border-bottom-1 table-primary">
-        <tr class="text-center">
+        <tr class="text-center text-nowrap">
           <th>Jan</th>
           <th>Feb</th>
           <th>March</th>
@@ -674,7 +684,7 @@
       <tbody class="table-border-bottom-0">
 
         @foreach ($bin_satisfied_publics as $bin_satisfied_public)
-        <tr class="text-center">
+        <tr class="text-center text-nowrap">
           <td><span class="fw-medium">{{ $bin_satisfied_public['jan'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_satisfied_public['feb'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_satisfied_public['mar'] }}</span></td>
@@ -700,7 +710,7 @@
   <div class="table-responsive text-nowrap">
     <table id="dustbintable" class="table table-hover">
       <thead class="table-border-bottom-1 table-primary">
-        <tr class="text-center">
+        <tr class="text-center text-nowrap">
           <th>Organic Waste</th>
           <th>Bottles Cans</th>
           <th>Paper Packaging</th>
@@ -712,7 +722,7 @@
       <tbody class="table-border-bottom-0">
 
         @foreach ($bin_waste_breakdowns as $bin_waste_breakdown)
-        <tr class="text-center">
+        <tr class="text-center text-nowrap">
           <td><span class="fw-medium">{{ $bin_waste_breakdown['organic_waste'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_waste_breakdown['bottles_cans'] }}</span></td>
           <td><span class="fw-medium">{{ $bin_waste_breakdown['paper_packaging'] }}</span></td>
@@ -742,28 +752,28 @@
           <div class="row g-3">
             <div class="col-6 mb-3">
               <label for="eighth1" class="form-label">Eight 1</label>
-              <input type="text" id="eighth1" class="form-control" name="eighth_1" required>
+              <input type="number" id="eighth1" class="form-control" name="eighth_1" min="0" max="9" required>
               <input type="hidden" name="id" id="BinUsageid">
             </div>
             <div class="col-6 mb-3">
               <label for="eighth2" class="form-label">Eight 2</label>
-              <input type="text" id="eighth2" class="form-control" name="eighth_2" required>
+              <input type="number" id="eighth2" class="form-control" name="eighth_2" min="0" max="9" required>
             </div>
             <div class="col-6 mb-3">
               <label for="eighth3" class="form-label">Eight 3</label>
-              <input type="text" id="eighth3" class="form-control" name="eighth_3" required>
+              <input type="number" id="eighth3" class="form-control" name="eighth_3" min="0" max="9" required>
             </div>
             <div class="col-6 mb-3">
               <label for="eighth4" class="form-label">Eight 4</label>
-              <input type="text" id="eighth4" class="form-control" name="eighth_4" required>
+              <input type="number" id="eighth4" class="form-control" name="eighth_4" min="0" max="9" required>
             </div>
             <div class="col-6 mb-3">
               <label for="eighth5" class="form-label">Eight 5</label>
-              <input type="text" id="eighth5" class="form-control" name="eighth_5" required>
+              <input type="number" id="eighth5" class="form-control" name="eighth_5" min="0" max="9" required>
             </div>
             <div class="col-6 mb-3">
               <label for="eighth6" class="form-label">Eight 6</label>
-              <input type="text" id="eighth6" class="form-control" name="eighth_6" required>
+              <input type="number" id="eighth6" class="form-control" name="eighth_6" min="0" max="9" required>
             </div>
           </div>
       </div>
@@ -790,124 +800,124 @@
           <div class="row g-3">
             <div class="col-3 mb-3">
               <label for="day_1" class="form-label">Day 1</label>
-              <input type="text" id="day_1" class="form-control" name="day_1" required>
+              <input type="number" id="day_1" class="form-control" min="0" max="100" name="day_1" required>
               <input type="hidden" name="id" id="WasteRemovalid">
             </div>
             <div class="col-3 mb-3">
               <label for="day_2" class="form-label">Day 2</label>
-              <input type="text" id="day_2" class="form-control" name="day_2" required>
+              <input type="number" id="day_2" class="form-control" min="0" max="100" name="day_2" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_3" class="form-label">Day 3</label>
-              <input type="text" id="day_3" class="form-control" name="day_3" required>
+              <input type="number" id="day_3" class="form-control" min="0" max="100" name="day_3" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_4" class="form-label">Day 4</label>
-              <input type="text" id="day_4" class="form-control" name="day_4" required>
+              <input type="number" id="day_4" class="form-control" min="0" max="100" name="day_4" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_5" class="form-label">Day 5</label>
-              <input type="text" id="day_5" class="form-control" name="day_5" required>
+              <input type="number" id="day_5" class="form-control" min="0" max="100" name="day_5" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_6" class="form-label">Day 6</label>
-              <input type="text" id="day_6" class="form-control" name="day_6" required>
+              <input type="number" id="day_6" class="form-control" min="0" max="100" name="day_6" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_7" class="form-label">Day 7</label>
-              <input type="text" id="day_7" class="form-control" name="day_7" required>
+              <input type="number" id="day_7" class="form-control" min="0" max="100" name="day_7" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_8" class="form-label">Day 8</label>
-              <input type="text" id="day_8" class="form-control" name="day_8" required>
+              <input type="number" id="day_8" class="form-control" min="0" max="100" name="day_8" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_9" class="form-label">Day 9</label>
-              <input type="text" id="day_9" class="form-control" name="day_9" required>
+              <input type="number" id="day_9" class="form-control" min="0" max="100" name="day_9" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_10" class="form-label">Day 10</label>
-              <input type="text" id="day_10" class="form-control" name="day_10" required>
+              <input type="number" id="day_10" class="form-control" min="0" max="100" name="day_10" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_11" class="form-label">Day 11</label>
-              <input type="text" id="day_11" class="form-control" name="day_11" required>
+              <input type="number" id="day_11" class="form-control" min="0" max="100" name="day_11" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_12" class="form-label">Day 12</label>
-              <input type="text" id="day_12" class="form-control" name="day_12" required>
+              <input type="number" id="day_12" class="form-control" min="0" max="100" name="day_12" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_13" class="form-label">Day 13</label>
-              <input type="text" id="day_13" class="form-control" name="day_13" required>
+              <input type="number" id="day_13" class="form-control" min="0" max="100" name="day_13" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_14" class="form-label">Day 14</label>
-              <input type="text" id="day_14" class="form-control" name="day_14" required>
+              <input type="number" id="day_14" class="form-control" min="0" max="100" name="day_14" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_15" class="form-label">Day 15</label>
-              <input type="text" id="day_15" class="form-control" name="day_15" required>
+              <input type="number" id="day_15" class="form-control" min="0" max="100" name="day_15" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_16" class="form-label">Day 16</label>
-              <input type="text" id="day_16" class="form-control" name="day_16" required>
+              <input type="number" id="day_16" class="form-control" min="0" max="100" name="day_16" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_17" class="form-label">Day 17</label>
-              <input type="text" id="day_17" class="form-control" name="day_17" required>
+              <input type="number" id="day_17" class="form-control" min="0" max="100" name="day_17" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_18" class="form-label">Day 18</label>
-              <input type="text" id="day_18" class="form-control" name="day_18" required>
+              <input type="number" id="day_18" class="form-control" min="0" max="100" name="day_18" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_19" class="form-label">Day 19</label>
-              <input type="text" id="day_19" class="form-control" name="day_19" required>
+              <input type="number" id="day_19" class="form-control" min="0" max="100" name="day_19" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_20" class="form-label">Day 20</label>
-              <input type="text" id="day_20" class="form-control" name="day_20" required>
+              <input type="number" id="day_20" class="form-control" min="0" max="100" name="day_20" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_21" class="form-label">Day 21</label>
-              <input type="text" id="day_21" class="form-control" name="day_21" required>
+              <input type="number" id="day_21" class="form-control" min="0" max="100" name="day_21" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_22" class="form-label">Day 22</label>
-              <input type="text" id="day_22" class="form-control" name="day_22" required>
+              <input type="number" id="day_22" class="form-control" min="0" max="100" name="day_22" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_23" class="form-label">Day 23</label>
-              <input type="text" id="day_23" class="form-control" name="day_23" required>
+              <input type="number" id="day_23" class="form-control" min="0" max="100" name="day_23" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_24" class="form-label">Day 24</label>
-              <input type="text" id="day_24" class="form-control" name="day_24" required>
+              <input type="number" id="day_24" class="form-control" min="0" max="100" name="day_24" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_25" class="form-label">Day 25</label>
-              <input type="text" id="day_25" class="form-control" name="day_25" required>
+              <input type="number" id="day_25" class="form-control" min="0" max="100" name="day_25" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_26" class="form-label">Day 26</label>
-              <input type="text" id="day_26" class="form-control" name="day_26" required>
+              <input type="number" id="day_26" class="form-control" min="0" max="100" name="day_26" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_27" class="form-label">Day 27</label>
-              <input type="text" id="day_27" class="form-control" name="day_27" required>
+              <input type="number" id="day_27" class="form-control" min="0" max="100" name="day_27" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_28" class="form-label">Day 28</label>
-              <input type="text" id="day_28" class="form-control" name="day_28" required>
+              <input type="number" id="day_28" class="form-control" min="0" max="100" name="day_28" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_29" class="form-label">Day 29</label>
-              <input type="text" id="day_29" class="form-control" name="day_29" required>
+              <input type="number" id="day_29" class="form-control" min="0" max="100" name="day_29" required>
             </div>
             <div class="col-3 mb-3">
               <label for="day_30" class="form-label">Day 30</label>
-              <input type="text" id="day_30" class="form-control" name="day_30" required>
+              <input type="number" id="day_30" class="form-control" min="0" max="100" name="day_30" required>
             </div>
 
           </div>
@@ -935,52 +945,52 @@
           <div class="row g-3">
             <div class="col-3 mb-3">
               <label for="jan" class="form-label">Janaury</label>
-              <input type="text" id="jan" class="form-control" name="jan" required>
+              <input type="number" id="jan" class="form-control"  min="0" max="125" name="jan" required>
               <input type="hidden" name="id" id="RepairCostid">
             </div>
             <div class="col-3 mb-3">
               <label for="feb" class="form-label">February</label>
-              <input type="text" id="feb" class="form-control" name="feb" required>
+              <input type="number" id="feb" class="form-control"  min="0" max="125" name="feb" required>
             </div>
             <div class="col-3 mb-3">
               <label for="mar" class="form-label">March</label>
-              <input type="text" id="mar" class="form-control" name="mar" required>
+              <input type="number" id="mar" class="form-control"  min="0" max="125" name="mar" required>
             </div>
             <div class="col-3 mb-3">
               <label for="apr" class="form-label">April</label>
-              <input type="text" id="apr" class="form-control" name="apr" required>
+              <input type="number" id="apr" class="form-control"  min="0" max="125" name="apr" required>
             </div>
             <div class="col-3 mb-3">
               <label for="may" class="form-label">May</label>
-              <input type="text" id="may" class="form-control" name="may" required>
+              <input type="number" id="may" class="form-control"  min="0" max="125" name="may" required>
             </div>
             <div class="col-3 mb-3">
               <label for="jun" class="form-label">June</label>
-              <input type="text" id="jun" class="form-control" name="jun" required>
+              <input type="number" id="jun" class="form-control"  min="0" max="125" name="jun" required>
             </div>
             <div class="col-3 mb-3">
               <label for="jul" class="form-label">July</label>
-              <input type="text" id="jul" class="form-control" name="jul" required>
+              <input type="number" id="jul" class="form-control"  min="0" max="125" name="jul" required>
             </div>
             <div class="col-3 mb-3">
               <label for="aug" class="form-label">August</label>
-              <input type="text" id="aug" class="form-control" name="aug" required>
+              <input type="number" id="aug" class="form-control"  min="0" max="125" name="aug" required>
             </div>
             <div class="col-3 mb-3">
               <label for="sep" class="form-label">September</label>
-              <input type="text" id="sep" class="form-control" name="sep" required>
+              <input type="number" id="sep" class="form-control"  min="0" max="125" name="sep" required>
             </div>
             <div class="col-3 mb-3">
               <label for="oct" class="form-label">October</label>
-              <input type="text" id="oct" class="form-control" name="oct" required>
+              <input type="number" id="oct" class="form-control"  min="0" max="125" name="oct" required>
             </div>
             <div class="col-3 mb-3">
               <label for="nov" class="form-label">November</label>
-              <input type="text" id="nov" class="form-control" name="nov" required>
+              <input type="number" id="nov" class="form-control"  min="0" max="125" name="nov" required>
             </div>
             <div class="col-3 mb-3">
               <label for="dec" class="form-label">Decemeber</label>
-              <input type="text" id="dec" class="form-control" name="dec" required>
+              <input type="number" id="dec" class="form-control"  min="0" max="125" name="dec" required>
             </div>
 
           </div>
@@ -1008,52 +1018,52 @@
           <div class="row g-3">
             <div class="col-3 mb-3">
               <label for="jan1" class="form-label">Janaury</label>
-              <input type="text" id="jan1" class="form-control" name="jan" required>
+              <input type="number" id="jan1" class="form-control" min="0" max="125"  name="jan" required>
               <input type="hidden" name="id" id="MaintenanceCostid">
             </div>
             <div class="col-3 mb-3">
               <label for="feb1" class="form-label">February</label>
-              <input type="text" id="feb1" class="form-control" name="feb" required>
+              <input type="number" id="feb1" class="form-control" min="0" max="125"  name="feb" required>
             </div>
             <div class="col-3 mb-3">
               <label for="mar1" class="form-label">March</label>
-              <input type="text" id="mar1" class="form-control" name="mar" required>
+              <input type="number" id="mar1" class="form-control" min="0" max="125"  name="mar" required>
             </div>
             <div class="col-3 mb-3">
               <label for="apr1" class="form-label">April</label>
-              <input type="text" id="apr1" class="form-control" name="apr" required>
+              <input type="number" id="apr1" class="form-control" min="0" max="125"  name="apr" required>
             </div>
             <div class="col-3 mb-3">
               <label for="may1" class="form-label">May</label>
-              <input type="text" id="may1" class="form-control" name="may" required>
+              <input type="number" id="may1" class="form-control" min="0" max="125"  name="may" required>
             </div>
             <div class="col-3 mb-3">
               <label for="jun1" class="form-label">June</label>
-              <input type="text" id="jun1" class="form-control" name="jun" required>
+              <input type="number" id="jun1" class="form-control" min="0" max="125"  name="jun" required>
             </div>
             <div class="col-3 mb-3">
               <label for="jul1" class="form-label">July</label>
-              <input type="text" id="jul1" class="form-control" name="jul" required>
+              <input type="number" id="jul1" class="form-control" min="0" max="125"  name="jul" required>
             </div>
             <div class="col-3 mb-3">
               <label for="aug1" class="form-label">August</label>
-              <input type="text" id="aug1" class="form-control" name="aug" required>
+              <input type="number" id="aug1" class="form-control" min="0" max="125"  name="aug" required>
             </div>
             <div class="col-3 mb-3">
               <label for="sep1" class="form-label">September</label>
-              <input type="text" id="sep1" class="form-control" name="sep" required>
+              <input type="number" id="sep1" class="form-control" min="0" max="125"  name="sep" required>
             </div>
             <div class="col-3 mb-3">
               <label for="oct1" class="form-label">October</label>
-              <input type="text" id="oct1" class="form-control" name="oct" required>
+              <input type="number" id="oct1" class="form-control" min="0" max="125"  name="oct" required>
             </div>
             <div class="col-3 mb-3">
               <label for="nov1" class="form-label">November</label>
-              <input type="text" id="nov1" class="form-control" name="nov" required>
+              <input type="number" id="nov1" class="form-control" min="0" max="125"  name="nov" required>
             </div>
             <div class="col-3 mb-3">
               <label for="dec1" class="form-label">Decemeber</label>
-              <input type="text" id="dec1" class="form-control" name="dec" required>
+              <input type="number" id="dec1" class="form-control" min="0" max="125"  name="dec" required>
             </div>
 
           </div>
@@ -1081,20 +1091,20 @@
           <div class="row g-3">
             <div class="col-6 mb-3">
               <label for="1_hr" class="form-label">1 Hour</label>
-              <input type="text" id="1_hr" class="form-control" name="1_hr" required>
+              <input type="number" id="1_hr" class="form-control" min="0" max="100" name="1_hr" required>
               <input type="hidden" name="id" id="ResponseTimeid">
             </div>
             <div class="col-6 mb-3">
               <label for="2_hr" class="form-label">2 Hours</label>
-              <input type="text" id="2_hr" class="form-control" name="2_hr" required>
+              <input type="number" id="2_hr" class="form-control" min="0" max="100" name="2_hr" required>
             </div>
             <div class="col-6 mb-3">
               <label for="4_hr" class="form-label">4 Hours</label>
-              <input type="text" id="4_hr" class="form-control" name="4_hr" required>
+              <input type="number" id="4_hr" class="form-control" min="0" max="100" name="4_hr" required>
             </div>
             <div class="col-6 mb-3">
               <label for="4_plus_hr" class="form-label">4 Plus Hours</label>
-              <input type="text" id="4_plus_hr" class="form-control" name="4_plus_hr" required>
+              <input type="number" id="4_plus_hr" class="form-control" min="0" max="100" name="4_plus_hr" required>
             </div>
           </div>
       </div>
@@ -1121,52 +1131,52 @@
           <div class="row g-3">
             <div class="col-3 mb-3">
               <label for="jan2" class="form-label">Janaury</label>
-              <input type="text" id="jan2" class="form-control" name="jan" required>
+              <input type="number" id="jan2" class="form-control" min="0" max="50" name="jan" required>
               <input type="hidden" name="id" id="PublicSatisfactionid">
             </div>
             <div class="col-3 mb-3">
               <label for="feb2" class="form-label">February</label>
-              <input type="text" id="feb2" class="form-control" name="feb" required>
+              <input type="number" id="feb2" class="form-control" min="0" max="50" name="feb" required>
             </div>
             <div class="col-3 mb-3">
               <label for="mar2" class="form-label">March</label>
-              <input type="text" id="mar2" class="form-control" name="mar" required>
+              <input type="number" id="mar2" class="form-control" min="0" max="50" name="mar" required>
             </div>
             <div class="col-3 mb-3">
               <label for="apr2" class="form-label">April</label>
-              <input type="text" id="apr2" class="form-control" name="apr" required>
+              <input type="number" id="apr2" class="form-control" min="0" max="50" name="apr" required>
             </div>
             <div class="col-3 mb-3">
               <label for="may2" class="form-label">May</label>
-              <input type="text" id="may2" class="form-control" name="may" required>
+              <input type="number" id="may2" class="form-control" min="0" max="50" name="may" required>
             </div>
             <div class="col-3 mb-3">
               <label for="jun2" class="form-label">June</label>
-              <input type="text" id="jun2" class="form-control" name="jun" required>
+              <input type="number" id="jun2" class="form-control" min="0" max="50" name="jun" required>
             </div>
             <div class="col-3 mb-3">
               <label for="jul2" class="form-label">July</label>
-              <input type="text" id="jul2" class="form-control" name="jul" required>
+              <input type="number" id="jul2" class="form-control" min="0" max="50" name="jul" required>
             </div>
             <div class="col-3 mb-3">
               <label for="aug2" class="form-label">August</label>
-              <input type="text" id="aug2" class="form-control" name="aug" required>
+              <input type="number" id="aug2" class="form-control" min="0" max="50" name="aug" required>
             </div>
             <div class="col-3 mb-3">
               <label for="sep2" class="form-label">September</label>
-              <input type="text" id="sep2" class="form-control" name="sep" required>
+              <input type="number" id="sep2" class="form-control" min="0" max="50" name="sep" required>
             </div>
             <div class="col-3 mb-3">
               <label for="oct2" class="form-label">October</label>
-              <input type="text" id="oct2" class="form-control" name="oct" required>
+              <input type="number" id="oct2" class="form-control" min="0" max="50" name="oct" required>
             </div>
             <div class="col-3 mb-3">
               <label for="nov2" class="form-label">November</label>
-              <input type="text" id="nov2" class="form-control" name="nov" required>
+              <input type="number" id="nov2" class="form-control" min="0" max="50" name="nov" required>
             </div>
             <div class="col-3 mb-3">
               <label for="dec2" class="form-label">Decemeber</label>
-              <input type="text" id="dec2" class="form-control" name="dec" required>
+              <input type="number" id="dec2" class="form-control" min="0" max="50" name="dec" required>
             </div>
 
           </div>
@@ -1194,24 +1204,24 @@
           <div class="row g-3">
             <div class="col-6 mb-3">
               <label for="organic_waste" class="form-label">Organic Waste</label>
-              <input type="text" id="organic_waste" class="form-control" name="organic_waste" required>
+              <input type="number" id="organic_waste" class="form-control" min="0" max="100" name="organic_waste" required>
               <input type="hidden" name="id" id="WasteBreakdownid">
             </div>
             <div class="col-6 mb-3">
               <label for="bottles_cans" class="form-label">Bottles & cans</label>
-              <input type="text" id="bottles_cans" class="form-control" name="bottles_cans" required>
+              <input type="number" id="bottles_cans" class="form-control" min="0" max="100" name="bottles_cans" required>
             </div>
             <div class="col-6 mb-3">
               <label for="paper_packaging" class="form-label">Paper Packaging</label>
-              <input type="text" id="paper_packaging" class="form-control" name="paper_packaging" required>
+              <input type="number" id="paper_packaging" class="form-control" min="0" max="100" name="paper_packaging" required>
             </div>
             <div class="col-6 mb-3">
               <label for="cardboard" class="form-label">Cardboard</label>
-              <input type="text" id="cardboard" class="form-control" name="cardboard" required>
+              <input type="number" id="cardboard" class="form-control" min="0" max="100" name="cardboard" required>
             </div>
             <div class="col-12 mb-3">
               <label for="other_waste" class="form-label">Other Waste</label>
-              <input type="text" id="other_waste" class="form-control" name="other_waste" required>
+              <input type="number" id="other_waste" class="form-control" min="0" max="100" name="other_waste" required>
             </div>
           </div>
       </div>

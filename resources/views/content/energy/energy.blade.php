@@ -239,8 +239,17 @@ use Carbon\Carbon;
         </div>
     </div>
 </div>
-
 @elseif ($energyid)
+<div class="mb-4">
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul class="m-0">
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>@endif
+</div>
 {{-- Energy Detailed Tables Data --}}
 {{-- Power Table --}}
 <div class="card mb-4">
@@ -509,25 +518,25 @@ use Carbon\Carbon;
                     <div class="row g-3">
                         <div class="col-6 mb-3">
                             <label for="power" class="form-label">Power</label>
-                            <input type="text" id="power" class="form-control" name="power" required>
+                            <input type="number" id="power" class="form-control" min="0" max="100" name="power" required>
                             <input type="hidden" name="id" id="ConnectionTypeid">
                             <input type="hidden" name="Energy_id" value="{{ $energyid }}">
                         </div>
                         <div class="col-6 mb-3">
                             <label for="acmv" class="form-label">ACMV</label>
-                            <input type="text" id="acmv" class="form-control" name="acmv" required>
+                            <input type="number" id="acmv" class="form-control" min="0" max="100" name="acmv" required>
                         </div>
                         <div class="col-6 mb-3">
                             <label for="elec_esc" class="form-label">ELECV</label>
-                            <input type="text" id="elec_esc" class="form-control" name="elec_esc" required>
+                            <input type="number" id="elec_esc" class="form-control" min="0" max="100" name="elec_esc" required>
                         </div>
                         <div class="col-6 mb-3">
                             <label for="lightning" class="form-label">Lighting</label>
-                            <input type="text" id="lightning" class="form-control" name="lightning" required>
+                            <input type="number" id="lightning" class="form-control" min="0" max="100" name="lightning" required>
                         </div>
                         <div class="col-6 mb-3">
                             <label for="mixed_load" class="form-label">Mixed Loads</label>
-                            <input type="text" id="mixed_load" class="form-control" name="mixed_load" required>
+                            <input type="number" id="mixed_load" class="form-control" min="0" max="100" name="mixed_load" required>
                         </div>
                     </div>
             </div>
@@ -554,29 +563,29 @@ use Carbon\Carbon;
                     <div class="row g-3">
                         <div class="col-6 mb-3">
                             <label for="eighth_1" class="form-label">Eighth 1</label>
-                            <input type="text" id="eighth_1" class="form-control" name="eighth_1" required>
+                            <input type="number" id="eighth_1" class="form-control" min="0" max="3000" name="eighth_1" required>
                             <input type="hidden" name="id" id="UsageHoursid">
                             <input type="hidden" name="Energy_id" value="{{ $energyid }}">
                         </div>
                         <div class="col-6 mb-3">
                             <label for="eighth_2" class="form-label">Eighth 2</label>
-                            <input type="text" id="eighth_2" class="form-control" name="eighth_2" required>
+                            <input type="number" id="eighth_2" class="form-control" min="0" max="3000" name="eighth_2" required>
                         </div>
                         <div class="col-6 mb-3">
                             <label for="eighth_3" class="form-label">Eighth 3</label>
-                            <input type="text" id="eighth_3" class="form-control" name="eighth_3" required>
+                            <input type="number" id="eighth_3" class="form-control" min="0" max="3000" name="eighth_3" required>
                         </div>
                         <div class="col-6 mb-3">
                             <label for="eighth_4" class="form-label">Eighth 4</label>
-                            <input type="text" id="eighth_4" class="form-control" name="eighth_4" required>
+                            <input type="number" id="eighth_4" class="form-control" min="0" max="3000" name="eighth_4" required>
                         </div>
                         <div class="col-6 mb-3">
                             <label for="eighth_5" class="form-label">Eighth 5</label>
-                            <input type="text" id="eighth_5" class="form-control" name="eighth_5" required>
+                            <input type="number" id="eighth_5" class="form-control" min="0" max="3000" name="eighth_5" required>
                         </div>
                         <div class="col-6 mb-3">
                             <label for="eighth_6" class="form-label">Eighth 6</label>
-                            <input type="text" id="eighth_6" class="form-control" name="eighth_6" required>
+                            <input type="number" id="eighth_6" class="form-control" min="0" max="3000" name="eighth_6" required>
                         </div>
                     </div>
             </div>

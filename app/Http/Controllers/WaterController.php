@@ -13,6 +13,7 @@ use App\Models\WaterAverageConsumption;
 use App\Models\WaterUsageBreakdown;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class WaterController extends Controller
 {
@@ -140,7 +141,7 @@ class WaterController extends Controller
 
     // Sort waterAverageConsumptions by month
     $waterAverageConsumptions = $this->monthlysort($unsortwaterAverageConsumptions);
-
+    
     $waterUsageBreakdowns = WaterUsageBreakdown::where('water_id', $water_id)->get();
 
     return view('content.water.water', compact('waterEnergyUtilizations', 'waterElectricityConsumptions', 'waterEnergyBreakdowns', 'waterWasteDischarges', 'waterAverageConsumptions', 'waterUsageBreakdowns', 'water_id'));
@@ -170,16 +171,21 @@ class WaterController extends Controller
   public function waterElectricityConsumption(Request $request)
   {
     $data = $request->except('_token');
-    $WaterElectricityConsumption = WaterElectricityConsumption::updateOrCreate(['id' => $request->id], $data);
-    // return response()->json(['message' => 'Water Electricity Consumption added / updated!', 'data' => $WaterElectricityConsumption]);
-    return redirect()->route('monthly-electricity-consumption', ['month' => $data['month'], 'water_id' => $data['water_id']]);
+
+    $check = $this->MinMaxValidation($request, 0, 125, ['_token', 'id', 'water_id', 'month', 'room_name']);
+    if ($check !== true) {
+      return redirect()->back()->withErrors($check)->withInput();
+    }else{
+      $WaterElectricityConsumption = WaterElectricityConsumption::updateOrCreate(['id' => $request->id], $data);
+      return redirect()->route('monthly-electricity-consumption', ['month' => $data['month'], 'water_id' => $data['water_id']]);
+    }
   }
   
   // Sort and Camel Case Month Conversion
   public function monthlysort($data){
     $monthOrder = [
       'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'
+      'July', 'August', 'September', 'Octobar', 'November', 'December'
     ];
     $sorteddata = $data->sortBy(function ($item) use ($monthOrder) {
       return array_search(ucfirst($item->month), $monthOrder);
@@ -202,9 +208,15 @@ class WaterController extends Controller
   public function storeOrUpdateEnergyUtilization(Request $request)
   {
     $data = $request->except('_token');
-    $waterData = WaterEnergyUtilization::updateOrCreate(['id' => $request->id], $data);
-    // return response()->json(['message' => 'Water Floor added / updated!', 'data' => $waterData]);
-    return redirect()->route('water-usage-details', $data['water_id']);
+
+    $check = $this->MinMaxValidation($request, 0, 600, ['_token', 'id', 'water_id']);
+
+    if ($check !== true) {
+      return redirect()->back()->withErrors($check)->withInput();
+    }else {
+      $waterData = WaterEnergyUtilization::updateOrCreate(['id' => $request->id], $data);
+      return redirect()->route('water-usage-details', $data['water_id']);
+    }
   }
 
   // Fetch Energy Breakdown Data
@@ -218,9 +230,15 @@ class WaterController extends Controller
   public function waterEnergyBreakdown(Request $request)
   {
     $data = $request->except('_token');
-    $WaterEnergyBreakdown = WaterEnergyBreakdown::updateOrCreate(['id' => $request->id], $data);
-    // return response()->json(['message' => 'Water Energy Breakdown added / updated!', 'data' => $WaterEnergyBreakdown]);
-    return redirect()->route('water-usage-details', $data['water_id']);
+
+    $check = $this->MinMaxValidation($request, 0, 90, ['_token', 'id', 'water_id']);
+
+    if ($check !== true) {
+      return redirect()->back()->withErrors($check)->withInput();
+    }else {
+      $WaterEnergyBreakdown = WaterEnergyBreakdown::updateOrCreate(['id' => $request->id], $data);
+      return redirect()->route('water-usage-details', $data['water_id']);
+    }
   }
 
   // Fetch Usage Breakdown and Waste Discharge Data
@@ -250,14 +268,19 @@ class WaterController extends Controller
   {
     $data = $request->except('_token');
 
-    if ($data['type'] == 'Usage Breakdown') {
-      $WaterUsageBreakdown = WaterUsageBreakdown::updateOrCreate(['id' => $request->id], $data);
-    }
-    elseif ($data['type'] == 'Waste Discharge') {
-      $WaterWasteDischarge = WaterWasteDischarge::updateOrCreate(['id' => $request->id], $data);
-    }
+    $check = $this->MinMaxValidation($request, 0, 90, ['_token', 'id', 'water_id', 'type']);
 
-    return redirect()->route('water-usage-details', $data['water_id']);
+    if ($check !== true) {
+      return redirect()->back()->withErrors($check)->withInput();
+    } else {
+      if ($data['type'] == 'Usage Breakdown'
+      ) {
+        $WaterUsageBreakdown = WaterUsageBreakdown::updateOrCreate(['id' => $request->id], $data);
+      } elseif ($data['type'] == 'Waste Discharge') {
+        $WaterWasteDischarge = WaterWasteDischarge::updateOrCreate(['id' => $request->id], $data);
+      }
+      return redirect()->route('water-usage-details', $data['water_id']);
+    }
   }
 
   // Fetch Water Average Consumption Monthly Data
@@ -284,8 +307,39 @@ class WaterController extends Controller
   public function waterAverageConsumption(Request $request)
   {
     $data = $request->except('_token');
-    $WaterAverageConsumption = WaterAverageConsumption::updateOrCreate(['id' => $request->id], $data);
-    // return response()->json(['message' => 'Water Average Consumption added / updated!', 'data' => $WaterAverageConsumption]);
-    return redirect()->route('monthly-average-consumption', ['month' => $data['month'], 'water_id' => $data['water_id']]);
+
+    $check = $this->MinMaxValidation($request, 0, 90, ['_token', 'id', 'water_id', 'month', 'type']);
+
+    if ($check !== true) {
+      return redirect()->back()->withErrors($check)->withInput();
+    }else {
+      $WaterAverageConsumption = WaterAverageConsumption::updateOrCreate(['id' => $request->id], $data);
+      return redirect()->route('monthly-average-consumption', ['month' => $data['month'], 'water_id' => $data['water_id']]);
+    }
+  }
+
+  public function MinMaxValidation($request, $min, $max, $ignoreattr = [])
+  {
+    $inputAttributes = $request->except($ignoreattr);
+
+    // dd($inputAttributes);
+    $rules = [];
+    $messages = [];
+
+    foreach ($inputAttributes as $attributeName => $attributeValue) {
+      $rules[$attributeName] = 'required|numeric|min:'. $min .'|max:' . $max .'';
+
+      $messages["$attributeName.min"] = str_replace('_', ' ', ucfirst($attributeName) . ' value must be between '.$min.' and '.$max);
+      $messages["$attributeName.max"] = str_replace('_', ' ', ucfirst($attributeName) . ' value must be between '.$min.' and '.$max);
+    }
+
+    $validator = Validator::make($request->all(), $rules, $messages);
+
+    if ($validator->fails()) {
+      return $validator;
+    }
+    else {
+      return true;
+    }
   }
 }

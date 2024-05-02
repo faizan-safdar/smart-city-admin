@@ -286,6 +286,16 @@ function convertDate($date) {
 </div>
 
 @elseif ($streetLightId)
+<div class="mb-4">
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul class="m-0">
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>@endif
+</div>
 {{-- Lamp Current Table --}}
 <div class="card mb-4">
     <h5 class="card-header text-bolder">Lamp Current Data</h5>
@@ -649,102 +659,102 @@ function convertDate($date) {
                     <div class="row g-3">
                         <div class="col-4 mb-3">
                             <label for="hour_1" class="form-label">Hour 1</label>
-                            <input type="text" id="hour_1" class="form-control" name="hour_1" required>
+                            <input type="number" id="hour_1" class="form-control"  min="0" max="90" name="hour_1" required>
                             <input type="hidden" name="id" id="LampGraphDataid">
                             <input type="hidden" name="type" id="LampGraphDatatype">
                             <input type="hidden" name="streetlight_id" value="{{ $streetLightId }}">
                         </div>
                         <div class="col-4 mb-3">
                             <label for="hour_2" class="form-label">Hour 2</label>
-                            <input type="text" id="hour_2" class="form-control" name="hour_2" required>
+                            <input type="number" id="hour_2" class="form-control"  min="0" max="90" name="hour_2" required>
                         </div>
                         <div class="col-4 mb-3">
                             <label for="hour_3" class="form-label">Hour 3</label>
-                            <input type="text" id="hour_3" class="form-control" name="hour_3" required>
+                            <input type="number" id="hour_3" class="form-control"  min="0" max="90" name="hour_3" required>
                         </div>
                         <div class="col-4 mb-3">
                             <label for="hour_4" class="form-label">Hour 4</label>
-                            <input type="text" id="hour_4" class="form-control" name="hour_4" required>
+                            <input type="number" id="hour_4" class="form-control"  min="0" max="90" name="hour_4" required>
                         </div>
                         <div class="col-4 mb-3">
                             <label for="hour_5" class="form-label">Hour 5</label>
-                            <input type="text" id="hour_5" class="form-control" name="hour_5" required>
+                            <input type="number" id="hour_5" class="form-control"  min="0" max="90" name="hour_5" required>
                         </div>
                         <div class="col-4 mb-3">
                             <label for="hour_6" class="form-label">Hour 6</label>
-                            <input type="text" id="hour_6" class="form-control" name="hour_6" required>
+                            <input type="number" id="hour_6" class="form-control"  min="0" max="90" name="hour_6" required>
                         </div>
                         <div class="col-4 mb-3">
                             <label for="hour_7" class="form-label">Hour 7</label>
-                            <input type="text" id="hour_7" class="form-control" name="hour_7" required>
+                            <input type="number" id="hour_7" class="form-control"  min="0" max="90" name="hour_7" required>
                         </div>
                         <div class="col-4 mb-3">
                             <label for="hour_8" class="form-label">Hour 8</label>
-                            <input type="text" id="hour_8" class="form-control" name="hour_8" required>
+                            <input type="number" id="hour_8" class="form-control"  min="0" max="90" name="hour_8" required>
                         </div>
                         <div class="col-4 mb-3">
                             <label for="hour_9" class="form-label">Hour 9</label>
-                            <input type="text" id="hour_9" class="form-control" name="hour_9" required>
+                            <input type="number" id="hour_9" class="form-control"  min="0" max="90" name="hour_9" required>
                         </div>
                         <div class="col-4 mb-3">
                             <label for="hour_10" class="form-label">Hour 10</label>
-                            <input type="text" id="hour_10" class="form-control" name="hour_10" required>
+                            <input type="number" id="hour_10" class="form-control" min="0" max="90"  name="hour_10" required>
                         </div>
                         <div class="col-4 mb-3">
                             <label for="hour_11" class="form-label">Hour 11</label>
-                            <input type="text" id="hour_11" class="form-control" name="hour_11" required>
+                            <input type="number" id="hour_11" class="form-control" min="0" max="90"  name="hour_11" required>
                         </div>
                         <div class="col-4 mb-3">
                             <label for="hour_12" class="form-label">Hour 12</label>
-                            <input type="text" id="hour_12" class="form-control" name="hour_12" required>
+                            <input type="number" id="hour_12" class="form-control" min="0" max="90"  name="hour_12" required>
                         </div>
                         <div class="col-4 mb-3">
                             <label for="hour_13" class="form-label">Hour 13</label>
-                            <input type="text" id="hour_13" class="form-control" name="hour_13" required>
+                            <input type="number" id="hour_13" class="form-control" min="0" max="90"  name="hour_13" required>
                         </div>
                         <div class="col-4 mb-3">
                             <label for="hour_14" class="form-label">Hour 14</label>
-                            <input type="text" id="hour_14" class="form-control" name="hour_14" required>
+                            <input type="number" id="hour_14" class="form-control" min="0" max="90"  name="hour_14" required>
                         </div>
                         <div class="col-4 mb-3">
                             <label for="hour_15" class="form-label">Hour 15</label>
-                            <input type="text" id="hour_15" class="form-control" name="hour_15" required>
+                            <input type="number" id="hour_15" class="form-control" min="0" max="90"  name="hour_15" required>
                         </div>
                         <div class="col-4 mb-3">
                             <label for="hour_16" class="form-label">Hour 16</label>
-                            <input type="text" id="hour_16" class="form-control" name="hour_16" required>
+                            <input type="number" id="hour_16" class="form-control" min="0" max="90"  name="hour_16" required>
                         </div>
                         <div class="col-4 mb-3">
                             <label for="hour_17" class="form-label">Hour 17</label>
-                            <input type="text" id="hour_17" class="form-control" name="hour_17" required>
+                            <input type="number" id="hour_17" class="form-control" min="0" max="90"  name="hour_17" required>
                         </div>
                         <div class="col-4 mb-3">
                             <label for="hour_18" class="form-label">Hour 18</label>
-                            <input type="text" id="hour_18" class="form-control" name="hour_18" required>
+                            <input type="number" id="hour_18" class="form-control" min="0" max="90"  name="hour_18" required>
                         </div>
                         <div class="col-4 mb-3">
                             <label for="hour_19" class="form-label">Hour 19</label>
-                            <input type="text" id="hour_19" class="form-control" name="hour_19" required>
+                            <input type="number" id="hour_19" class="form-control" min="0" max="90"  name="hour_19" required>
                         </div>
                         <div class="col-4 mb-3">
                             <label for="hour_20" class="form-label">Hour 20</label>
-                            <input type="text" id="hour_20" class="form-control" name="hour_20" required>
+                            <input type="number" id="hour_20" class="form-control" min="0" max="90"  name="hour_20" required>
                         </div>
                         <div class="col-4 mb-3">
                             <label for="hour_21" class="form-label">Hour 21</label>
-                            <input type="text" id="hour_21" class="form-control" name="hour_21" required>
+                            <input type="number" id="hour_21" class="form-control" min="0" max="90"  name="hour_21" required>
                         </div>
                         <div class="col-4 mb-3">
                             <label for="hour_22" class="form-label">Hour 22</label>
-                            <input type="text" id="hour_22" class="form-control" name="hour_22" required>
+                            <input type="number" id="hour_22" class="form-control" min="0" max="90"  name="hour_22" required>
                         </div>
                         <div class="col-4 mb-3">
                             <label for="hour_23" class="form-label">Hour 23</label>
-                            <input type="text" id="hour_23" class="form-control" name="hour_23" required>
+                            <input type="number" id="hour_23" class="form-control" min="0" max="90"  name="hour_23" required>
                         </div>
                         <div class="col-4 mb-3">
                             <label for="hour_24" class="form-label">Hour 24</label>
-                            <input type="text" id="hour_24" class="form-control" name="hour_24" required>
+                            <input type="number" id="hour_24" class="form-control" min="0" max="90"  name="hour_24" required>
                         </div>
                     </div>
             </div>

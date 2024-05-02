@@ -12,6 +12,7 @@ use App\Models\EleEcv;
 use App\Models\Lightning;
 use App\Models\EnergyConnectionType;
 use App\Models\EnergyUsageHoursGraph;
+use Illuminate\Support\Facades\Validator;
 
 class EnergyController extends Controller
 {
@@ -161,8 +162,15 @@ class EnergyController extends Controller
   public function storeOrUpdateConnectionTypes(Request $request)
   {
     $data = $request->except('_token');
-    $connectionType = EnergyConnectionType::updateOrCreate(['id' => $request->id], $data);
-    return redirect()->route('energy-details', $data['Energy_id']);
+
+    $validator = $this->MinMaxValidation($request, 0, 100, ['_token', 'id', 'Energy_id']);
+
+    if ($validator !== true) {
+      return redirect()->back()->withErrors($validator)->withInput();
+    }else {
+      $connectionType = EnergyConnectionType::updateOrCreate(['id' => $request->id], $data);
+      return redirect()->route('energy-details', $data['Energy_id']);
+    } 
   }
 
   // Fetch Usage Hours Graph
@@ -176,8 +184,39 @@ class EnergyController extends Controller
   public function storeOrUpdateUsageHours(Request $request)
   {
     $data = $request->except('_token');
-    $usageHours = EnergyUsageHoursGraph::updateOrCreate(['id' => $request->id], $data);
-    // return response()->json(['message' => 'Usage Hourscreated/updated successfully', 'data' => $usageHours]);
-    return redirect()->route('energy-details', $data['Energy_id']);
+
+    $validator = $this->MinMaxValidation($request, 0, 3000, ['_token', 'id', 'Energy_id']);
+
+    if ($validator !== true) {
+      return redirect()->back()->withErrors($validator)->withInput();
+    }else {
+      $usageHours = EnergyUsageHoursGraph::updateOrCreate(['id' => $request->id], $data);
+      return redirect()->route('energy-details', $data['Energy_id']);
+    }
+  }
+
+  public function MinMaxValidation($request, $min, $max, $ignoreattr = [])
+  {
+    $inputAttributes = $request->except($ignoreattr);
+
+    // dd($inputAttributes);
+    $rules = [];
+    $messages = [];
+
+    foreach ($inputAttributes as $attributeName => $attributeValue) {
+      $rules[$attributeName] = 'required|numeric|min:'. $min .'|max:' . $max .'';
+
+      $messages["$attributeName.min"] = str_replace('_', ' ', ucfirst($attributeName) . ' value must be between '.$min.' and '.$max);
+      $messages["$attributeName.max"] = str_replace('_', ' ', ucfirst($attributeName) . ' value must be between '.$min.' and '.$max);
+    }
+
+    $validator = Validator::make($request->all(), $rules, $messages);
+
+    if ($validator->fails()) {
+      return $validator;
+    }
+    else {
+      return true;
+    }
   }
 }
