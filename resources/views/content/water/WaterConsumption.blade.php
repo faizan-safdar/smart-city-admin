@@ -123,7 +123,7 @@ use Carbon\Carbon;
                         </div>
                         <div class="col-6 mb-3">
                             <label for="energy_usage" class="form-label">Energy Usage</label>
-                            <input type="number" id="energy_usage" class="form-control" min="0" max="125" name="energy_usage" required>
+                            <input type="number" id="energy_usage" class="form-control" min="0" max="2000" name="energy_usage" required>
                         </div>
                     </div>
             </div>
@@ -191,7 +191,7 @@ use Carbon\Carbon;
                         </div>
                         <div class="col-6 mb-3">
                             <label for="value" class="form-label">Value</label>
-                            <input type="number" id="value" class="form-control" min="0" max="90" name="value" required>
+                            <input type="number" id="value" class="form-control" min="0" max="2000" name="value" required>
                         </div>
                     </div>
             </div>

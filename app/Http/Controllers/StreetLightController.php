@@ -174,7 +174,7 @@ class StreetLightController extends Controller
   {
     $data = $request->except('_token');
 
-    $check = $this->MinMaxValidation($request, 0, 90);
+    $check = $this->MinMaxValidation($request, 0, 2000);
     if ($check !== true) {
       return redirect()->back()->withErrors($check)->withInput();
     } else {

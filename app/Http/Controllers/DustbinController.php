@@ -144,7 +144,7 @@ class DustbinController extends Controller
   {
     $data = $request->except('_token');
 
-    $check = $this->MinMaxValidation($request, 0, 9);
+    $check = $this->MinMaxValidation($request, 0, 100);
 
     if ($check !== true) {
       return redirect()->back()
@@ -190,7 +190,7 @@ class DustbinController extends Controller
   {
     $data = $request->except('_token');
 
-    $check = $this->MinMaxValidation($request, 0, 125);
+    $check = $this->MinMaxValidation($request, 0, 5000);
 
     if ($check !== true) {
       return redirect()->back()
@@ -213,7 +213,7 @@ class DustbinController extends Controller
   {
     $data = $request->except('_token');
 
-    $check = $this->MinMaxValidation($request, 0, 125);
+    $check = $this->MinMaxValidation($request, 0, 5000);
 
     if ($check !== true) {
       return redirect()->back()
@@ -259,7 +259,7 @@ class DustbinController extends Controller
   {
     $data = $request->except('_token');
 
-    $check = $this->MinMaxValidation($request, 0, 50);
+    $check = $this->MinMaxValidation($request, 0, 100);
 
     if ($check !== true) {
       return redirect()->back()

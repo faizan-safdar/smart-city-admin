@@ -185,7 +185,7 @@ class EnergyController extends Controller
   {
     $data = $request->except('_token');
 
-    $validator = $this->MinMaxValidation($request, 0, 3000, ['_token', 'id', 'Energy_id']);
+    $validator = $this->MinMaxValidation($request, 0, 5000, ['_token', 'id', 'Energy_id']);
 
     if ($validator !== true) {
       return redirect()->back()->withErrors($validator)->withInput();

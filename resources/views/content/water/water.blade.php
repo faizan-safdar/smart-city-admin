@@ -399,29 +399,29 @@ use Carbon\Carbon;
                     <div class="row g-3">
                         <div class="col-6 mb-3">
                             <label for="eighth_1" class="form-label">Eighth 1</label>
-                            <input type="number" id="eighth_1" class="form-control" min="0" max="600" name="eighth_1" required>
+                            <input type="number" id="eighth_1" class="form-control" min="0" max="5000" name="eighth_1" required>
                             <input type="hidden" name="id" id="EnergyUtilizationid">
                             <input type="hidden" name="water_id" value="{{ $water_id }}">
                         </div>
                         <div class="col-6 mb-3">
                             <label for="eighth_2" class="form-label">Eighth 2</label>
-                            <input type="number" id="eighth_2" class="form-control" min="0" max="600" name="eighth_2" required>
+                            <input type="number" id="eighth_2" class="form-control" min="0" max="5000" name="eighth_2" required>
                         </div>
                         <div class="col-6 mb-3">
                             <label for="eighth_3" class="form-label">Eighth 3</label>
-                            <input type="number" id="eighth_3" class="form-control" min="0" max="600" name="eighth_3" required>
+                            <input type="number" id="eighth_3" class="form-control" min="0" max="5000" name="eighth_3" required>
                         </div>
                         <div class="col-6 mb-3">
                             <label for="eighth_4" class="form-label">Eighth 4</label>
-                            <input type="number" id="eighth_4" class="form-control" min="0" max="600" name="eighth_4" required>
+                            <input type="number" id="eighth_4" class="form-control" min="0" max="5000" name="eighth_4" required>
                         </div>
                         <div class="col-6 mb-3">
                             <label for="eighth_5" class="form-label">Eighth 5</label>
-                            <input type="number" id="eighth_5" class="form-control" min="0" max="600" name="eighth_5" required>
+                            <input type="number" id="eighth_5" class="form-control" min="0" max="5000" name="eighth_5" required>
                         </div>
                         <div class="col-6 mb-3">
                             <label for="eighth_6" class="form-label">Eighth 6</label>
-                            <input type="number" id="eighth_6" class="form-control" min="0" max="600" name="eighth_6" required>
+                            <input type="number" id="eighth_6" class="form-control" min="0" max="5000" name="eighth_6" required>
                         </div>
                     </div>
             </div>
@@ -448,25 +448,25 @@ use Carbon\Carbon;
                     <div class="row g-3">
                         <div class="col-6 mb-3">
                             <label for="industrial" class="form-label">Industrial</label>
-                            <input type="number" id="industrial" class="form-control" min="0" max="90" name="industrial" required>
+                            <input type="number" id="industrial" class="form-control" min="0" max="100" name="industrial" required>
                             <input type="hidden" name="id" id="EnergyBreakdownid">
                             <input type="hidden" name="water_id" value="{{ $water_id }}">
                         </div>
                         <div class="col-6 mb-3">
                             <label for="commerce" class="form-label">Commerce</label>
-                            <input type="number" id="commerce" class="form-control" min="0" max="90" name="commerce" required>
+                            <input type="number" id="commerce" class="form-control" min="0" max="100" name="commerce" required>
                         </div>
                         <div class="col-6 mb-3">
                             <label for="household" class="form-label">HouseHold</label>
-                            <input type="number" id="household" class="form-control" min="0" max="90" name="household" required>
+                            <input type="number" id="household" class="form-control" min="0" max="100" name="household" required>
                         </div>
                         <div class="col-6 mb-3">
                             <label for="transport" class="form-label">Transport</label>
-                            <input type="number" id="transport" class="form-control" min="0" max="90" name="transport" required>
+                            <input type="number" id="transport" class="form-control" min="0" max="100" name="transport" required>
                         </div>
                         <div class="col-6 mb-3">
                             <label for="others" class="form-label">Others</label>
-                            <input type="number" id="others" class="form-control" min="0" max="90" name="others" required>
+                            <input type="number" id="others" class="form-control" min="0" max="100" name="others" required>
                         </div>
 
                     </div>
@@ -494,22 +494,22 @@ use Carbon\Carbon;
                     <div class="row g-3">
                         <div class="col-6 mb-3">
                             <label for="industrial" class="form-label">Industrial</label>
-                            <input type="number" id="industrial1" class="form-control" min="0" max="90" name="industrial" required>
+                            <input type="number" id="industrial1" class="form-control" min="0" max="100" name="industrial" required>
                             <input type="hidden" name="id" id="UsageBreakdownORWasteDischargeid">
                             <input type="hidden" name="type" id="UsageBreakdownORWasteDischargeType">
                             <input type="hidden" name="water_id" value="{{ $water_id }}">
                         </div>
                         <div class="col-6 mb-3">
                             <label for="commercial" class="form-label">Commercial</label>
-                            <input type="number" id="commercial" class="form-control" min="0" max="90" name="commercial" required>
+                            <input type="number" id="commercial" class="form-control" min="0" max="100" name="commercial" required>
                         </div>
                         <div class="col-6 mb-3">
                             <label for="domestic" class="form-label">Domestic</label>
-                            <input type="number" id="domestic" class="form-control" min="0" max="90" name="domestic" required>
+                            <input type="number" id="domestic" class="form-control" min="0" max="100" name="domestic" required>
                         </div>
                         <div class="col-6 mb-3">
                             <label for="agriculture" class="form-label">Agriculture</label>
-                            <input type="number" id="agriculture" class="form-control" min="0" max="90" name="agriculture" required>
+                            <input type="number" id="agriculture" class="form-control" min="0" max="100" name="agriculture" required>
                         </div>
                     </div>
             </div>

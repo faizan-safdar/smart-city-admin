@@ -752,28 +752,28 @@
           <div class="row g-3">
             <div class="col-6 mb-3">
               <label for="eighth1" class="form-label">Eight 1</label>
-              <input type="number" id="eighth1" class="form-control" name="eighth_1" min="0" max="9" required>
+              <input type="number" id="eighth1" class="form-control" name="eighth_1" min="0" max="100" required>
               <input type="hidden" name="id" id="BinUsageid">
             </div>
             <div class="col-6 mb-3">
               <label for="eighth2" class="form-label">Eight 2</label>
-              <input type="number" id="eighth2" class="form-control" name="eighth_2" min="0" max="9" required>
+              <input type="number" id="eighth2" class="form-control" name="eighth_2" min="0" max="100" required>
             </div>
             <div class="col-6 mb-3">
               <label for="eighth3" class="form-label">Eight 3</label>
-              <input type="number" id="eighth3" class="form-control" name="eighth_3" min="0" max="9" required>
+              <input type="number" id="eighth3" class="form-control" name="eighth_3" min="0" max="100" required>
             </div>
             <div class="col-6 mb-3">
               <label for="eighth4" class="form-label">Eight 4</label>
-              <input type="number" id="eighth4" class="form-control" name="eighth_4" min="0" max="9" required>
+              <input type="number" id="eighth4" class="form-control" name="eighth_4" min="0" max="100" required>
             </div>
             <div class="col-6 mb-3">
               <label for="eighth5" class="form-label">Eight 5</label>
-              <input type="number" id="eighth5" class="form-control" name="eighth_5" min="0" max="9" required>
+              <input type="number" id="eighth5" class="form-control" name="eighth_5" min="0" max="100" required>
             </div>
             <div class="col-6 mb-3">
               <label for="eighth6" class="form-label">Eight 6</label>
-              <input type="number" id="eighth6" class="form-control" name="eighth_6" min="0" max="9" required>
+              <input type="number" id="eighth6" class="form-control" name="eighth_6" min="0" max="100" required>
             </div>
           </div>
       </div>
@@ -945,52 +945,52 @@
           <div class="row g-3">
             <div class="col-3 mb-3">
               <label for="jan" class="form-label">Janaury</label>
-              <input type="number" id="jan" class="form-control"  min="0" max="125" name="jan" required>
+              <input type="number" id="jan" class="form-control"  min="0" max="5000" name="jan" required>
               <input type="hidden" name="id" id="RepairCostid">
             </div>
             <div class="col-3 mb-3">
               <label for="feb" class="form-label">February</label>
-              <input type="number" id="feb" class="form-control"  min="0" max="125" name="feb" required>
+              <input type="number" id="feb" class="form-control"  min="0" max="5000" name="feb" required>
             </div>
             <div class="col-3 mb-3">
               <label for="mar" class="form-label">March</label>
-              <input type="number" id="mar" class="form-control"  min="0" max="125" name="mar" required>
+              <input type="number" id="mar" class="form-control"  min="0" max="5000" name="mar" required>
             </div>
             <div class="col-3 mb-3">
               <label for="apr" class="form-label">April</label>
-              <input type="number" id="apr" class="form-control"  min="0" max="125" name="apr" required>
+              <input type="number" id="apr" class="form-control"  min="0" max="5000" name="apr" required>
             </div>
             <div class="col-3 mb-3">
               <label for="may" class="form-label">May</label>
-              <input type="number" id="may" class="form-control"  min="0" max="125" name="may" required>
+              <input type="number" id="may" class="form-control"  min="0" max="5000" name="may" required>
             </div>
             <div class="col-3 mb-3">
               <label for="jun" class="form-label">June</label>
-              <input type="number" id="jun" class="form-control"  min="0" max="125" name="jun" required>
+              <input type="number" id="jun" class="form-control"  min="0" max="5000" name="jun" required>
             </div>
             <div class="col-3 mb-3">
               <label for="jul" class="form-label">July</label>
-              <input type="number" id="jul" class="form-control"  min="0" max="125" name="jul" required>
+              <input type="number" id="jul" class="form-control"  min="0" max="5000" name="jul" required>
             </div>
             <div class="col-3 mb-3">
               <label for="aug" class="form-label">August</label>
-              <input type="number" id="aug" class="form-control"  min="0" max="125" name="aug" required>
+              <input type="number" id="aug" class="form-control"  min="0" max="5000" name="aug" required>
             </div>
             <div class="col-3 mb-3">
               <label for="sep" class="form-label">September</label>
-              <input type="number" id="sep" class="form-control"  min="0" max="125" name="sep" required>
+              <input type="number" id="sep" class="form-control"  min="0" max="5000" name="sep" required>
             </div>
             <div class="col-3 mb-3">
               <label for="oct" class="form-label">October</label>
-              <input type="number" id="oct" class="form-control"  min="0" max="125" name="oct" required>
+              <input type="number" id="oct" class="form-control"  min="0" max="5000" name="oct" required>
             </div>
             <div class="col-3 mb-3">
               <label for="nov" class="form-label">November</label>
-              <input type="number" id="nov" class="form-control"  min="0" max="125" name="nov" required>
+              <input type="number" id="nov" class="form-control"  min="0" max="5000" name="nov" required>
             </div>
             <div class="col-3 mb-3">
               <label for="dec" class="form-label">Decemeber</label>
-              <input type="number" id="dec" class="form-control"  min="0" max="125" name="dec" required>
+              <input type="number" id="dec" class="form-control"  min="0" max="5000" name="dec" required>
             </div>
 
           </div>
@@ -1018,52 +1018,52 @@
           <div class="row g-3">
             <div class="col-3 mb-3">
               <label for="jan1" class="form-label">Janaury</label>
-              <input type="number" id="jan1" class="form-control" min="0" max="125"  name="jan" required>
+              <input type="number" id="jan1" class="form-control" min="0" max="5000"  name="jan" required>
               <input type="hidden" name="id" id="MaintenanceCostid">
             </div>
             <div class="col-3 mb-3">
               <label for="feb1" class="form-label">February</label>
-              <input type="number" id="feb1" class="form-control" min="0" max="125"  name="feb" required>
+              <input type="number" id="feb1" class="form-control" min="0" max="5000"  name="feb" required>
             </div>
             <div class="col-3 mb-3">
               <label for="mar1" class="form-label">March</label>
-              <input type="number" id="mar1" class="form-control" min="0" max="125"  name="mar" required>
+              <input type="number" id="mar1" class="form-control" min="0" max="5000"  name="mar" required>
             </div>
             <div class="col-3 mb-3">
               <label for="apr1" class="form-label">April</label>
-              <input type="number" id="apr1" class="form-control" min="0" max="125"  name="apr" required>
+              <input type="number" id="apr1" class="form-control" min="0" max="5000"  name="apr" required>
             </div>
             <div class="col-3 mb-3">
               <label for="may1" class="form-label">May</label>
-              <input type="number" id="may1" class="form-control" min="0" max="125"  name="may" required>
+              <input type="number" id="may1" class="form-control" min="0" max="5000"  name="may" required>
             </div>
             <div class="col-3 mb-3">
               <label for="jun1" class="form-label">June</label>
-              <input type="number" id="jun1" class="form-control" min="0" max="125"  name="jun" required>
+              <input type="number" id="jun1" class="form-control" min="0" max="5000"  name="jun" required>
             </div>
             <div class="col-3 mb-3">
               <label for="jul1" class="form-label">July</label>
-              <input type="number" id="jul1" class="form-control" min="0" max="125"  name="jul" required>
+              <input type="number" id="jul1" class="form-control" min="0" max="5000"  name="jul" required>
             </div>
             <div class="col-3 mb-3">
               <label for="aug1" class="form-label">August</label>
-              <input type="number" id="aug1" class="form-control" min="0" max="125"  name="aug" required>
+              <input type="number" id="aug1" class="form-control" min="0" max="5000"  name="aug" required>
             </div>
             <div class="col-3 mb-3">
               <label for="sep1" class="form-label">September</label>
-              <input type="number" id="sep1" class="form-control" min="0" max="125"  name="sep" required>
+              <input type="number" id="sep1" class="form-control" min="0" max="5000"  name="sep" required>
             </div>
             <div class="col-3 mb-3">
               <label for="oct1" class="form-label">October</label>
-              <input type="number" id="oct1" class="form-control" min="0" max="125"  name="oct" required>
+              <input type="number" id="oct1" class="form-control" min="0" max="5000"  name="oct" required>
             </div>
             <div class="col-3 mb-3">
               <label for="nov1" class="form-label">November</label>
-              <input type="number" id="nov1" class="form-control" min="0" max="125"  name="nov" required>
+              <input type="number" id="nov1" class="form-control" min="0" max="5000"  name="nov" required>
             </div>
             <div class="col-3 mb-3">
               <label for="dec1" class="form-label">Decemeber</label>
-              <input type="number" id="dec1" class="form-control" min="0" max="125"  name="dec" required>
+              <input type="number" id="dec1" class="form-control" min="0" max="5000"  name="dec" required>
             </div>
 
           </div>
@@ -1131,52 +1131,52 @@
           <div class="row g-3">
             <div class="col-3 mb-3">
               <label for="jan2" class="form-label">Janaury</label>
-              <input type="number" id="jan2" class="form-control" min="0" max="50" name="jan" required>
+              <input type="number" id="jan2" class="form-control" min="0" max="100" name="jan" required>
               <input type="hidden" name="id" id="PublicSatisfactionid">
             </div>
             <div class="col-3 mb-3">
               <label for="feb2" class="form-label">February</label>
-              <input type="number" id="feb2" class="form-control" min="0" max="50" name="feb" required>
+              <input type="number" id="feb2" class="form-control" min="0" max="100" name="feb" required>
             </div>
             <div class="col-3 mb-3">
               <label for="mar2" class="form-label">March</label>
-              <input type="number" id="mar2" class="form-control" min="0" max="50" name="mar" required>
+              <input type="number" id="mar2" class="form-control" min="0" max="100" name="mar" required>
             </div>
             <div class="col-3 mb-3">
               <label for="apr2" class="form-label">April</label>
-              <input type="number" id="apr2" class="form-control" min="0" max="50" name="apr" required>
+              <input type="number" id="apr2" class="form-control" min="0" max="100" name="apr" required>
             </div>
             <div class="col-3 mb-3">
               <label for="may2" class="form-label">May</label>
-              <input type="number" id="may2" class="form-control" min="0" max="50" name="may" required>
+              <input type="number" id="may2" class="form-control" min="0" max="100" name="may" required>
             </div>
             <div class="col-3 mb-3">
               <label for="jun2" class="form-label">June</label>
-              <input type="number" id="jun2" class="form-control" min="0" max="50" name="jun" required>
+              <input type="number" id="jun2" class="form-control" min="0" max="100" name="jun" required>
             </div>
             <div class="col-3 mb-3">
               <label for="jul2" class="form-label">July</label>
-              <input type="number" id="jul2" class="form-control" min="0" max="50" name="jul" required>
+              <input type="number" id="jul2" class="form-control" min="0" max="100" name="jul" required>
             </div>
             <div class="col-3 mb-3">
               <label for="aug2" class="form-label">August</label>
-              <input type="number" id="aug2" class="form-control" min="0" max="50" name="aug" required>
+              <input type="number" id="aug2" class="form-control" min="0" max="100" name="aug" required>
             </div>
             <div class="col-3 mb-3">
               <label for="sep2" class="form-label">September</label>
-              <input type="number" id="sep2" class="form-control" min="0" max="50" name="sep" required>
+              <input type="number" id="sep2" class="form-control" min="0" max="100" name="sep" required>
             </div>
             <div class="col-3 mb-3">
               <label for="oct2" class="form-label">October</label>
-              <input type="number" id="oct2" class="form-control" min="0" max="50" name="oct" required>
+              <input type="number" id="oct2" class="form-control" min="0" max="100" name="oct" required>
             </div>
             <div class="col-3 mb-3">
               <label for="nov2" class="form-label">November</label>
-              <input type="number" id="nov2" class="form-control" min="0" max="50" name="nov" required>
+              <input type="number" id="nov2" class="form-control" min="0" max="100" name="nov" required>
             </div>
             <div class="col-3 mb-3">
               <label for="dec2" class="form-label">Decemeber</label>
-              <input type="number" id="dec2" class="form-control" min="0" max="50" name="dec" required>
+              <input type="number" id="dec2" class="form-control" min="0" max="100" name="dec" required>
             </div>
 
           </div>

@@ -172,7 +172,7 @@ class WaterController extends Controller
   {
     $data = $request->except('_token');
 
-    $check = $this->MinMaxValidation($request, 0, 125, ['_token', 'id', 'water_id', 'month', 'room_name']);
+    $check = $this->MinMaxValidation($request, 0, 2000, ['_token', 'id', 'water_id', 'month', 'room_name']);
     if ($check !== true) {
       return redirect()->back()->withErrors($check)->withInput();
     }else{
@@ -209,7 +209,7 @@ class WaterController extends Controller
   {
     $data = $request->except('_token');
 
-    $check = $this->MinMaxValidation($request, 0, 600, ['_token', 'id', 'water_id']);
+    $check = $this->MinMaxValidation($request, 0, 5000, ['_token', 'id', 'water_id']);
 
     if ($check !== true) {
       return redirect()->back()->withErrors($check)->withInput();
@@ -231,7 +231,7 @@ class WaterController extends Controller
   {
     $data = $request->except('_token');
 
-    $check = $this->MinMaxValidation($request, 0, 90, ['_token', 'id', 'water_id']);
+    $check = $this->MinMaxValidation($request, 0, 100, ['_token', 'id', 'water_id']);
 
     if ($check !== true) {
       return redirect()->back()->withErrors($check)->withInput();
@@ -268,7 +268,7 @@ class WaterController extends Controller
   {
     $data = $request->except('_token');
 
-    $check = $this->MinMaxValidation($request, 0, 90, ['_token', 'id', 'water_id', 'type']);
+    $check = $this->MinMaxValidation($request, 0, 100, ['_token', 'id', 'water_id', 'type']);
 
     if ($check !== true) {
       return redirect()->back()->withErrors($check)->withInput();
@@ -308,7 +308,7 @@ class WaterController extends Controller
   {
     $data = $request->except('_token');
 
-    $check = $this->MinMaxValidation($request, 0, 90, ['_token', 'id', 'water_id', 'month', 'type']);
+    $check = $this->MinMaxValidation($request, 0, 2000, ['_token', 'id', 'water_id', 'month', 'type']);
 
     if ($check !== true) {
       return redirect()->back()->withErrors($check)->withInput();
